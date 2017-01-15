@@ -7,7 +7,7 @@ $result = array(
 );
 $random = 0;
 
-$json = file_get_contents("../data/" . $_GET['sheet'] . ".json");
+$json = file_get_contents("../data/sheets/" . $_GET['sheet'] . ".json");
 $arr = json_decode($json, true);
 
 for ($i = 0; $i < 5; $i++) {

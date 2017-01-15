@@ -22,7 +22,7 @@ render(
         <Router history={history}>
             <Route component={App}>
                 <Route path="/" component={Intro} />
-                <Route path="/game" component={Game} />
+                <Route path="/game/:sheet" component={Game} />
                 <Redirect from='*' to='/' />
             </Route>
         </Router>

@@ -8,58 +8,37 @@ import Help from './Help'
 class Game extends React.Component {
     constructor(props) {
         super(props)
-        this.props.dispatch(fetchQuizz());
+        this.props.dispatch(fetchQuizz(this.props.params.sheet));
     }
 
     render() {
-        const {
-            theme,
-            worksheet,
-            examples,
-            definitions,
-            words
-        } = this.props
+        const {app, api} = this.props
 
         return (
             <div className="game">
-                <h2>Worksheet: {worksheet}</h2>
-                <em>Theme: {theme}</em>
+                <h2>Worksheet: {api.worksheet}</h2>
+                <em>Theme: {api.theme}</em>
 
-                <Text examples={examples} definitions={definitions} />
-                <Help definitions={words} />
+                <p>Count: {app.wordcount}/{api.words.length}</p>
+                <Text examples={api.examples} definitions={api.definitions} />
+                <Help definitions={api.words} />
             </div>
         )
     }
 }
 
 function mapStateToProps(state) {
-    const { apiReducer } = state
-    let json, err, words, examples, definitions;
-
-    if (apiReducer.payload) {
-        if (apiReducer.error) {
-            err = apiReducer.payload
-        } else {
-            json = JSON.parse(apiReducer.payload)
-            words = json.words
-            examples = json.examples
-            definitions = json.definitions
-        }
-    }
+    const { apiReducer, appReducer } = state
 
     return {
-        worksheet: "4",
-        theme: "School",
-        words: words,
-        examples: examples,
-        definitions: definitions,
-        err: err
+        app: appReducer,
+        api: apiReducer
     }
 }
 
 Game.propTypes = {
-    json: PropTypes.object,
-    err: PropTypes.string
+    app: PropTypes.object,
+    api: PropTypes.object,
 }
 
 export default connect(mapStateToProps)(Game)

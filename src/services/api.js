@@ -6,15 +6,15 @@ import { LOCAL_API_URL, API_URL } from '../constants'
 let API = () => ({
     Play(sheet) {
         if (os.hostname().indexOf("local") > - 1) {
-            return this._jsonp()    
+            return this._jsonp(sheet)    
         }
 
         return this._default(sheet)
     },
 
-    _jsonp() {
+    _jsonp(sheet) {
         let p = new Promise((resolve, reject) => {
-            let url = LOCAL_API_URL + '?sheet=school'
+            let url = LOCAL_API_URL + '?sheet=' + sheet
 
             fetchJsonp(url)
             .then((response) => {
