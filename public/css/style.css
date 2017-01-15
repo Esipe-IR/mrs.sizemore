@@ -112,3 +112,8 @@ tr:nth-child(even) {
 	padding: 25px;
 	font-size: 1.2em;
 }
+.fa.fa-info-circle {
+	cursor: pointer;
+	padding-left: 10px;
+	color: cornflowerblue;
+}

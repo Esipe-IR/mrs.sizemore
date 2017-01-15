@@ -2,25 +2,22 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchQuizz } from '../actions'
 
-import WordCount from './WordCount'
 import Text from './Text'
-import Resume from './Resume'
-
-let i = [{w: "toto", try: 2}]
+import Help from './Help'
 
 class Game extends React.Component {
     constructor(props) {
         super(props)
-        this.props.dispatch(fetchQuizz("instructor"));
+        this.props.dispatch(fetchQuizz());
     }
 
     render() {
         const {
             theme,
-            wordcount, 
-            worksheet, 
-            json, 
-            err
+            worksheet,
+            examples,
+            definitions,
+            words
         } = this.props
 
         return (
@@ -28,9 +25,8 @@ class Game extends React.Component {
                 <h2>Worksheet: {worksheet}</h2>
                 <em>Theme: {theme}</em>
 
-                <WordCount count={wordcount}/>
-                <Text err={err} json={json} />
-                <Resume items={i} />
+                <Text examples={examples} definitions={definitions} />
+                <Help definitions={words} />
             </div>
         )
     }
@@ -38,19 +34,26 @@ class Game extends React.Component {
 
 function mapStateToProps(state) {
     const { apiReducer } = state
+    let json, err, words, examples, definitions;
 
-    let data;
-
-    if (apiReducer.json) {
-        data = JSON.parse(apiReducer.json)
+    if (apiReducer.payload) {
+        if (apiReducer.error) {
+            err = apiReducer.payload
+        } else {
+            json = JSON.parse(apiReducer.payload)
+            words = json.words
+            examples = json.examples
+            definitions = json.definitions
+        }
     }
 
     return {
-        wordcount: 0,
-        worksheet: "4, 5, 6",
+        worksheet: "4",
         theme: "School",
-        json: data,
-        err: apiReducer.err
+        words: words,
+        examples: examples,
+        definitions: definitions,
+        err: err
     }
 }
 

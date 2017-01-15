@@ -1,23 +1,17 @@
-import {REQUEST, RECEIVE_SUCCESS, RECEIVE_FAILED} from '../constants'
+import { REQUEST, RECEIVE, GAME_STATE } from '../constants'
 
-const apiReducer = (state = {}, action) => {
+const apiReducer = (state = GAME_STATE, action) => {
     switch(action.type) {
     case REQUEST:
         return Object.assign({}, state, {
             isFetching: true,
             hasFailed: false
         })
-    case RECEIVE_SUCCESS:
+    case RECEIVE:
         return Object.assign({}, state, {
             isFetching: false,
-            hasFailed: false,
-            json: action.json
-        })
-    case RECEIVE_FAILED:
-        return Object.assign({}, state, {
-            isFetching: false,
-            hasFailed: true,
-            err: action.err
+            hasFailed: action.error,
+            payload: action.payload
         })
     default:
         return state

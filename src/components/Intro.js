@@ -10,7 +10,7 @@ const Intro = () => (
         className="submit" 
         type="submit"
         value="Play"
-        onClick={ onClick }
+        onClick={onClick}
     />
 )
 

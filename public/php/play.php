@@ -1,24 +1,35 @@
 <?php
 
-$result = array();
+$result = array(
+    "words" => array(),
+    "definitions" => array(),
+    "examples" => array()
+);
 $random = 0;
 
-$json = file_get_contents("../data/final.json");
+$json = file_get_contents("../data/" . $_GET['sheet'] . ".json");
 $arr = json_decode($json, true);
-$len = count($arr);
 
-for ($i = 0; $i < 20; $i++) {
+for ($i = 0; $i < 5; $i++) {
+    $len = count($arr);
+
     $random = mt_rand(0, $len - 1);
     $elem = $arr[$random];
+    
+    array_splice($arr, $random, 1);
 
     $lenExamples = count($elem['examples']);
     $random = mt_rand(0, $lenExamples - 1);
-    
-    $result[] = array(
-        "word" => $elem["word"],
-        "definitions" => $elem["definitions"],
-        "examples" => $elem["examples"][$random]
-    );
+
+    $example = explode("[x]", $elem["examples"][$random]);
+
+    $result["words"][] = $elem["word"];
+    $result["definitions"][] = $elem["definitions"][0];
+    $result["examples"][] = $example;
+}
+
+if (isset($_GET['callback'])) {
+    exit(print $_GET['callback'] . "('" . base64_encode(json_encode($result)) . "');");
 }
 
 print json_encode($result);

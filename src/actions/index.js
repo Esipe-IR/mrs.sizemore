@@ -1,5 +1,12 @@
-import { apiCall } from '../services/api'
-import {REQUEST, RECEIVE_SUCCESS, RECEIVE_FAILED} from '../constants'
+import API from '../services/api'
+import { HELP, REQUEST, RECEIVE } from '../constants'
+
+export const help = (i) => {
+    return {
+        type: HELP,
+        number: i
+    }
+}
 
 const request = () => {
     return {
@@ -7,28 +14,22 @@ const request = () => {
     }
 }
 
-const receiveSuccess = (json) => {
+const receive = (error, payload) => {
     return {
-        type: RECEIVE_SUCCESS,
-        json: json
+        type: RECEIVE,
+        error: error,
+        payload: payload
     }
 }
 
-const receiveFailed = (err) => {
-    return {
-        type: RECEIVE_FAILED,
-        err: err
-    }
-}
-
-export const fetchQuizz = (word) => (dispatch) => {
+export const fetchQuizz = () => (dispatch) => {
     dispatch(request());
 
-    return apiCall(word)
+    return API().Play()
     .then(response => {
-        dispatch(receiveSuccess(response))
+        dispatch(receive(false, response))
     })
     .catch((err) => {
-        dispatch(receiveFailed(err.message))
+        dispatch(receive(true, err.message))
     })
 }

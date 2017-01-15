@@ -13,9 +13,8 @@ function Tbody(props) {
         <tr key={index}>
             <td>{index + 1}</td>
             <td>
-                {item.w}
+                <p>{item}</p>
             </td>
-            <td></td>
         </tr>
     );
 
@@ -26,20 +25,17 @@ function Tbody(props) {
     )
 }
 
-const Resume = ({ items }) => {
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Index</th>
-                    <th>Word</th>
-                    <th>Result</th>
-                </tr>
-            </thead>
-            
-            <Tbody items={items} />
-        </table>
-    )   
-}
+const Help = ({definitions}) => (
+    <table>
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Définition</th>
+            </tr>
+        </thead>
+        
+        <Tbody items={definitions} />
+    </table>
+)
 
-export default Resume
+export default Help
