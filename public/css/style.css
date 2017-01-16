@@ -117,3 +117,21 @@ tr:nth-child(even) {
 	padding-left: 10px;
 	color: cornflowerblue;
 }
+
+.list-group-item a {
+	padding: 5px 10px;
+	color: #27ae60;
+	text-decoration: none;
+	float:right;
+	color: white;
+	position: relative;
+	top: -5px;
+	margin-left: 5px;
+	text-align: center;
+}
+.list-group-item a.info {
+	background: dodgerblue;
+}
+.list-group-item a.play {
+	background: lightgreen;
+}

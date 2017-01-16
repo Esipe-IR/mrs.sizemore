@@ -5,6 +5,7 @@ export const WORD_COUNT_LESS = "WORD_COUNT::LESS"
 export const REQUEST = "REQUEST"
 export const RECEIVE_SUCCESS = "RECEIVE_SUCCESS"
 export const RECEIVE_FAILED = "RECEIVE_FAILED"
+export const RECEIVE_FIREBASE = "RECEIVE_FIREBASE"
 
 export const API_URL = "php/play.php"
 export const LOCAL_API_URL = "http://localhost/worksheet-trainer/public/php/play.php"
@@ -21,4 +22,8 @@ export const DEFAULT_API = {
     words: [],
     definitions: [],
     examples: []
+}
+
+export const DEFAULT_FIREBASE = {
+    worksheets: []
 }

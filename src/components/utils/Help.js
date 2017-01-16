@@ -26,7 +26,7 @@ function Tbody(props) {
 }
 
 const Help = ({definitions}) => (
-    <table>
+    <table className="table">
         <thead>
             <tr>
                 <th>Index</th>

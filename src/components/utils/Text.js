@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { help, wordCountAdd, wordCountLess } from '../actions'
+
+import { help, wordCountAdd, wordCountLess } from '../../actions'
 
 class Text extends React.Component {
     onClickSubmit(e) {
@@ -69,7 +70,7 @@ class Text extends React.Component {
                     {this.createSentences(this.props.examples)}
 
                     <input 
-                        className="submit" 
+                        className="btn btn-success" 
                         type="submit" 
                         value="Valider"
                     />

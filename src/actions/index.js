@@ -1,11 +1,13 @@
 import API from '../services/api'
+import { getWorksheets } from '../services/firebase'
 import { 
     HELP, 
     WORD_COUNT_ADD, 
     WORD_COUNT_LESS, 
     REQUEST, 
     RECEIVE_SUCCESS,
-    RECEIVE_FAILED } from '../constants'
+    RECEIVE_FAILED,
+    RECEIVE_FIREBASE } from '../constants'
 
 export const help = (i) => {
     return {
@@ -52,6 +54,14 @@ const receiveFailed = (error) => {
     }
 }
 
+const receiveFirebase = (dataType, values) => {
+    return {
+        type: RECEIVE_FIREBASE,
+        dataType: dataType,
+        data: values
+    }
+}
+
 export const fetchQuizz = (sheet) => (dispatch) => {
     dispatch(request("school", sheet));
 
@@ -59,7 +69,18 @@ export const fetchQuizz = (sheet) => (dispatch) => {
     .then(response => {
         dispatch(receiveSuccess(response))
     })
-    .catch((err) => {
+    .catch(err => {
         dispatch(receiveFailed(err.message))
+    })
+}
+
+export const fetchWorksheets = () => (dispatch) => {
+    return getWorksheets()
+    .then(response => {
+        dispatch(receiveFirebase("worksheets", response))
+    })
+    .catch(err => {
+        console.log(err)
+        dispatch(receiveFirebase("worksheets", []))
     })
 }

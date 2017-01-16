@@ -8,8 +8,8 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import MainReducer from './reducers'
 
 import App from './components/App'
-import Intro from './components/Intro'
-import Game from './components/Game'
+import Home from './components/pages/Home'
+import Game from './components/pages/Game'
 
 const store = createStore(
     MainReducer,
@@ -21,7 +21,7 @@ render(
     <Provider store={store}>
         <Router history={history}>
             <Route component={App}>
-                <Route path="/" component={Intro} />
+                <Route path="/" component={Home} />
                 <Route path="/game/:sheet" component={Game} />
                 <Redirect from='*' to='/' />
             </Route>
