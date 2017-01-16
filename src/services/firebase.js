@@ -11,19 +11,29 @@ const config = {
 const fb = firebase.initializeApp(config).database()
 
 export const getWorksheets = () => {
-    let w = fb.ref("worksheets")
+    let ref = fb.ref("/worksheets/")
 
     return new Promise((resolve, reject) => {
-        w.on('value', snapshot => {
+        ref.once('value')
+        .then(snapshot => {
             let list = []
 
-            snapshot.forEach(function(sheet) {
+            snapshot.forEach(sheet => {
                 list.push(sheet.val())
             })
 
             resolve(list)
-        }, err => {
-            reject(err)
         })
+        .catch( err => reject(err) )
+    })
+}
+
+export const getWorksheet = (sheet) => {
+    let ref = fb.ref("/worksheets/" + sheet)
+
+    return new Promise((resolve, reject) => {
+        ref.once('value')
+        .then( snapshot => resolve(snapshot.val()) )
+        .catch( err => reject(err) )
     })
 }

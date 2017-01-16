@@ -1,5 +1,5 @@
 import API from '../services/api'
-import { getWorksheets } from '../services/firebase'
+import { getWorksheets, getWorksheet } from '../services/firebase'
 import { 
     HELP, 
     WORD_COUNT_ADD, 
@@ -62,8 +62,10 @@ const receiveFirebase = (dataType, values) => {
     }
 }
 
-export const fetchQuizz = (sheet) => (dispatch) => {
+export const fetchWorksheet = (sheet) => (dispatch) => {
     dispatch(request("school", sheet));
+
+    getWorksheet(sheet).then(r => console.log(r))
 
     return API().Play(sheet)
     .then(response => {
@@ -80,7 +82,6 @@ export const fetchWorksheets = () => (dispatch) => {
         dispatch(receiveFirebase("worksheets", response))
     })
     .catch(err => {
-        console.log(err)
         dispatch(receiveFirebase("worksheets", []))
     })
 }

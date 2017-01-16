@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchQuizz } from '../../actions'
+import { fetchWorksheet } from '../../actions'
 
-import Text from '../utils/Text'
-import Help from '../utils/Help'
+import Fillgap from '../utils/Fillgap'
+import Table from '../utils/Table'
 
 class Game extends React.Component {
     constructor(props) {
         super(props)
-        this.props.dispatch(fetchQuizz(this.props.params.sheet));
+        this.props.dispatch(fetchWorksheet(this.props.params.sheet));
     }
 
     render() {
@@ -23,11 +23,11 @@ class Game extends React.Component {
 
                 <div className="box-body">
                     <p>Count: {app.wordcount}/{api.words.length}</p>
-                    <Text examples={api.examples} definitions={api.definitions} />
+                    <Fillgap examples={api.examples} definitions={api.definitions} />
                 </div>
 
                 <div className="box-footer">
-                    <Help definitions={api.words} />
+                    <Table definitions={api.words} />
                 </div>
             </div>
         )

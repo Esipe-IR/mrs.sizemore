@@ -25,7 +25,7 @@ function Tbody(props) {
     )
 }
 
-const Help = ({definitions}) => (
+const Table = ({definitions}) => (
     <table className="table">
         <thead>
             <tr>
@@ -38,4 +38,4 @@ const Help = ({definitions}) => (
     </table>
 )
 
-export default Help
+export default Table

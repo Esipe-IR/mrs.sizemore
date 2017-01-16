@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { help, wordCountAdd, wordCountLess } from '../../actions'
 
-class Text extends React.Component {
+class Fillgap extends React.Component {
     onClickSubmit(e) {
         e.preventDefault()
         console.log(e)
@@ -80,4 +80,4 @@ class Text extends React.Component {
     }
 }
 
-export default connect()(Text)
+export default connect()(Fillgap)
