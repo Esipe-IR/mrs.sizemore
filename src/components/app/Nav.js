@@ -14,7 +14,8 @@ const Nav = () => (
                 <a className="navbar-brand" href="/">Bob’s your uncle</a>
             </div>
 
-            <div className="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+            {
+            /*<div className="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
                 <ul className="nav navbar-nav">
                     <li className="dropdown">
                         <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My account <span className="caret"></span></a>
@@ -24,7 +25,8 @@ const Nav = () => (
                         </ul>
                     </li>
                 </ul>
-            </div>
+            </div>*/
+            }
         </div>
     </nav>
 )

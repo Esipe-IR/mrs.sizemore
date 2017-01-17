@@ -3,16 +3,36 @@ import { getWorksheets, getWorksheet } from '../services/firebase'
 import { 
     HELP, 
     WORD_COUNT_ADD, 
-    WORD_COUNT_LESS, 
+    WORD_COUNT_LESS,
+    TRANSLATE_ANSWER, 
     REQUEST, 
     RECEIVE_SUCCESS,
     RECEIVE_FAILED,
-    RECEIVE_FIREBASE } from '../constants'
+    RECEIVE_FIREBASE 
+} from '../constants'
 
 export const help = (i) => {
     return {
         type: HELP,
         number: i
+    }
+}
+
+export const translateAnswer = (status, msg, word) => {
+    let success, error;
+
+    if (status) {
+        success = word
+    } else {
+        error = word
+    }
+
+    return {
+        type: TRANSLATE_ANSWER,
+        status: status,
+        msg: msg,
+        success: success,
+        error: error
     }
 }
 

@@ -21,6 +21,7 @@ class Home extends React.Component {
                 <div className="row">
                     <div className="col-lg-12">
                         <h3>Official worksheets: </h3>
+                        <hr />
                     </div>
                 </div>
 
@@ -31,8 +32,12 @@ class Home extends React.Component {
                 </div>
 
                 <div className="row">
-                    <div className="col-lg-12">
+                    <div className="col-xs-10">
                         <h3>Community worksheets: </h3>
+                        <hr />
+                    </div>
+                    <div className="col-xs-2">
+                        <button className="btn btn-warning"><i className="fa fa-plus" aria-hidden="true"></i> Add</button>
                     </div>
                 </div>
 

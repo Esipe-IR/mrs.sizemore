@@ -1,6 +1,8 @@
 export const HELP = "HELP"
 export const WORD_COUNT_ADD = "WORD_COUNT::ADD"
 export const WORD_COUNT_LESS = "WORD_COUNT::LESS"
+export const TRANSLATE_UPDATE = "TRANSLATE::UPDATE"
+export const TRANSLATE_ANSWER = "TRANSLATE::ANSWER"
 
 export const REQUEST = "REQUEST"
 export const RECEIVE_SUCCESS = "RECEIVE_SUCCESS"
@@ -11,7 +13,13 @@ export const API_URL = "php/play.php"
 export const LOCAL_API_URL = "http://localhost/worksheet-trainer/public/php/play.php"
 
 export const DEFAULT_APP = {
-    wordcount: 0
+    wordcount: 0,
+    mode: "easy",
+    success: 0,
+    error: 0,
+    translate: {
+        status: null
+    }
 }
 
 export const DEFAULT_API = {
