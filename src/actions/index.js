@@ -1,13 +1,9 @@
-import API from '../services/api'
 import { getWorksheets, getWorksheet } from '../services/firebase'
 import { 
     HELP, 
     WORD_COUNT_ADD, 
     WORD_COUNT_LESS,
     TRANSLATE_ANSWER, 
-    REQUEST, 
-    RECEIVE_SUCCESS,
-    RECEIVE_FAILED,
     RECEIVE_FIREBASE 
 } from '../constants'
 
@@ -18,21 +14,14 @@ export const help = (i) => {
     }
 }
 
-export const translateAnswer = (status, msg, word) => {
-    let success, error;
-
-    if (status) {
-        success = word
-    } else {
-        error = word
-    }
-
+export const translateAnswer = (status, msg, word_id) => {
     return {
         type: TRANSLATE_ANSWER,
-        status: status,
-        msg: msg,
-        success: success,
-        error: error
+        payload: {
+            status: status,
+            word_id: word_id,
+            msg: msg
+        }
     }
 }
 
@@ -48,60 +37,29 @@ export const wordCountLess = () => {
     }
 }
 
-const request = (theme, worksheet) => {
-    return {
-        type: REQUEST,
-        theme: theme,
-        worksheet: worksheet
-    }
-}
-
-const receiveSuccess = (json) => {
-    json = JSON.parse(json)
-
-    return {
-        type: RECEIVE_SUCCESS,
-        words: json.words,
-        definitions: json.definitions,
-        examples: json.examples
-    }
-}
-
-const receiveFailed = (error) => {
-    return {
-        type: RECEIVE_FAILED,
-        error: error
-    }
-}
-
-const receiveFirebase = (dataType, values) => {
+const receiveFirebase = (data) => {
     return {
         type: RECEIVE_FIREBASE,
-        dataType: dataType,
-        data: values
+        payload: data
     }
 }
 
 export const fetchWorksheet = (sheet) => (dispatch) => {
-    dispatch(request("school", sheet));
-
-    getWorksheet(sheet).then(r => console.log(r))
-
-    return API().Play(sheet)
+    return getWorksheet(sheet)
     .then(response => {
-        dispatch(receiveSuccess(response))
+        dispatch(receiveFirebase(response))
     })
     .catch(err => {
-        dispatch(receiveFailed(err.message))
+        dispatch(receiveFirebase({}))
     })
 }
 
 export const fetchWorksheets = () => (dispatch) => {
     return getWorksheets()
     .then(response => {
-        dispatch(receiveFirebase("worksheets", response))
+        dispatch(receiveFirebase(response))
     })
     .catch(err => {
-        dispatch(receiveFirebase("worksheets", []))
+        dispatch(receiveFirebase([]))
     })
 }

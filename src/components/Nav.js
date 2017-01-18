@@ -13,20 +13,6 @@ const Nav = () => (
 
                 <a className="navbar-brand" href="/">Bob’s your uncle</a>
             </div>
-
-            {
-            /*<div className="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
-                <ul className="nav navbar-nav">
-                    <li className="dropdown">
-                        <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My account <span className="caret"></span></a>
-                        <ul className="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>*/
-            }
         </div>
     </nav>
 )

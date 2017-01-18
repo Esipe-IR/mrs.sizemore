@@ -1,7 +1,6 @@
 import React from 'react'
-
-import Nav from './app/Nav'
-import Footer from './app/Footer'
+import Nav from './Nav'
+import Footer from './Footer'
 
 const App = (props) => (
     <div>
