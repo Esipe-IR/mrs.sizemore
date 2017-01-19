@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import Translator from '../components/modules/Translator'
+import Translator from './component/Translator'
 
-import { translateAnswer } from '../actions'
+import { translateResponse } from './duck'
 
 class TranslatorContainer extends React.Component {
     constructor(props) {
@@ -19,11 +19,11 @@ class TranslatorContainer extends React.Component {
         let userVal = input.toLowerCase().trim()
         
         if (userVal === word.en) {
-            return dispatch(translateAnswer(true, "Great job!", word.id))
+            return dispatch(translateResponse(true, "Great job!", word.id))
         }
 
         let msg = "Wrong! The correct answer for '" + word.fr + "' is: '" + word.en + "' not: '" + userVal + "'"
-        dispatch(translateAnswer(false, msg, word.id))
+        dispatch(translateResponse(false, msg, word.id))
     }
 
     render() {
@@ -34,10 +34,10 @@ class TranslatorContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    const { gameReducer } = state
+    const { translatorReducer } = state
 
     return {
-        result: gameReducer.result,
+        result: translatorReducer.result,
         word: {
             id: 11,
             fr: "test",
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
 }
 
 TranslatorContainer.propTypes = {
-    result: PropTypes.object.isRequired,
+    result: PropTypes.object,
     word: PropTypes.object.isRequired
 }
 

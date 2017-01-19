@@ -3,7 +3,7 @@ import Result from './Result'
 
 const Translator = ({result, word, handleResult}) => (
     <div>
-        <Result status={result.status} info={result.msg} />
+        <Result result={result} />
 
         <form className="form-horizontal" onSubmit={handleResult}>
             <div className="form-group">

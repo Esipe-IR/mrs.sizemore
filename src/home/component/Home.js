@@ -1,6 +1,6 @@
 import React from 'react'
-import Header from '../Header'
-import Thumbnail from '../Thumbnail'
+import Header from '../../components/Header'
+import Thumbnail from '../../components/Thumbnail'
 
 const Home = ({worksheets}) => (
     <div>

@@ -8,13 +8,14 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import MainReducer from './reducers'
 
 import App from './components/App'
-import HomeContainer from './containers/HomeContainer'
-import GameContainer from './containers/GameContainer'
+import HomeContainer from './home/HomeContainer'
+import GameContainer from './game/GameContainer'
 
 const store = createStore(
     MainReducer,
     applyMiddleware(thunk)
 )
+
 const history = syncHistoryWithStore(browserHistory, store)
 
 render(

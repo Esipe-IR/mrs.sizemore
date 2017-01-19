@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import Home from '../components/pages/Home'
+import Home from './component/Home'
 
-import { fetchWorksheets } from '../actions'
+import { fetchWorksheets } from './duck'
 
 class HomeContainer extends React.Component {
     constructor(props) {
@@ -18,10 +18,10 @@ class HomeContainer extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { firebaseReducer } = state
+    const { homeReducer } = state
 
     return {
-        worksheets: firebaseReducer.worksheets
+        worksheets: homeReducer.worksheets
     }
 }
 

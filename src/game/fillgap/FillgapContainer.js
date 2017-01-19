@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { help, wordCountAdd, wordCountLess } from '../../actions'
+import { help, wordCountAdd, wordCountLess } from './duck'
 
 class FillgapContainer extends React.Component {
     onClickSubmit(e) {
@@ -66,6 +66,8 @@ class FillgapContainer extends React.Component {
     render() {
         return (
             <div className="text">
+                {<p>Count: {this.props.wordcount}/{this.props.wordlength}</p>}
+
                 <form onSubmit={this.onClickSubmit}>
                     {this.createSentences(this.props.examples)}
 
@@ -80,4 +82,13 @@ class FillgapContainer extends React.Component {
     }
 }
 
-export default connect()(FillgapContainer)
+function mapStateToProps(state) {
+    const { fillgapReducer } = state
+
+    return {
+        wordcount: fillgapReducer.wordcount,
+        wordlength: 5
+    }
+}
+
+export default connect(mapStateToProps)(FillgapContainer)
