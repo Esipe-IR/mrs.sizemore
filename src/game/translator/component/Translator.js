@@ -1,8 +1,10 @@
 import Switch from 'react-toggle-switch'
 import React from 'react'
 import Result from './Result'
+import { inputChange } from '../duck'
+import KeyboardContainer from '../../../keyboard/KeyboardContainer'
 
-const Translator = ({result, word, sw, fn}) => (
+const Translator = ({result, word, sw, userWord, fn}) => (
     <div>
         <div className="row">
             <div className="col-sm-12">
@@ -35,6 +37,8 @@ const Translator = ({result, word, sw, fn}) => (
                     className="form-control" 
                     name="translate-english-value" 
                     id="translate-english-value" 
+                    value={userWord}
+                    onChange={fn.onChange}
                     placeholder="English" />
                 </div>
             </div>
@@ -45,6 +49,8 @@ const Translator = ({result, word, sw, fn}) => (
                 </div>
             </div>
         </form>
+
+        <KeyboardContainer onChange={inputChange} word={userWord}/>
     </div>
 )
 

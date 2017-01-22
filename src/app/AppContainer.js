@@ -5,12 +5,12 @@ import App from './component/App'
 class AppContainer extends React.Component {
     constructor(props) {
         super(props)
-        this.getLoadingSize = this.getLoadingSize.bind(this)
+        this.displayLoading = this.displayLoading.bind(this)
     }
 
-    getLoadingSize() {
+    displayLoading() {
         if (this.props.loading) {
-            return {width: "100%"}
+            return {display: "block"}
         }
 
         return {display: "none"}
@@ -18,7 +18,7 @@ class AppContainer extends React.Component {
 
     render() {
         return (
-            <App loadingSize={this.getLoadingSize()} children={this.props.children} />
+            <App displayLoading={this.displayLoading()} children={this.props.children} />
         )
     }
 }

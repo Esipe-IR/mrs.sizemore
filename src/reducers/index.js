@@ -5,6 +5,7 @@ import homeReducer from '../home/duck';
 import gameReducer from '../game/duck';
 import translatorReducer from '../game/translator/duck'
 import fillgapReducer from '../game/fillgap/duck'
+import keyboardReducer from '../keyboard/duck'
 
 const MainReducer = combineReducers({
     appReducer,
@@ -12,6 +13,7 @@ const MainReducer = combineReducers({
     gameReducer,
     translatorReducer,
     fillgapReducer,
+    keyboardReducer,
     routing: routerReducer
 })
 

@@ -2,7 +2,7 @@ import React from 'react'
 import Nav from './Nav'
 import Footer from './Footer'
 
-const App = ({loadingSize, children}) => (
+const App = ({displayLoading, children}) => (
     <div>
         <Nav />
 
@@ -14,7 +14,7 @@ const App = ({loadingSize, children}) => (
             <Footer />
         </div>
 
-        <div id="myNav" className="overlay" style={loadingSize}>
+        <div id="myNav" className="overlay" style={displayLoading}>
             <div className="overlay-content">
                 <img src="/img/rolling.svg" alt="" />
             </div>

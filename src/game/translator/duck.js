@@ -1,9 +1,17 @@
+const INPUT_CHANGE = "old_wood/translator/INPUT::CHANGE"
 const RESPONSE = "old_wood/translator/RESPONSE"
-const SWITCH_STATE = "old_wood/translator/SWITCH::STATE"
 
 const INITIAL_STATE = {
     switch: false,
-    result: null
+    result: null,
+    userWord: ""
+}
+
+export const inputChange = (val) => {
+    return {
+        type: INPUT_CHANGE,
+        payload: val
+    }
 }
 
 export const translateResponse = (status, msg, word_id) => {
@@ -17,22 +25,15 @@ export const translateResponse = (status, msg, word_id) => {
     }
 }
 
-export const switchState = (state) => {
-    return  {
-        type: SWITCH_STATE,
-        payload: state
-    }
-}
-
 export default function translatorReducer(state = INITIAL_STATE, action) {
     switch(action.type) {
+        case INPUT_CHANGE:
+            return Object.assign({}, state, {
+                userWord: action.payload
+            })
         case RESPONSE:
             return Object.assign({}, state, {
                 result: action.payload
-            })
-        case SWITCH_STATE:
-            return Object.assign({}, state, {
-                switch: action.payload
             })
         default:
             return state

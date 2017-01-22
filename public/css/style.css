@@ -39,7 +39,7 @@
 
 .overlay {   
 	height: 100%;
-	width: 0;
+	width: 100%;
 	position: fixed;
 	z-index: 1;
 	left: 0;
@@ -47,7 +47,6 @@
 	background-color: rgb(0,0,0);
 	background-color: rgba(0,0,0, 0.9);
 	overflow-x: hidden;
-	transition: 0.5s;
 }
 
 .overlay-content {
@@ -61,4 +60,49 @@
 .switch {
 	float: none;
 	margin-bottom: 20px;
+}
+
+.keyboard {
+	height: 40%;
+	width: 100%;
+	z-index: 1;
+	left: 0;
+	bottom: -30px;
+	position: fixed;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, 0.9);
+	overflow: hidden;
+	transition: 0.5s;
+	padding-top: 10px;
+	text-align: center;
+}
+
+.keyboard .key {
+	color: white;
+	cursor: pointer;
+	padding: 13px;
+	display: inline-block;
+	background: #121211;
+	border: none;
+	border-bottom: 1px solid white;
+}
+
+.keyboard .key:active {
+	background-color: red;
+}
+
+.keyboard .key-d {
+	color: red;
+	border-bottom: 1px solid red;
+	margin-left: 2px;
+}
+
+.keyboard .key-s {
+	color: green;
+	border-bottom: 1px solid green;
+}
+
+.keyboard-space {
+	width: 100%;
+	height: 315px;
 }

@@ -2,54 +2,65 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Translator from './component/Translator'
 
-import { translateResponse, switchState } from './duck'
+import { inputChange, translateResponse } from './duck'
+import { keyboardState } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
     constructor(props) {
         super(props)
+        this.onChange = this.onChange.bind(this)
         this.handleResult = this.handleResult.bind(this)
         this.switch = this.switch.bind(this)
+    }
+
+    onChange(e) {
+        let input = e.target.value
+        input = input.toLowerCase().trim()
+
+        this.props.dispatch(inputChange(input))
     }
 
     handleResult(e) {
         e.preventDefault()
 
-        const { word, dispatch } = this.props
-
-        let input = e.target[1].value
-        let userVal = input.toLowerCase().trim()
+        const { word, userWord, dispatch } = this.props
         
-        if (userVal === word.en) {
+        if (userWord === word.en) {
             return dispatch(translateResponse(true, "Great job!", word.id))
         }
 
-        let msg = "Wrong! The correct answer for '" + word.fr + "' is: '" + word.en + "' not: '" + userVal + "'"
+        let msg = "Wrong! The correct answer for '" + word.fr + "' is: '" + word.en + "' not: '" + userWord + "'"
         dispatch(translateResponse(false, msg, word.id))
     }
 
     switch() {
-        this.props.dispatch(switchState(!this.props.switch))
+        this.props.dispatch(keyboardState(!this.props.switch))
     }
 
     render() {
         return (
             <Translator result={this.props.result} word={this.props.word} 
-            fn={{
-                    handleResult: this.handleResult,
-                    switch: this.switch
-                }
-            }
-            sw={this.props.switch} />
+                userWord={this.props.userWord}
+                sw={this.props.switch}
+                fn={
+                    {
+                        onChange: this.onChange,
+                        handleResult: this.handleResult,
+                        switch: this.switch
+                    }
+                } 
+            />
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    const { translatorReducer } = state
+    const { translatorReducer, keyboardReducer } = state
 
     return {
-        switch: translatorReducer.switch,
         result: translatorReducer.result,
+        userWord: translatorReducer.userWord,
+        switch: keyboardReducer.open,
         word: {
             id: 11,
             fr: "test",
@@ -60,7 +71,9 @@ const mapStateToProps = (state) => {
 
 TranslatorContainer.propTypes = {
     result: PropTypes.object,
-    word: PropTypes.object.isRequired
+    word: PropTypes.object.isRequired,
+    userWord: PropTypes.string.isRequired,
+    switch: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(TranslatorContainer)
