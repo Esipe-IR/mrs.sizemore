@@ -1,137 +1,64 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:400,700);
-body {
-	display: block;
-	justify-content: center;
-	align-items: center;
-	background: #e5e5e5;
-	font-family: Raleway;
-	color: black;
-	letter-spacing: 1px;
-}
-.card-form {
-	width: 1000px;
-	max-width: 100%;
-    margin: 10px auto;
-	border-radius: 5px;
-	background: #f3f3f3;
-}
-.card-form .form-title {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 80px;
-	font-size: 20px;
-	font-weight: bold;
-	color: white;
-	background: #27ae60;
-	border-radius: 5px 5px 0 0;
-}
-.card-form .form-body {
-	padding: 10px;
-}
-.card-form .form-body .row {
-	display: flex;
-	justify-content: space-around;
-	padding: 10px;
-}
-.card-form .form-body .row input[type="text"] {
-	appearance: none;
-	width: 100%;
-	margin: 0 15px;
-	height: 35px;
-	padding: 5px 15px;
-	border-radius: 5px;
-	outline: none;
-	border: none;
-	background: #e8ebed;
-	color: #576366;
-	font-size: 14px;
-}
-.card-form .rule {
-	height: 2px;
-	background: #e8ebed;
-	margin: 0px 35px;
-}
-.card-form .form-footer {
-	text-align: center;
-	padding: 5px;
-}
-.submit{
-	display: block;
-	line-height: 40px;
-	border: none;
-	border-radius: 5px;
-	padding: 5px 15px;
-	background: #27ae60;
-	margin-right: 10px;
-	font-size: 14px;
-	color: white;
-	font-family: Raleway;
-	letter-spacing: 1px;
-	height: 50px;
-	margin: 10px auto;
-	cursor: pointer;
-	transition: 0.2s all ease-in;
-	margin-bottom: 0px;
-}
-.submit:hover{
-	background: #2fbe6b;
-	transition: 0.2s all ease-in;
-}
-.submit:focus{
-	outline: none;
-}
-.black{
-	color: #576366;
-}
-table {
-	margin: 5%;
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 90%;
-}
-p{
-	color: black;
-}
-td, th {
-	border: 1px solid #dddddd;
-	text-align: left;
-	padding: 8px;
-}
-tr:nth-child(even) {
-	background-color: #dddddd;
-}
-.game {
-	padding: 10px;
-}
-.game h2 {
-	text-align: center;
-}
-.text {
-	padding: 25px;
-	font-size: 1.2em;
-}
-.fa.fa-info-circle {
-	cursor: pointer;
-	padding-left: 10px;
-	color: cornflowerblue;
+.box {
+	background: white;
+	border: 1px solid #eee;
+	margin: 5px;
 }
 
-.list-group-item a {
-	padding: 5px 10px;
-	color: #27ae60;
-	text-decoration: none;
-	float:right;
-	color: white;
-	position: relative;
-	top: -5px;
-	margin-left: 5px;
+.box-title {
 	text-align: center;
+	padding: 10px;
+	background: #E5E5E5;
+	border-top: 1px solid #D0D0D0;
+	border-left: 1px solid #D0D0D0;
+	border-right: 1px solid #D0D0D0;
 }
-.list-group-item a.info {
-	background: dodgerblue;
+
+.box-body {
+	padding: 20px;
 }
-.list-group-item a.play {
-	background: lightgreen;
+
+.box-footer {
+	border-top: 1px solid #D0D0D0;
+	padding: 20px;
+}
+
+.margin-btm-5 {
+	margin-bottom: 5px;
+}
+
+.margin-btm-20 {
+	margin-bottom: 20px;
+}
+
+.pad-10 {
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+}
+
+.overlay {   
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, 0.9);
+	overflow-x: hidden;
+	transition: 0.5s;
+}
+
+.overlay-content {
+	position: relative;
+	top: 25%;
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.switch {
+	float: none;
+	margin-bottom: 20px;
 }

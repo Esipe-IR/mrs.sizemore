@@ -1,4 +1,5 @@
 import { getWorksheets } from '../services/firebase'
+import { loadingState } from '../app/duck'
 
 const RECEIVE_WORKSHEETS = "old_wood/home/RECEIVE::WORKSHEETS"
 const INITIAL_STATE = {
@@ -17,9 +18,11 @@ export const fetchWorksheets = () => (dispatch) => {
     return getWorksheets()
     .then(response => {
         dispatch(receiveWorksheets(response, false))
+        dispatch(loadingState(false))
     })
     .catch(err => {
         dispatch(receiveWorksheets(err, true))
+        dispatch(loadingState(false))
     })
 }
 

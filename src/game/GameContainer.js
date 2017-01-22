@@ -54,7 +54,13 @@ class GameContainer extends React.Component {
         return (
             <Game id={this.props.worksheet.id} 
             theme={this.props.worksheet.name} 
-            fn={{changeMode: this.changeMode, getMode: this.getMode, getModeClass: this.getModeClass}} />
+            fn={
+                {
+                    changeMode: this.changeMode, 
+                    getMode: this.getMode, 
+                    getModeClass: this.getModeClass
+                }
+            } />
         )
     }
 }
@@ -62,7 +68,7 @@ class GameContainer extends React.Component {
 function mapStateToProps(state) {
     const { gameReducer } = state
 
-    console.log(gameReducer.worksheet)
+    console.log("gameReducer:", gameReducer.worksheet)
 
     return {
         mode: gameReducer.mode,

@@ -1,4 +1,5 @@
 import { getWorksheet } from '../services/firebase'
+import { loadingState } from '../app/duck'
 
 const MODE_CHANGE = "old_wood/game/MODE::CHANGE"
 const RECEIVE_WORKSHEET = "old_wood/game/RECEIVE::WORKSHEET"
@@ -28,9 +29,11 @@ export const fetchWorksheet = (sheet) => (dispatch) => {
     return getWorksheet(sheet)
     .then(response => {
         dispatch(receiveWorksheet(response, false))
+        dispatch(loadingState(false))
     })
     .catch(err => {
         dispatch(receiveWorksheet(err, true))
+        dispatch(loadingState(false))
     })
 }
 

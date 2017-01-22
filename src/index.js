@@ -7,7 +7,7 @@ import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import MainReducer from './reducers'
 
-import App from './components/App'
+import AppContainer from './app/AppContainer'
 import HomeContainer from './home/HomeContainer'
 import GameContainer from './game/GameContainer'
 
@@ -21,7 +21,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 render(
     <Provider store={store}>
         <Router history={history}>
-            <Route component={App}>
+            <Route component={AppContainer}>
                 <Route path="/" component={HomeContainer} />
                 <Route path="/game/:sheet" component={GameContainer} />
                 <Redirect from='*' to='/' />

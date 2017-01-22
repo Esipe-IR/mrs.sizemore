@@ -2,12 +2,13 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Translator from './component/Translator'
 
-import { translateResponse } from './duck'
+import { translateResponse, switchState } from './duck'
 
 class TranslatorContainer extends React.Component {
     constructor(props) {
         super(props)
         this.handleResult = this.handleResult.bind(this)
+        this.switch = this.switch.bind(this)
     }
 
     handleResult(e) {
@@ -26,9 +27,19 @@ class TranslatorContainer extends React.Component {
         dispatch(translateResponse(false, msg, word.id))
     }
 
+    switch() {
+        this.props.dispatch(switchState(!this.props.switch))
+    }
+
     render() {
         return (
-            <Translator result={this.props.result} word={this.props.word} handleResult={this.handleResult} />
+            <Translator result={this.props.result} word={this.props.word} 
+            fn={{
+                    handleResult: this.handleResult,
+                    switch: this.switch
+                }
+            }
+            sw={this.props.switch} />
         )
     }
 }
@@ -37,6 +48,7 @@ const mapStateToProps = (state) => {
     const { translatorReducer } = state
 
     return {
+        switch: translatorReducer.switch,
         result: translatorReducer.result,
         word: {
             id: 11,

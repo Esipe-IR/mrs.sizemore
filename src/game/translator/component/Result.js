@@ -7,21 +7,23 @@ const Result = ({result}) => {
 
     if (result.status) {
         return (
-            <div className="panel panel-success">
-                <div className="panel-heading">Success</div>
-                <div className="panel-body">
-                    {result.msg}
-                </div>
+            <div className="bg-success pad-10 margin-btm-20">
+                <button type="button" className="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <p>{result.msg}</p>
             </div>
         )
     }
 
     return (
-        <div className="panel panel-danger">
-            <div className="panel-heading">Fail</div>
-            <div className="panel-body">
-                <p>{result.msg}</p>
-            </div>
+        <div className="bg-danger pad-10 margin-btm-20">
+            <button type="button" className="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <p>{result.msg}</p>
         </div>
     )
 }

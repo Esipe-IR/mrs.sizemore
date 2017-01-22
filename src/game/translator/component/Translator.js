@@ -1,11 +1,18 @@
+import Switch from 'react-toggle-switch'
 import React from 'react'
 import Result from './Result'
 
-const Translator = ({result, word, handleResult}) => (
+const Translator = ({result, word, sw, fn}) => (
     <div>
+        <div className="row">
+            <div className="col-sm-12">
+                <Switch onClick={fn.switch} on={sw} />
+            </div>
+        </div>
+
         <Result result={result} />
 
-        <form className="form-horizontal" onSubmit={handleResult}>
+        <form className="form-horizontal" onSubmit={fn.handleResult}>
             <div className="form-group">
                 <label className="col-sm-2 control-label" htmlFor="translate-french-value">French</label>
 
@@ -33,8 +40,8 @@ const Translator = ({result, word, handleResult}) => (
             </div>
 
             <div className="form-group">
-                <div className="col-md-offset-2 col-md-10 col-sm-12 text-center">
-                    <input className="btn btn-success" type="submit" value="Validate" />
+                <div className="col-sm-12 text-center">
+                    <input className="btn btn-success" type="submit" value="Submit" />
                 </div>
             </div>
         </form>
