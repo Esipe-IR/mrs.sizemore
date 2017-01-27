@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Translator from './component/Translator'
 
-import { inputChange, translateResponse } from './duck'
+import { inputChange, translateResponse, newWord } from './duck'
 import { keyboardState } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
@@ -11,6 +11,8 @@ class TranslatorContainer extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.handleResult = this.handleResult.bind(this)
         this.switch = this.switch.bind(this)
+        this.getWord = this.getWord.bind(this)
+        this.getWord()
     }
 
     onChange(e) {
@@ -37,6 +39,10 @@ class TranslatorContainer extends React.Component {
         this.props.dispatch(keyboardState(!this.props.switch))
     }
 
+    getWord() {
+        this.props.dispatch(newWord(this.props.words))
+    }
+
     render() {
         return (
             <Translator result={this.props.result} word={this.props.word} 
@@ -58,14 +64,10 @@ const mapStateToProps = (state) => {
     const { translatorReducer, keyboardReducer } = state
 
     return {
+        word: translatorReducer.word,
         result: translatorReducer.result,
         userWord: translatorReducer.userWord,
-        switch: keyboardReducer.open,
-        word: {
-            id: 11,
-            fr: "test",
-            en: "test"
-        }
+        switch: keyboardReducer.open
     }
 }
 

@@ -1,12 +1,13 @@
 import React from 'react'
 
-const Game = ({id, theme, fn}) => (
+const Game = ({worksheet, fn}) => (
     <div className="box">
         <div className="box-title">
-            <h2>Worksheet: {id}</h2>
-            <em>Theme: {theme}</em>
+            <h2>{worksheet.name} ({worksheet.id})</h2>
+            <a href={"/editor/" + worksheet.id} className="btn btn-primary">Edit</a>
+            
             <hr />
-
+            
             <div className="mode-selection">
                 <div className="row">
                     <div className="col-md-4 col-sm-12">

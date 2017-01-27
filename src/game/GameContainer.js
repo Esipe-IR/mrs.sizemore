@@ -16,9 +16,13 @@ class GameContainer extends React.Component {
     }
 
     getMode() {
+        if (!this.props.worksheet.state) {
+            return null
+        }
+        
         if (this.props.mode === "easy") {
             return (
-                <TranslatorContainer />
+                <TranslatorContainer words={this.props.words} />
             )
         } else if (this.props.mode === "normal") {
             return null
@@ -35,10 +39,6 @@ class GameContainer extends React.Component {
     }
 
     getModeClass(mode) {
-        if (mode === this.props.mode) {
-            return "default"
-        }
-
         if (mode === "easy") {
             return "success"
         }
@@ -52,12 +52,12 @@ class GameContainer extends React.Component {
 
     render() {
         return (
-            <Game id={this.props.worksheet.id} 
-            theme={this.props.worksheet.name} 
+            <Game
+            worksheet={this.props.worksheet}
             fn={
                 {
-                    changeMode: this.changeMode, 
-                    getMode: this.getMode, 
+                    changeMode: this.changeMode,
+                    getMode: this.getMode,
                     getModeClass: this.getModeClass
                 }
             } />
@@ -68,11 +68,10 @@ class GameContainer extends React.Component {
 function mapStateToProps(state) {
     const { gameReducer } = state
 
-    console.log("gameReducer:", gameReducer.worksheet)
-
     return {
         mode: gameReducer.mode,
-        worksheet: gameReducer.worksheet
+        worksheet: gameReducer.worksheet,
+        words: gameReducer.words
     }
 }
 

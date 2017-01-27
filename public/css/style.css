@@ -7,10 +7,7 @@
 .box-title {
 	text-align: center;
 	padding: 10px;
-	background: #E5E5E5;
-	border-top: 1px solid #D0D0D0;
-	border-left: 1px solid #D0D0D0;
-	border-right: 1px solid #D0D0D0;
+	border: 1px solid #D0D0D0;
 }
 
 .box-body {

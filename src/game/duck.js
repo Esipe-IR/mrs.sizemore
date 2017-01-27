@@ -1,4 +1,4 @@
-import { getWorksheet } from '../services/firebase'
+import { getCompleteWorksheet } from '../services/firebase'
 import { loadingState } from '../app/duck'
 
 const MODE_CHANGE = "old_wood/game/MODE::CHANGE"
@@ -6,7 +6,13 @@ const RECEIVE_WORKSHEET = "old_wood/game/RECEIVE::WORKSHEET"
 
 const INITIAL_STATE = {
     mode: "easy",
-    worksheet: {},
+    worksheet: {
+        state: false,
+        name: "",
+        img: "",
+        description: "",
+    },
+    words: {},
     error: false
 }
 
@@ -26,7 +32,7 @@ export const receiveWorksheet = (worksheet, err) => {
 }
 
 export const fetchWorksheet = (sheet) => (dispatch) => {
-    return getWorksheet(sheet)
+    return getCompleteWorksheet(sheet)
     .then(response => {
         dispatch(receiveWorksheet(response, false))
         dispatch(loadingState(false))
@@ -45,7 +51,8 @@ export default function gameReducer(state = INITIAL_STATE, action) {
             })
         case RECEIVE_WORKSHEET:
             return Object.assign({}, state, {
-                worksheet: action.payload,
+                worksheet: action.payload.worksheet,
+                words: action.payload.words,
                 error: action.error
             })
         default:
