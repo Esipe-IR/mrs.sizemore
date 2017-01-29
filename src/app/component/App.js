@@ -1,22 +1,20 @@
 import React from 'react'
-import Nav from './Nav'
 import Footer from './Footer'
+import Nav from './Nav'
 
 const App = ({displayLoading, children}) => (
     <div>
         <Nav />
 
         <div className="container">
-            <div>
-                { children }
-            </div>
+            { children }
 
             <Footer />
         </div>
 
-        <div id="myNav" className="overlay" style={displayLoading}>
+        <div className="overlay" style={displayLoading}>
             <div className="overlay-content">
-                <img src="/img/rolling.svg" alt="" />
+                <img src="/img/ripple.svg" alt="" />
             </div>
         </div>
     </div>

@@ -1,3 +1,17 @@
+body {
+	padding-top: 70px;
+}
+
+.navbar-inverse {
+	background-color: rgb(0, 188, 212);
+	box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.12), 0px 1px 4px rgba(0, 0, 0, 0.12);
+	border: none;
+}
+
+.navbar-inverse .navbar-brand {
+	color: white;
+}
+
 .box {
 	background: white;
 	border: 1px solid #eee;
@@ -38,7 +52,7 @@
 	height: 100%;
 	width: 100%;
 	position: fixed;
-	z-index: 1;
+	z-index: 100000;
 	left: 0;
 	top: 0;
 	background-color: rgb(0,0,0);
@@ -102,4 +116,58 @@
 .keyboard-space {
 	width: 100%;
 	height: 315px;
+}
+
+.btn.btn-app {
+	box-sizing: border-box;
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	margin: 0px;
+	padding: 10px;
+	width: 100%;
+	border-radius: 2px;
+	background-color: rgb(0, 188, 212);
+	text-align: center;
+	color: white;
+}
+
+.btn.btn-app-secondary {
+	box-sizing: border-box;
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	margin: 0px;
+	padding: 10px;
+	width: 100%;
+	border-radius: 2px;
+	background-color: rgb(255, 64, 129);
+	text-align: center;
+	color: white;
+}
+
+.mode-selection .mode {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.btn.btn-outline-success {
+	color: #5cb85c;
+	background-image: none;
+	background-color: transparent;
+	border-color: #5cb85c;
+}
+
+.btn.btn-outline-warning {
+	color: #f0ad4e;
+	background-image: none;
+	background-color: transparent;
+	border-color: #f0ad4e;
+}
+
+.btn.btn-outline-danger {
+	color: #d9534f;
+	background-image: none;
+	background-color: transparent;
+	border-color: #d9534f;
 }

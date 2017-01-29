@@ -5,7 +5,7 @@ const MODE_CHANGE = "old_wood/game/MODE::CHANGE"
 const RECEIVE_WORKSHEET = "old_wood/game/RECEIVE::WORKSHEET"
 
 const INITIAL_STATE = {
-    mode: "easy",
+    mode: 0,
     worksheet: {
         state: false,
         name: "",
@@ -13,6 +13,7 @@ const INITIAL_STATE = {
         description: "",
     },
     words: {},
+    answer: [],
     error: false
 }
 

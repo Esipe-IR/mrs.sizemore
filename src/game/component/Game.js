@@ -1,44 +1,48 @@
 import React from 'react'
+import Resume from './Resume'
 
-const Game = ({worksheet, fn}) => (
-    <div className="box">
-        <div className="box-title">
-            <h2>{worksheet.name} ({worksheet.id})</h2>
-            <a href={"/editor/" + worksheet.id} className="btn btn-primary">Edit</a>
-            
-            <hr />
-            
-            <div className="mode-selection">
-                <div className="row">
-                    <div className="col-md-4 col-sm-12">
-                        <button 
-                        className={"btn btn-" + fn.getModeClass('easy') + " margin-btm-5"} 
-                        data-mode="easy" 
-                        onClick={fn.changeMode}>Easy</button>
-                    </div>
+const Game = ({worksheet, answer, fn}) => (
+    <div>
+        <div className="box">
+            <div className="box-title">
+                <h2>{worksheet.name.toUpperCase()}</h2>
 
-                    <div className="col-md-4 col-sm-12">
-                        <button 
-                        className={"btn btn-" + fn.getModeClass('normal') + " margin-btm-5"} 
-                        data-mode="normal" 
-                        onClick={fn.changeMode}>Normal</button>
-                    </div>
+                <hr/>
 
-                    <div className="col-md-4 col-sm-12">
-                        <button 
-                        className={"btn btn-" + fn.getModeClass('hard') + " margin-btm-5"} 
-                        data-mode="hard" 
-                        onClick={fn.changeMode}>Hard</button>
+                <div className="mode-selection">
+                    <div className="row">
+                        <div className="col-sm-4">
+                            <div className="mode">
+                                <button onClick={fn.changeMode} data-mode="0" className="btn btn-outline-success">
+                                    <i className="fa fa-thermometer-empty" aria-hidden="true"></i> Easy
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="mode">
+                                <button onClick={fn.changeMode} data-mode="1" className="btn btn-outline-warning">
+                                    <i className="fa fa-thermometer-half" aria-hidden="true"></i> Medium
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="mode">
+                                <button onClick={fn.changeMode} data-mode="2" className="btn btn-outline-danger">
+                                    <i className="fa fa-thermometer-full" aria-hidden="true"></i> Hard
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div className="box-body">
-            {fn.getMode()}
-        </div>
+            <div className="box-body">
+                {fn.getMode()}
+            </div>
 
-        <div className="box-footer">
+            <div className="box-footer">
+                <Resume result={answer} />
+            </div>
         </div>
     </div>
 )

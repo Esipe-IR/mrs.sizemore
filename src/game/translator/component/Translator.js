@@ -16,7 +16,9 @@ const Translator = ({result, word, sw, userWord, fn}) => (
 
         <form className="form-horizontal" onSubmit={fn.handleResult}>
             <div className="form-group">
-                <label className="col-sm-2 control-label" htmlFor="translate-french-value">French</label>
+                <div className="hidden-xs hidden-sm">
+                    <label className="col-sm-2 control-label" htmlFor="translate-french-value">French</label>
+                </div>
 
                 <div className="col-md-10 col-sm-12">
                     <input type="text" 
@@ -39,13 +41,14 @@ const Translator = ({result, word, sw, userWord, fn}) => (
                     id="translate-english-value" 
                     value={userWord}
                     onChange={fn.onChange}
-                    placeholder="English" />
+                    placeholder="English"
+                    autoComplete="off" />
                 </div>
             </div>
 
             <div className="form-group">
                 <div className="col-sm-12 text-center">
-                    <input className="btn btn-success" type="submit" value="Submit" />
+                    <input className="btn btn-app" type="submit" value="Submit" />
                 </div>
             </div>
         </form>

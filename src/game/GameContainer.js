@@ -11,7 +11,6 @@ class GameContainer extends React.Component {
         super(props)
         this.getMode = this.getMode.bind(this)
         this.changeMode = this.changeMode.bind(this)
-        this.getModeClass = this.getModeClass.bind(this)
         this.props.dispatch(fetchWorksheet(this.props.params.sheet))
     }
 
@@ -20,11 +19,11 @@ class GameContainer extends React.Component {
             return null
         }
         
-        if (this.props.mode === "easy") {
+        if (this.props.mode === 0) {
             return (
                 <TranslatorContainer words={this.props.words} />
             )
-        } else if (this.props.mode === "normal") {
+        } else if (this.props.mode === 1) {
             return null
         }
     
@@ -34,33 +33,22 @@ class GameContainer extends React.Component {
     }
 
     changeMode(e) {
-        let mode = e.target.dataset.mode
+        let mode = parseInt(e.target.dataset.mode, 3)
         this.props.dispatch(changeMode(mode))
-    }
-
-    getModeClass(mode) {
-        if (mode === "easy") {
-            return "success"
-        }
-
-        if (mode === "normal") {
-            return "warning"
-        }
-
-        return "danger"
     }
 
     render() {
         return (
             <Game
-            worksheet={this.props.worksheet}
-            fn={
-                {
-                    changeMode: this.changeMode,
-                    getMode: this.getMode,
-                    getModeClass: this.getModeClass
+                worksheet={this.props.worksheet}
+                answer={this.props.answer}
+                fn={
+                    {
+                        changeMode: this.changeMode,
+                        getMode: this.getMode
+                    }
                 }
-            } />
+            />
         )
     }
 }
@@ -71,13 +59,16 @@ function mapStateToProps(state) {
     return {
         mode: gameReducer.mode,
         worksheet: gameReducer.worksheet,
-        words: gameReducer.words
+        words: gameReducer.words,
+        answer: gameReducer.answer
     }
 }
 
 GameContainer.propTypes = {
-    mode: PropTypes.string.isRequired,
-    worksheet: PropTypes.object.isRequired
+    mode: PropTypes.number.isRequired,
+    worksheet: PropTypes.object.isRequired,
+    words: PropTypes.object.isRequired,
+    answer: PropTypes.array
 }
 
 export default connect(mapStateToProps)(GameContainer)

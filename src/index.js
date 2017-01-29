@@ -5,8 +5,8 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
-import MainReducer from './reducers'
 
+import MainReducer from './reducers'
 import AppContainer from './app/AppContainer'
 import HomeContainer from './home/HomeContainer'
 import GameContainer from './game/GameContainer'

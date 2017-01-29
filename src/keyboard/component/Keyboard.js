@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Keyboard = ({onClick, onDel, onClose, onClear, height, display}) => (
+const Keyboard = ({onClick, onDel, onClear, height, display}) => (
     <div>
         <div className="keyboard" style={height}>
             <div className="row">
@@ -41,11 +41,6 @@ const Keyboard = ({onClick, onDel, onClose, onClear, height, display}) => (
                     <button className="key" onClick={onClick}>N</button>
                     <button className="key key-d" onClick={onDel}>Delete</button>
                     <button className="key key-d" onClick={onClear}>Clear</button>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-xs-12">
-                    <button className="key key-s" onClick={onClose}>Close</button>
                 </div>
             </div>
         </div>
