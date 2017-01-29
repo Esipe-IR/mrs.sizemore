@@ -10,10 +10,10 @@ class AppContainer extends React.Component {
 
     displayLoading() {
         if (this.props.loading) {
-            return {display: "block"}
+            return {visibility: "visible"}
         }
 
-        return {display: "none"}
+        return {visibility: "hidden"}
     }
 
     render() {

@@ -87,6 +87,11 @@ export const getCompleteWorksheet = (id) => {
     })
 }
 
+export const update = (id, data) => {
+    let ref = fb.ref(id)
+    return ref.update(data)
+}
+
 export const saveWorksheet = (data) => {
     let newKey = fb.ref().child('worksheets').push().key
     data.id = newKey

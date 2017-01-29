@@ -20,16 +20,10 @@ class GameContainer extends React.Component {
         }
         
         if (this.props.mode === 0) {
-            return (
-                <TranslatorContainer words={this.props.words} />
-            )
-        } else if (this.props.mode === 1) {
-            return null
+            return <TranslatorContainer words={this.props.words} />
         }
     
-        return (
-            <FillgapContainer />
-        )
+        return <FillgapContainer />
     }
 
     changeMode(e) {

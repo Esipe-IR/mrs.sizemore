@@ -12,6 +12,15 @@ body {
 	color: white;
 }
 
+.navbar-inverse a {
+	color: white !important;
+}
+
+.navbar-inverse .active a {
+	color: rgb(0, 188, 212) !important;
+	background-color: white !important;
+}
+
 .box {
 	background: white;
 	border: 1px solid #eee;
