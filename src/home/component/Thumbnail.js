@@ -15,7 +15,7 @@ const Thumbnail = ({item}) => (
                     <a href={"/game/" + item.id} className="btn btn-app">Play</a>
                 </div>
                 <div>
-                    <a href={"/editor/" + item.id} className="btn btn-app-secondary">Edit</a>
+                    <a href={"/editor/worksheet/" + item.id} className="btn btn-app-secondary">Edit</a>
                 </div>
             </div>
         </div>

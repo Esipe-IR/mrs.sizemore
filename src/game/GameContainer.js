@@ -40,6 +40,7 @@ class GameContainer extends React.Component {
     render() {
         return (
             <Game
+                mode={this.props.mode}
                 worksheet={this.props.worksheet}
                 answer={this.props.answer}
                 fn={

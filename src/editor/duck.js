@@ -1,7 +1,8 @@
-import { saveWorksheet, getWorksheet } from '../services/firebase'
+import { saveWorksheet, getCompleteWorksheet } from '../services/firebase'
 import { loadingState } from '../app/duck'
 
 const WORKSHEET_UPDATE = "old_wood/editor/WORKSHEET::UPDATE"
+const RECEIVE_ERROR = "old_wood/editor/RECEIVE::ERROR"
 
 const INITIAL_STATE = {
     worksheet: {
@@ -10,6 +11,7 @@ const INITIAL_STATE = {
         img: "",
         description: "",
     },
+    words: [],
     error: false
 }
 
@@ -23,11 +25,30 @@ export const changeInput = (data, value, state) => {
     }
 }
 
-export const updateWorksheet = (worksheet, err) => {
+export const updateWorksheet = (data) => {
+    let payload = {
+        worksheet: data.worksheet,
+        words: []
+    }
+
+    let array = Object.keys(data.words)
+
+    array.forEach(w => {
+        payload.words.push(data.words[w])
+    })
+
     return {
         type: WORKSHEET_UPDATE,
-        payload: worksheet,
-        error: err
+        payload: payload
+    }
+}
+
+export const receiveError = (err) => {
+    console.log(err)
+    
+    return {
+        type: RECEIVE_ERROR,
+        payload: err
     }
 }
 
@@ -42,13 +63,13 @@ export const saveInput = (sheet) => (dispatch) => {
 }
 
 export const fetchWorksheet = (sheet) => (dispatch) => {
-    return getWorksheet(sheet)
+    return getCompleteWorksheet(sheet)
     .then(response => {
-        dispatch(updateWorksheet(response, false))
+        dispatch(updateWorksheet(response))
         dispatch(loadingState(false))
     })
     .catch(err => {
-        dispatch(updateWorksheet(err, true))
+        dispatch(receiveError(err))
         dispatch(loadingState(false))
     })
 }
@@ -57,7 +78,8 @@ export default function editorReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case WORKSHEET_UPDATE:
             return Object.assign({}, state, {
-                worksheet: action.payload,
+                worksheet: action.payload.worksheet,
+                words: action.payload.words,
                 error: action.error
             })
         default:

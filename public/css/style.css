@@ -158,6 +158,11 @@ body {
 	border-color: #5cb85c;
 }
 
+.btn.btn-outline-success.fill {
+	color: white;
+	background-color: #5cb85c;
+}
+
 .btn.btn-outline-warning {
 	color: #f0ad4e;
 	background-image: none;
@@ -165,9 +170,19 @@ body {
 	border-color: #f0ad4e;
 }
 
+.btn.btn-outline-warning.fill {
+	color: white;
+	background-color: #f0ad4e;
+}
+
 .btn.btn-outline-danger {
 	color: #d9534f;
 	background-image: none;
 	background-color: transparent;
 	border-color: #d9534f;
+}
+
+.btn.btn-outline-danger.fill {
+	color: white;
+	background-color: #d9534f;
 }

@@ -25,7 +25,7 @@ render(
             <Route component={AppContainer}>
                 <Route path="/" component={HomeContainer} />
                 <Route path="/game/:sheet" component={GameContainer} />
-                <Route path="/editor/:sheet" component={EditorContainer} />
+                <Route path="/editor/:type/:id" component={EditorContainer} />
                 <Redirect from='*' to='/' />
             </Route>
         </Router>
