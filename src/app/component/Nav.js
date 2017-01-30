@@ -13,6 +13,12 @@ const UserIcon = ({user}) => (
     </ul>
 )
 
+const SignIn = () => (
+    <ul className="nav navbar-nav navbar-right">
+        <li><a href="/account">Sign in</a></li>
+    </ul>
+)
+
 const Nav = ({user}) => (
     <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div className="container">
@@ -28,11 +34,12 @@ const Nav = ({user}) => (
 
             <div className="collapse navbar-collapse" id="navbar-collapse-1">
                 <ul className="nav navbar-nav">
-                    <li className="active"><a href="/">Home <span className="sr-only">(current)</span></a></li>
+                    <li><a href="/">Home <span className="sr-only">(current)</span></a></li>
+                    <li><a href="#"><i className="fa fa-plus" aria-hidden="true"></i> Add worksheet</a></li>
                     <li><a href="#">About</a></li>
                 </ul>
 
-                {user ? <UserIcon user={user} /> : null}
+                {user ? <UserIcon user={user} /> : <SignIn />}
             </div>
         </div>
     </nav>

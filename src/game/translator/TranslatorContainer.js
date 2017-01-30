@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Translator from './component/Translator'
 
-import { inputChange, translateResponse, newWord } from './duck'
+import { inputChange, wordResult, wordNew } from './duck'
 import { keyboardState } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
@@ -24,15 +24,8 @@ class TranslatorContainer extends React.Component {
 
     handleResult(e) {
         e.preventDefault()
-
-        const { word, userWord, dispatch } = this.props
-        
-        if (userWord === word.en) {
-            return dispatch(translateResponse(true, "Great job!", word.id))
-        }
-
-        let msg = "Wrong! The correct answer for '" + word.fr + "' is: '" + word.en + "' not: '" + userWord + "'"
-        dispatch(translateResponse(false, msg, word.id))
+        this.props.dispatch(wordResult(this.props.word, this.props.userWord))
+        this.getWord()
     }
 
     switch() {
@@ -40,12 +33,12 @@ class TranslatorContainer extends React.Component {
     }
 
     getWord() {
-        this.props.dispatch(newWord(this.props.words))
+        this.props.dispatch(wordNew(this.props.words))
     }
 
     render() {
         return (
-            <Translator result={this.props.result} word={this.props.word} 
+            <Translator result={this.props.result} resultMsg={this.props.resultMsg} word={this.props.word} 
                 userWord={this.props.userWord}
                 sw={this.props.switch}
                 fn={
@@ -66,13 +59,15 @@ const mapStateToProps = (state) => {
     return {
         word: translatorReducer.word,
         result: translatorReducer.result,
+        resultMsg: translatorReducer.resultMsg,
         userWord: translatorReducer.userWord,
         switch: keyboardReducer.open
     }
 }
 
 TranslatorContainer.propTypes = {
-    result: PropTypes.object,
+    result: PropTypes.bool,
+    resultMsg: PropTypes.string,
     word: PropTypes.object.isRequired,
     userWord: PropTypes.string.isRequired,
     switch: PropTypes.bool.isRequired

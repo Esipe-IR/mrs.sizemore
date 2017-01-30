@@ -46,7 +46,11 @@ export const getWord = (id) => {
 
     return new Promise((resolve, reject) => {
         ref.once('value')
-        .then(snapshot => resolve(snapshot.val()))
+        .then(snapshot => {
+            if (!snapshot.val()) reject("Unavailable word !")
+            
+            resolve(snapshot.val())
+        })
         .catch(err => reject(err))
     })
 }
@@ -72,6 +76,8 @@ export const getCompleteWorksheet = (id) => {
     return new Promise((resolve, reject) => {
         getWorksheet(id)
         .then(result => { 
+            if (!result) reject("Unavailable worksheet !")
+
             data["worksheet"] = result
             count++
 

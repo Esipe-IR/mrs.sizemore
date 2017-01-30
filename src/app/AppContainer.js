@@ -11,7 +11,7 @@ class AppContainer extends React.Component {
 
     render() {
         return (
-            <App loading={this.props.loading} children={this.props.children} user={this.props.user} />
+            <App error={this.props.error} errorMsg={this.props.errorMsg} loading={this.props.loading} children={this.props.children} user={this.props.user} />
         )
     }
 }
@@ -21,7 +21,9 @@ function mapStateToProps(state) {
 
     return {
         loading: appReducer.loading,
-        user: appReducer.user
+        user: appReducer.user,
+        error: appReducer.error,
+        errorMsg: appReducer.errorMsg
     }
 }
 

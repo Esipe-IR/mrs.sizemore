@@ -1,5 +1,6 @@
 import { getCompleteWorksheet } from '../services/firebase'
-import { loadingState } from '../app/duck'
+import { loadingState, loadingError } from '../app/duck'
+import { push } from 'react-router-redux'
 
 const MODE_CHANGE = "old_wood/game/MODE::CHANGE"
 const RECEIVE_WORKSHEET = "old_wood/game/RECEIVE::WORKSHEET"
@@ -13,8 +14,7 @@ const INITIAL_STATE = {
         description: "",
     },
     words: {},
-    answer: [],
-    error: false
+    answer: []
 }
 
 export const changeMode = mode => {
@@ -24,22 +24,22 @@ export const changeMode = mode => {
     }
 }
 
-export const receiveWorksheet = (worksheet, err) => {
+export const receiveWorksheet = (worksheet) => {
     return {
         type: RECEIVE_WORKSHEET,
-        payload: worksheet,
-        error: err
+        payload: worksheet
     }
 }
 
-export const fetchWorksheet = (sheet) => (dispatch) => {
-    return getCompleteWorksheet(sheet)
+export const fetchWorksheet = (id) => (dispatch) => {
+    getCompleteWorksheet(id)
     .then(response => {
         dispatch(receiveWorksheet(response, false))
         dispatch(loadingState(false))
     })
     .catch(err => {
-        dispatch(receiveWorksheet(err, true))
+        dispatch(dispatch(push('/')))
+        dispatch(loadingError(true, err))
         dispatch(loadingState(false))
     })
 }
@@ -53,8 +53,7 @@ export default function gameReducer(state = INITIAL_STATE, action) {
         case RECEIVE_WORKSHEET:
             return Object.assign({}, state, {
                 worksheet: action.payload.worksheet,
-                words: action.payload.words,
-                error: action.error
+                words: action.payload.words
             })
         default:
             return state

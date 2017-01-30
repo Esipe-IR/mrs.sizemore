@@ -11,7 +11,7 @@ class GameContainer extends React.Component {
         super(props)
         this.getMode = this.getMode.bind(this)
         this.changeMode = this.changeMode.bind(this)
-        this.props.dispatch(fetchWorksheet(this.props.params.sheet))
+        this.props.dispatch(fetchWorksheet(this.props.params.id))
     }
 
     getMode() {

@@ -17,8 +17,10 @@ import { getCurrentUser } from './services/firebase'
 
 const store = createStore(
     MainReducer,
-    applyMiddleware(thunk),
-    applyMiddleware(routerMiddleware(browserHistory))
+    applyMiddleware(
+        routerMiddleware(browserHistory),
+        thunk
+    )
 )
 
 const history = syncHistoryWithStore(browserHistory, store)
@@ -38,7 +40,7 @@ render(
         <Router history={history}>
             <Route component={AppContainer}>
                 <Route path="/" component={HomeContainer} />
-                <Route path="/game/:sheet" component={GameContainer} />
+                <Route path="/game/:id" component={GameContainer} />
                 <Route path="/editor/:type/:id" component={EditorContainer} onEnter={checkEditor} />
                 <Route path="/account" component={AccountContainer} onEnter={checkAccount} />
                 <Redirect from='*' to='/' />

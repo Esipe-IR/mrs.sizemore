@@ -28,7 +28,12 @@ export const editKey = (pathArr, value, obj) => {
 export const deleteKey = (pathArr, obj) => {
     let nObj = JSON.parse(JSON.stringify(obj))
     let schema = getSchema(pathArr, nObj)
-    delete schema[pathArr[pathArr.length - 1]]
+
+    if (Array.isArray(schema)) {
+        schema.splice(pathArr[pathArr.length - 1], 1)
+    } else {
+         delete schema[pathArr[pathArr.length - 1]]
+    }
 
     return nObj
 }

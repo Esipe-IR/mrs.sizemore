@@ -1,8 +1,8 @@
 import { update, create, getCompleteWorksheet, getWord } from '../services/firebase'
-import { loadingState } from '../app/duck'
+import { loadingState, loadingError } from '../app/duck'
 import { addKey, editKey, deleteKey } from '../services/obj'
+import { push } from 'react-router-redux'
 
-const INIT = "old_wood/editor/INIT"
 const FULL_UPDATE = "old_wood/editor/FULL::UPDATE"
 const WORKSHEET_UPDATE = "old_wood/editor/WORKSHEET::UPDATE"
 const WORDS_UPDATE = "old_wood/editor/WORDS::UPDATE"
@@ -64,20 +64,18 @@ export const editChild = (name, value, former) => {
 export const deleteChild = (name, former) => {
     let last = deleteKey(name.split("/"), former)
 
+    console.log(last)
+
     return {
         type: FULL_UPDATE,
         payload: last
     }
 }
 
-export const saveChild = (id, data) => (dispatch) => {
+export const updateChild = (id, data) => (dispatch) => {
     update(id, data)
-    .then(response => {
-        dispatch(receiveSuccess("Well update!"))
-    })
-    .catch(error => {
-        dispatch(receiveError(error))
-    })
+    .then(response => dispatch(receiveSuccess("Successfully update!")))
+    .catch(error => dispatch(receiveError(error)))
 }
 
 export const addWord = (word) => {
@@ -87,18 +85,20 @@ export const addWord = (word) => {
     }
 }
 
-export const createWord = (worksheet, word) => (dispatch) => {
-    word.worksheet = worksheet
-
+export const createWord = (word) => (dispatch) => {
     create('words', word)
-    .then(result => dispatch(addWord(word)))
+    .then(result => {
+        dispatch(addWord(word))
+        dispatch(receiveSuccess("Successfully create!"))
+    })
     .catch(err => dispatch(receiveError(err)))
 }
 
 export const init = (data) => {
     let payload = {
         worksheet: data.worksheet,
-        words: []
+        words: [],
+        word: INITIAL_STATE.word
     }
 
     let array = Object.keys(data.words)
@@ -108,7 +108,7 @@ export const init = (data) => {
     })
 
     return {
-        type: INIT,
+        type: FULL_UPDATE,
         payload: payload
     }
 }
@@ -141,7 +141,8 @@ export const fetchWorksheet = (sheet) => (dispatch) => {
         dispatch(loadingState(false))
     })
     .catch(err => {
-        dispatch(receiveError(err))
+        dispatch(push('/'))
+        dispatch(loadingError(true, err))
         dispatch(loadingState(false))
     })
 }
@@ -153,18 +154,14 @@ export const fetchWord = (id) => (dispatch) => {
         dispatch(loadingState(false))
     })
     .catch(err => {
-        dispatch(receiveError(err))
+        dispatch(push('/'))
+        dispatch(loadingError(true, err))
         dispatch(loadingState(false))
     })
 }
 
 export default function editorReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
-        case INIT:
-            return Object.assign({}, state, {
-                worksheet: action.payload.worksheet,
-                words: action.payload.words
-            })
         case FULL_UPDATE:
             return Object.assign({}, state, {
                 worksheet: action.payload.worksheet,

@@ -1,10 +1,10 @@
 import Switch from 'react-toggle-switch'
 import React from 'react'
-import Result from './Result'
+import Info from '../../../general/Info'
 import { inputChange } from '../duck'
 import KeyboardContainer from '../../../keyboard/KeyboardContainer'
 
-const Translator = ({result, word, sw, userWord, fn}) => (
+const Translator = ({result, resultMsg, word, sw, userWord, fn}) => (
     <div>
         <div className="row">
             <div className="col-sm-12">
@@ -12,7 +12,7 @@ const Translator = ({result, word, sw, userWord, fn}) => (
             </div>
         </div>
 
-        <Result result={result} />
+        <Info status={result} msg={resultMsg} />
 
         <form className="form-horizontal" onSubmit={fn.handleResult}>
             <div className="form-group">

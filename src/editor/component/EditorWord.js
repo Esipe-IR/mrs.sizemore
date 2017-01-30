@@ -1,6 +1,29 @@
 import React from 'react'
 import Info from '../../general/Info'
 
+const Examples = ({examples, editChild, deleteChild}) => (
+    <div className="list-group">
+        {examples.map((e, i) => (
+            <div key={"word/examples/" + i} className="list-group-item">
+                <div className="input-group">
+                    <input
+                        id={"word/examples/" + i}
+                        type="text" 
+                        className="form-control"
+                        placeholder="Examples" 
+                        value={e}
+                        onChange={editChild} 
+                    />
+
+                    <span className="input-group-btn">
+                        <button data-child={"word/examples/" + i} className="btn btn-danger" onClick={deleteChild}>X</button>
+                    </span>
+                </div>
+            </div>
+        ))}
+    </div>
+)
+
 const EditorWord = ({word, addChild, editChild, deleteChild, saveChild, error, errorMsg}) => (
     <form className="form-horizontal">
         <ol className="breadcrumb">
@@ -12,11 +35,11 @@ const EditorWord = ({word, addChild, editChild, deleteChild, saveChild, error, e
         <Info status={!error} msg={errorMsg} />
 
         <div className="form-group">
-            <label htmlFor="en" className="col-sm-2 control-label">English</label>
+            <label htmlFor="word/en" className="col-sm-2 control-label">English</label>
             
             <div className="col-sm-10">
                 <input
-                    id="en"
+                    id="word/en"
                     type="text" 
                     className="form-control"
                     placeholder="English" 
@@ -27,11 +50,11 @@ const EditorWord = ({word, addChild, editChild, deleteChild, saveChild, error, e
         </div>
 
         <div className="form-group">
-            <label htmlFor="fr" className="col-sm-2 control-label">French</label>
+            <label htmlFor="word/fr" className="col-sm-2 control-label">French</label>
             
             <div className="col-sm-10">
                 <input
-                    id="fr"
+                    id="word/fr"
                     type="text" 
                     className="form-control"
                     placeholder="French" 
@@ -42,11 +65,11 @@ const EditorWord = ({word, addChild, editChild, deleteChild, saveChild, error, e
         </div>
 
         <div className="form-group">
-            <label htmlFor="definition" className="col-sm-2 control-label">Definition</label>
+            <label htmlFor="word/definition" className="col-sm-2 control-label">Definition</label>
             
             <div className="col-sm-10">
                 <input
-                    id="definition"
+                    id="word/definition"
                     type="text" 
                     className="form-control"
                     placeholder="Definition" 
@@ -60,30 +83,11 @@ const EditorWord = ({word, addChild, editChild, deleteChild, saveChild, error, e
             <label className="col-sm-2 control-label">Examples</label>
             
             <div className="col-sm-10">
-                <div className="list-group">
-                    {word.examples.map((e, i) => (
-                        <div key={"examples/" + i} className="list-group-item">
-                            <div className="input-group">
-                                <input
-                                    id={"examples/" + i}
-                                    type="text" 
-                                    className="form-control"
-                                    placeholder="Examples" 
-                                    value={e}
-                                    onChange={editChild} 
-                                />
-
-                                <span className="input-group-btn">
-                                    <button data-child={"examples/" + i} className="btn btn-danger" onClick={deleteChild}>X</button>
-                                </span>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                {word.examples ? <Examples examples={word.examples} editChild={editChild} deleteChild={deleteChild} /> : null}
             </div>
 
             <div className="col-sm-offset-2 col-sm-10">
-                 <button data-child="examples" data-value="" className="btn btn-app-secondary" onClick={addChild}>Add example</button>
+                 <button data-child="word/examples" data-value="" className="btn btn-app-secondary" onClick={addChild}>Add example</button>
             </div>
         </div>
 
