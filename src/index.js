@@ -4,20 +4,34 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
 import { Router, Route, Redirect, browserHistory } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
 
 import MainReducer from './reducers'
 import AppContainer from './app/AppContainer'
 import HomeContainer from './home/HomeContainer'
 import GameContainer from './game/GameContainer'
 import EditorContainer from './editor/EditorContainer'
+import AccountContainer from './account/AccountContainer'
+
+import { getCurrentUser } from './services/firebase'
 
 const store = createStore(
     MainReducer,
-    applyMiddleware(thunk)
+    applyMiddleware(thunk),
+    applyMiddleware(routerMiddleware(browserHistory))
 )
 
 const history = syncHistoryWithStore(browserHistory, store)
+
+const checkEditor = (nextState, replace) => {
+    getCurrentUser()
+    .then(u => !u ? store.dispatch(push("/account")) : null)
+}
+
+const checkAccount = (nextState, replace) => {
+    getCurrentUser()
+    .then(u => u ? store.dispatch(push("/")) : null)
+}
 
 render(
     <Provider store={store}>
@@ -25,7 +39,8 @@ render(
             <Route component={AppContainer}>
                 <Route path="/" component={HomeContainer} />
                 <Route path="/game/:sheet" component={GameContainer} />
-                <Route path="/editor/:type/:id" component={EditorContainer} />
+                <Route path="/editor/:type/:id" component={EditorContainer} onEnter={checkEditor} />
+                <Route path="/account" component={AccountContainer} onEnter={checkAccount} />
                 <Redirect from='*' to='/' />
             </Route>
         </Router>

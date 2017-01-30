@@ -1,24 +1,17 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from './component/App'
+import { fetchUser } from './duck'
 
 class AppContainer extends React.Component {
     constructor(props) {
         super(props)
-        this.displayLoading = this.displayLoading.bind(this)
-    }
-
-    displayLoading() {
-        if (this.props.loading) {
-            return {visibility: "visible"}
-        }
-
-        return {visibility: "hidden"}
+        this.props.dispatch(fetchUser())
     }
 
     render() {
         return (
-            <App displayLoading={this.displayLoading()} children={this.props.children} />
+            <App loading={this.props.loading} children={this.props.children} user={this.props.user} />
         )
     }
 }
@@ -27,7 +20,8 @@ function mapStateToProps(state) {
     const { appReducer } = state
 
     return {
-        loading: appReducer.loading
+        loading: appReducer.loading,
+        user: appReducer.user
     }
 }
 

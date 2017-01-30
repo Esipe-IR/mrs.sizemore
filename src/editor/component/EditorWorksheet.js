@@ -1,18 +1,22 @@
 import React from 'react'
+import AddWord from './AddWord'
+import Info from '../../general/Info'
 
-const EditorWorksheet = ({worksheet, words, editChild, saveChild}) => (
+const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild, error, errorMsg}) => (
     <form className="form-horizontal">
         <ol className="breadcrumb">
             <li><a href="/">Home</a></li>
             <li className="active">Edit {worksheet.name}</li>
         </ol>
 
+        <Info status={!error} msg={errorMsg} />
+
         <div className="form-group">
-            <label htmlFor="name" className="col-sm-2 control-label">Name</label>
+            <label htmlFor="worksheet/name" className="col-sm-2 control-label">Name</label>
             
             <div className="col-sm-10">
                 <input
-                    id="name"
+                    id="worksheet/name"
                     type="text" 
                     className="form-control"
                     placeholder="Name" 
@@ -23,11 +27,11 @@ const EditorWorksheet = ({worksheet, words, editChild, saveChild}) => (
         </div>
 
         <div className="form-group">
-            <label htmlFor="img" className="col-sm-2 control-label">Image</label>
+            <label htmlFor="worksheet/img" className="col-sm-2 control-label">Image</label>
             
             <div className="col-sm-10">
                 <input
-                    id="img"
+                    id="worksheet/img"
                     type="text"
                     className="form-control"
                     placeholder="Img"
@@ -38,11 +42,11 @@ const EditorWorksheet = ({worksheet, words, editChild, saveChild}) => (
         </div>
         
         <div className="form-group">
-            <label htmlFor="inputPassword3" className="col-sm-2 control-label">Description</label>
+            <label htmlFor="worksheet/description" className="col-sm-2 control-label">Description</label>
             
             <div className="col-sm-10">
                 <textarea 
-                    id="description"
+                    id="worksheet/description"
                     className="form-control"
                     rows="3"
                     value={worksheet.description}
@@ -61,13 +65,15 @@ const EditorWorksheet = ({worksheet, words, editChild, saveChild}) => (
                     ))}
                 </div>
             </div>
-
-            <div className="col-sm-offset-2 col-sm-10">
-                 <a href="" className="btn btn-app-secondary">Add word</a>
-            </div>
         </div>
 
-        <hr />
+        <div className="form-group">
+            <label className="col-sm-2 control-label">Add word</label>
+
+            <div className="col-sm-10">
+                <AddWord word={word} editChild={editChild} addWord={addWord} />
+            </div>
+        </div>
 
         <div className="form-group">
             <div className="col-sm-12">

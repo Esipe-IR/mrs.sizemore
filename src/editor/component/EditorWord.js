@@ -1,12 +1,15 @@
 import React from 'react'
+import Info from '../../general/Info'
 
-const EditorWord = ({word, addChild, editChild, deleteChild, saveChild}) => (
+const EditorWord = ({word, addChild, editChild, deleteChild, saveChild, error, errorMsg}) => (
     <form className="form-horizontal">
         <ol className="breadcrumb">
             <li><a href="/">Home</a></li>
             <li><a href={"/editor/worksheet/" + word.worksheet}>Edit worksheet</a></li>
             <li className="active">Word {word.en}</li>
         </ol>
+
+        <Info status={!error} msg={errorMsg} />
 
         <div className="form-group">
             <label htmlFor="en" className="col-sm-2 control-label">English</label>

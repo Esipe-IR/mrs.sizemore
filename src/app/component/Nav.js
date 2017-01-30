@@ -1,6 +1,19 @@
 import React from 'react'
 
-const Nav = () => (
+const UserIcon = ({user}) => (
+    <ul className="nav navbar-nav navbar-right">
+        <li className="dropdown">
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                <i className="fa fa-user"></i> {user.email} <span className="caret"></span>
+            </a>
+            <ul className="dropdown-menu">
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+)
+
+const Nav = ({user}) => (
     <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div className="container">
             <div className="navbar-header">
@@ -18,6 +31,8 @@ const Nav = () => (
                     <li className="active"><a href="/">Home <span className="sr-only">(current)</span></a></li>
                     <li><a href="#">About</a></li>
                 </ul>
+
+                {user ? <UserIcon user={user} /> : null}
             </div>
         </div>
     </nav>

@@ -8,17 +8,35 @@ body {
 	border: none;
 }
 
-.navbar-inverse .navbar-brand {
+.navbar-inverse .navbar-toggle, .navbar-inverse .navbar-collapse {
+	border-color: white;
+}
+
+.navbar-inverse .navbar-brand, 
+.navbar-inverse .navbar-nav > li > a {
 	color: white;
 }
 
-.navbar-inverse a {
-	color: white !important;
+.navbar-inverse .dropdown-menu a {
+	color: black;
 }
 
-.navbar-inverse .active a {
+.navbar-inverse .active a, 
+.navbar-inverse .navbar-nav > .open > a,
+.dropdown-menu > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
 	color: rgb(0, 188, 212) !important;
 	background-color: white !important;
+}
+
+.dropdown-menu, .navbar-inverse .navbar-toggle:hover .icon-bar {
+	background-color: rgb(0, 188, 212);
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+	color: white;
 }
 
 .box {
@@ -66,7 +84,29 @@ body {
 	top: 0;
 	background-color: rgb(0,0,0);
 	background-color: rgba(0,0,0, 0.9);
-	overflow-x: hidden;
+	overflow: hidden;
+	-webkit-transition: all 3s ease-in-out;
+    -moz-transition: all 3s ease-in-out;
+    -ms-transition: all 3s ease-in-out;
+    -o-transition: all 3s ease-in-out;
+}
+
+.overlay-enter {
+  opacity: 0.01;
+}
+
+.overlay-enter.overlay-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.overlay-leave {
+  opacity: 1;
+}
+
+.overlay-leave.overlay-leave-active {
+  opacity: 0.01;
+  transition: opacity 1200ms ease-in;
 }
 
 .overlay-content {
@@ -153,6 +193,17 @@ body {
 	background-color: rgb(255, 64, 129);
 	text-align: center;
 	color: white;
+}
+
+.btn.sized {
+	width: auto;
+	padding: 6px 12px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.btn.sized.btn-app-secondary {
+	border-color: #fc7ca8;
 }
 
 .mode-selection .mode {

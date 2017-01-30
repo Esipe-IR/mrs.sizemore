@@ -8,10 +8,13 @@ const config = {
     messagingSenderId: "396297620138"
 }
 
-const fb = firebase.initializeApp(config).database()
+const f = firebase.initializeApp(config)
+const fdb = f.database()
+const fauth = f.auth()
+let _USER = null
 
 export const getWorksheets = () => {
-    let ref = fb.ref('/worksheets/')
+    let ref = fdb.ref('/worksheets/')
 
     return new Promise((resolve, reject) => {
         ref.once('value')
@@ -29,7 +32,7 @@ export const getWorksheets = () => {
 }
 
 export const getWorksheet = (id) => {
-    let ref = fb.ref('/worksheets/' + id)
+    let ref = fdb.ref('/worksheets/' + id)
 
     return new Promise((resolve, reject) => {
         ref.once('value')
@@ -39,7 +42,7 @@ export const getWorksheet = (id) => {
 }
 
 export const getWord = (id) => {
-    let ref = fb.ref('/words/' + id)
+    let ref = fdb.ref('/words/' + id)
 
     return new Promise((resolve, reject) => {
         ref.once('value')
@@ -49,7 +52,7 @@ export const getWord = (id) => {
 }
 
 export const getWords = (id) => {
-    let ref = fb.ref('/words/')
+    let ref = fdb.ref('/words/')
 
     return new Promise((resolve, reject) => {
         ref.orderByChild("worksheet").equalTo(id).once('value')
@@ -87,17 +90,55 @@ export const getCompleteWorksheet = (id) => {
     })
 }
 
+export const create = (parent, obj) => {
+    let ref = fdb.ref()
+    let key = ref.child(parent).push().key
+    let update = {}
+    
+    update["/"+ parent + "/" + key] = obj
+    obj.id = key
+
+    return ref.update(update)
+}
+
 export const update = (id, data) => {
-    let ref = fb.ref(id)
-    return ref.update(data)
+    let update = {}
+    update[id] = data
+    
+    return fdb.ref().update(update)
 }
 
 export const saveWorksheet = (data) => {
-    let newKey = fb.ref().child('worksheets').push().key
+    let newKey = fdb.ref().child('worksheets').push().key
     data.id = newKey
 
     var updates = {}
     updates['/worksheets/' + newKey] = data
 
-    return fb.ref().update(updates)
+    return fdb.ref().update(updates)
+}
+
+export const createUser = (email, password) => {
+    return fauth.createUserWithEmailAndPassword(email, password)
+}
+
+export const connectUser = (email, password) => {
+    return fauth.signInWithEmailAndPassword(email, password)
+}
+
+export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+        fauth.onAuthStateChanged(function(user) {
+            let _ = null
+
+            if (user) {
+                _ = {
+                    email: user.email,
+                    defined: true
+                }
+            }
+
+            resolve(_)
+        })
+    })
 }

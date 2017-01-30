@@ -1,11 +1,14 @@
-import { update, getCompleteWorksheet, getWord } from '../services/firebase'
+import { update, create, getCompleteWorksheet, getWord } from '../services/firebase'
 import { loadingState } from '../app/duck'
 import { addKey, editKey, deleteKey } from '../services/obj'
 
 const INIT = "old_wood/editor/INIT"
-export const WORKSHEET_UPDATE = "old_wood/editor/WORKSHEET::UPDATE"
-export const WORDS_UPDATE = "old_wood/editor/WORDS::UPDATE"
-export const WORD_UPDATE = "old_wood/editor/WORD::UPDATE"
+const FULL_UPDATE = "old_wood/editor/FULL::UPDATE"
+const WORKSHEET_UPDATE = "old_wood/editor/WORKSHEET::UPDATE"
+const WORDS_UPDATE = "old_wood/editor/WORDS::UPDATE"
+const WORD_UPDATE = "old_wood/editor/WORD::UPDATE"
+const ADD_WORD = "old_wood/editor/ADD::WORD"
+const RECEIVE_SUCCESS = "old_wood/editor/RECEIVE::SUCCESS"
 const RECEIVE_ERROR = "old_wood/editor/RECEIVE::ERROR"
 
 const INITIAL_STATE = {
@@ -22,44 +25,74 @@ const INITIAL_STATE = {
         definition: "",
         examples: []
     },
-    error: false
+    error: null,
+    errorMsg: ""
 }
 
-export const addChild = (name, child, former, type) => {
-    let newObj = addKey(name.split("/"), child, former)
-
+export const receiveSuccess = (msg) => {
     return {
-        type: type,
-        payload: newObj
+        type: RECEIVE_SUCCESS,
+        payload: msg
     }
 }
 
-export const editChild = (name, value, former, type) => {
-    let newObj = editKey(name.split("/"), value, former)
-
+export const receiveError = (err) => {
     return {
-        type: type,
-        payload: newObj
+        type: RECEIVE_ERROR,
+        payload: err
     }
 }
 
-export const deleteChild = (name, former, type) => {
-    let newObj = deleteKey(name.split("/"), former)
+export const addChild = (name, child, former) => {
+    let last = addKey(name.split("/"), child, former)
 
     return {
-        type: type,
-        payload: newObj
+        type: FULL_UPDATE,
+        payload: last
+    }
+}
+
+export const editChild = (name, value, former) => {
+    let last = editKey(name.split("/"), value, former)
+
+    return {
+        type: FULL_UPDATE,
+        payload: last
+    }
+}
+
+export const deleteChild = (name, former) => {
+    let last = deleteKey(name.split("/"), former)
+
+    return {
+        type: FULL_UPDATE,
+        payload: last
     }
 }
 
 export const saveChild = (id, data) => (dispatch) => {
-    return update(id, data)
+    update(id, data)
     .then(response => {
-        console.log(response)
+        dispatch(receiveSuccess("Well update!"))
     })
     .catch(error => {
-        console.log(error)
+        dispatch(receiveError(error))
     })
+}
+
+export const addWord = (word) => {
+    return {
+        type: ADD_WORD,
+        payload: word
+    }
+}
+
+export const createWord = (worksheet, word) => (dispatch) => {
+    word.worksheet = worksheet
+
+    create('words', word)
+    .then(result => dispatch(addWord(word)))
+    .catch(err => dispatch(receiveError(err)))
 }
 
 export const init = (data) => {
@@ -101,17 +134,8 @@ export const updateWord = (data) => {
     }
 }
 
-export const receiveError = (err) => {
-    console.log(err)
-
-    return {
-        type: RECEIVE_ERROR,
-        payload: err
-    }
-}
-
 export const fetchWorksheet = (sheet) => (dispatch) => {
-    return getCompleteWorksheet(sheet)
+    getCompleteWorksheet(sheet)
     .then(response => {
         dispatch(init(response))
         dispatch(loadingState(false))
@@ -123,7 +147,7 @@ export const fetchWorksheet = (sheet) => (dispatch) => {
 }
 
 export const fetchWord = (id) => (dispatch) => {
-    return getWord(id)
+    getWord(id)
     .then(response => {
         dispatch(updateWord(response))
         dispatch(loadingState(false))
@@ -141,21 +165,30 @@ export default function editorReducer(state = INITIAL_STATE, action) {
                 worksheet: action.payload.worksheet,
                 words: action.payload.words
             })
-        case WORKSHEET_UPDATE:
+        case FULL_UPDATE:
             return Object.assign({}, state, {
-                worksheet: action.payload,
+                worksheet: action.payload.worksheet,
+                words: action.payload.words,
+                word: action.payload.word
             })
-        case WORDS_UPDATE:
+        case ADD_WORD:
             return Object.assign({}, state, {
-                words: action.payload
+                words: [...state.words, action.payload],
+                word: INITIAL_STATE.word
             })
         case WORD_UPDATE:
             return Object.assign({}, state, {
                 word: action.payload
             })
+        case RECEIVE_SUCCESS:
+            return Object.assign({}, state, {
+                error: false,
+                errorMsg: action.payload
+            })
         case RECEIVE_ERROR:
             return Object.assign({}, state, {
-                error: action.payload
+                error: true,
+                errorMsg: action.payload
             })
         default:
             return state

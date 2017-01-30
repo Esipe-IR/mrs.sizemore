@@ -10,7 +10,7 @@ const getSchema = (pathArr, nObj) => {
 }
 
 export const addKey = (pathArr, value, obj) => {
-    let nObj = Object.assign({}, obj)
+    let nObj = JSON.parse(JSON.stringify(obj))
     let schema = getSchema(pathArr, nObj)
     schema[pathArr[pathArr.length - 1]].push(value)
 
@@ -18,15 +18,15 @@ export const addKey = (pathArr, value, obj) => {
 }
 
 export const editKey = (pathArr, value, obj) => {
-    let nObj = Object.assign({}, obj)
+    let nObj = JSON.parse(JSON.stringify(obj))
     let schema = getSchema(pathArr, nObj)
-    schema[pathArr[pathArr.length - 1]] = value 
+    schema[pathArr[pathArr.length - 1]] = value
 
     return nObj
 }
 
 export const deleteKey = (pathArr, obj) => {
-    let nObj = Object.assign({}, obj)
+    let nObj = JSON.parse(JSON.stringify(obj))
     let schema = getSchema(pathArr, nObj)
     delete schema[pathArr[pathArr.length - 1]]
 
