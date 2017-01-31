@@ -1,27 +1,18 @@
+import { createAction, handleActions } from 'redux-actions'
 import { editKey } from '../services/obj'
 import { createUser, connectUser } from '../services/firebase'
 
 const USER_SET = "old_wood/account/USER::SET"
-const EDIT_ACTION = "old_wood/account/EDIT::ACTION"
+const UPDATE_USER = "old_wood/account/UPDATE::USER"
+const UPDATE_ACTION = "old_wood/account/UPDATE::ACTION"
 const ERROR = "old_wood/account/ERROR"
 
 const INITIAL_STATE = {
     action: false,
-    user: {
-        email: "",
-        password: "",
-        defined: false
-    },
-    error: null,
-    errorMsg: ""
+    user: null
 }
 
-export const editAction = (action) => {
-    return {
-        type: EDIT_ACTION,
-        payload: action
-    }
-}
+export const updateAction = createAction(UPDATE_ACTION)
 
 export const editField = (key, value, former) => {
     let newUser = editKey([key], value, former)
@@ -32,47 +23,26 @@ export const editField = (key, value, former) => {
     }
 }
 
-export const setUser = (user) => {
-    user.defined = true
-
-    return {
-        type: USER_SET,
-        payload: user
-    }
-}
-
-export const spreadError = (status, error) => {
-    return {
-        type: ERROR,
-        payload: error,
-        error: status
-    }
-}
-
 export const register = (user) => (dispatch) => {
     createUser(user.email, user.password)
     .then(result => {
-        dispatch(spreadError(false, 'Welcome'))
-        dispatch(setUser(user))
+        //dispatch(spreadError(false, 'Welcome'))
+        //dispatch(setUser(user))
     })
-    .catch(error => dispatch(spreadError(true, error.message)))
+    //.catch(error => dispatch(spreadError(true, error.message)))
 }
 
 export const connexion = (user) => (dispatch) => {
     connectUser(user.email, user.password)
     .then(result => {
-        dispatch(spreadError(false, 'Welcome'))
-        dispatch(setUser(user))
+        //dispatch(spreadError(false, 'Welcome'))
+        //dispatch(setUser(user))
     })
-    .catch(error => dispatch(spreadError(true, error.message)))
+    //.catch(error => dispatch(spreadError(true, error.message)))
 }
 
 export default function accountReducer(state = INITIAL_STATE, action) {
     switch(action.type) {
-        case EDIT_ACTION:
-            return Object.assign({}, state, {
-                action: action.payload
-            })
         case USER_SET:
             return Object.assign({}, state, {
                 user: action.payload

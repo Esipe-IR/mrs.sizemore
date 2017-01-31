@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Home from './component/Home'
 
-import { fetchWorksheets } from './duck'
+import { fetchWorksheets } from '../app/duck'
 
 class HomeContainer extends React.Component {
     constructor(props) {
@@ -11,17 +11,15 @@ class HomeContainer extends React.Component {
     }
 
     render() {
-        return (
-            <Home worksheets={this.props.worksheets} />
-        )
+        return <Home worksheets={this.props.worksheets} />
     }
 }
 
 function mapStateToProps(state) {
-    const { homeReducer } = state
+    const { appReducer } = state
 
     return {
-        worksheets: homeReducer.worksheets
+        worksheets: appReducer.get("worksheets")
     }
 }
 

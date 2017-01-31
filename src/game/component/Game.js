@@ -1,10 +1,10 @@
 import React from 'react'
 import Resume from './Resume'
 
-const Game = ({mode, worksheet, answer, fn}) => (
+const Game = (props) => (
     <div className="box">
         <div className="box-title">
-            <h2>{worksheet.name.toUpperCase()}</h2>
+            <h2>{props.worksheet.name.toUpperCase()}</h2>
 
             <hr/>
 
@@ -13,10 +13,9 @@ const Game = ({mode, worksheet, answer, fn}) => (
                     <div className="col-sm-4">
                         <div className="mode">
                             <button 
-                                onClick={fn.changeMode} 
+                                onClick={props.changeMode} 
                                 data-mode="0" 
-                                className={"btn btn-outline-success " + (mode === 0 ? "fill" : "")}
-                            >
+                                className={"btn btn-outline-success " + (props.mode === 0 ? "fill" : "")}>
                                 <i className="fa fa-thermometer-empty" aria-hidden="true"></i> Easy
                             </button>
                         </div>
@@ -24,9 +23,9 @@ const Game = ({mode, worksheet, answer, fn}) => (
                     <div className="col-sm-4">
                         <div className="mode">
                             <button 
-                                onClick={fn.changeMode} 
+                                onClick={props.changeMode} 
                                 data-mode="1" 
-                                className={"btn btn-outline-warning " + (mode === 1 ? "fill" : "")}
+                                className={"btn btn-outline-warning " + (props.mode === 1 ? "fill" : "")}
                             >
                                 <i className="fa fa-thermometer-half" aria-hidden="true"></i> Medium
                             </button>
@@ -35,9 +34,9 @@ const Game = ({mode, worksheet, answer, fn}) => (
                     <div className="col-sm-4">
                         <div className="mode">
                             <button 
-                                onClick={fn.changeMode}
+                                onClick={props.changeMode}
                                 data-mode="2" 
-                                className={"btn btn-outline-danger " + (mode === 2 ? "fill" : "")}
+                                className={"btn btn-outline-danger " + (props.mode === 2 ? "fill" : "")}
                             >
                                 <i className="fa fa-thermometer-full" aria-hidden="true"></i> Hard
                             </button>
@@ -48,11 +47,11 @@ const Game = ({mode, worksheet, answer, fn}) => (
         </div>
 
         <div className="box-body">
-            {fn.getMode()}
+            {props.children}
         </div>
 
         <div className="box-footer">
-            <Resume result={answer} />
+            <Resume result={props.answer} />
         </div>
     </div>
 )

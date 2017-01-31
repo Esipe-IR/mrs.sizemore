@@ -3,7 +3,7 @@ import React from 'react'
 const Info = ({status, msg}) => {
     let c = "bg-danger"
 
-    if (status === null || status === "undefined" || msg === '') {
+    if (status === null || typeof status === "undefined" || !msg) {
         c = "hidden"
     } else if (status) {
         c = "bg-success"

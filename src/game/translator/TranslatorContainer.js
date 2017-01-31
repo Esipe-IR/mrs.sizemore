@@ -6,50 +6,12 @@ import { inputChange, wordResult, wordNew } from './duck'
 import { keyboardState } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.onChange = this.onChange.bind(this)
-        this.handleResult = this.handleResult.bind(this)
-        this.switch = this.switch.bind(this)
-        this.getWord = this.getWord.bind(this)
-        this.getWord()
-    }
-
-    onChange(e) {
-        let input = e.target.value
-        input = input.toLowerCase().trim()
-
-        this.props.dispatch(inputChange(input))
-    }
-
-    handleResult(e) {
-        e.preventDefault()
-        this.props.dispatch(wordResult(this.props.word, this.props.userWord))
-        this.getWord()
-    }
-
-    switch() {
-        this.props.dispatch(keyboardState(!this.props.switch))
-    }
-
-    getWord() {
-        this.props.dispatch(wordNew(this.props.words))
+    componentDidMount() {
+        this.props.wordGenerate()
     }
 
     render() {
-        return (
-            <Translator result={this.props.result} resultMsg={this.props.resultMsg} word={this.props.word} 
-                userWord={this.props.userWord}
-                sw={this.props.switch}
-                fn={
-                    {
-                        onChange: this.onChange,
-                        handleResult: this.handleResult,
-                        switch: this.switch
-                    }
-                } 
-            />
-        )
+        return this.props.word ? <Translator {...this.props}/> : null
     }
 }
 
@@ -65,12 +27,19 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    wordUpdate: (e) => dispatch(inputChange(e.target.value.toLowerCase().trim())),
+    wordCheck: (w, uw) => dispatch(wordResult(w, uw)),
+    switchUpdate: (s) => dispatch(keyboardState(!s)),
+    wordGenerate: () => dispatch(wordNew(ownProps.words))
+})
+
 TranslatorContainer.propTypes = {
     result: PropTypes.bool,
     resultMsg: PropTypes.string,
-    word: PropTypes.object.isRequired,
+    word: PropTypes.object,
     userWord: PropTypes.string.isRequired,
     switch: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps)(TranslatorContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TranslatorContainer)

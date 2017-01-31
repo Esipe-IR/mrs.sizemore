@@ -1,7 +1,5 @@
 import React from 'react'
 import Footer from './Footer'
-import Nav from './Nav'
-import Info from '../../general/Info'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 const LoadingOverlay = () => {
@@ -12,22 +10,20 @@ const LoadingOverlay = () => {
     </div>
 }
 
-const App = ({error, errorMsg, loading, children, user}) => (
+const App = (props) => (
     <div>
-        <Nav user={user} />
+        {props.nav}
 
         <ReactCSSTransitionGroup
             transitionName="overlay"
             transitionEnterTimeout={1000}
             transitionLeaveTimeout={1200} >
-            {loading ? <LoadingOverlay /> : null}
+            {props.loading ? <LoadingOverlay /> : null}
         </ReactCSSTransitionGroup>
 
         <div className="container">
-            <Info status={!error} msg={errorMsg} />
-
-            { children }
-
+            {props.info}
+            {props.children}
             <Footer />
         </div>
     </div>

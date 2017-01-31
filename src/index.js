@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
@@ -15,11 +15,14 @@ import AccountContainer from './account/AccountContainer'
 
 import { getCurrentUser } from './services/firebase'
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     MainReducer,
-    applyMiddleware(
-        routerMiddleware(browserHistory),
-        thunk
+    composeEnhancers(
+        applyMiddleware(
+            routerMiddleware(browserHistory),
+            thunk
+        )
     )
 )
 

@@ -1,20 +1,19 @@
 import Switch from 'react-toggle-switch'
 import React from 'react'
 import Info from '../../../general/Info'
-import { inputChange } from '../duck'
 import KeyboardContainer from '../../../keyboard/KeyboardContainer'
 
-const Translator = ({result, resultMsg, word, sw, userWord, fn}) => (
+const Translator = (props) => (
     <div>
         <div className="row">
             <div className="col-sm-12">
-                <Switch onClick={fn.switch} on={sw} />
+                <Switch onClick={props.switchUpdate} on={props.switch} />
             </div>
         </div>
 
-        <Info status={result} msg={resultMsg} />
+        <Info status={props.result} msg={props.resultMsg} />
 
-        <form className="form-horizontal" onSubmit={fn.handleResult}>
+        <form className="form-horizontal" onSubmit={props.wordCheck}>
             <div className="form-group">
                 <div className="hidden-xs hidden-sm">
                     <label className="col-sm-2 control-label" htmlFor="translate-french-value">French</label>
@@ -24,7 +23,7 @@ const Translator = ({result, resultMsg, word, sw, userWord, fn}) => (
                     <input type="text" 
                     className="form-control" 
                     id="translate-french-value" 
-                    value={word.fr} 
+                    value={props.word.fr} 
                     disabled />
                 </div>
             </div>
@@ -39,8 +38,8 @@ const Translator = ({result, resultMsg, word, sw, userWord, fn}) => (
                     className="form-control" 
                     name="translate-english-value" 
                     id="translate-english-value" 
-                    value={userWord}
-                    onChange={fn.onChange}
+                    value={props.userWord}
+                    onChange={props.wordUpdate}
                     placeholder="English"
                     autoComplete="off" />
                 </div>
@@ -53,7 +52,7 @@ const Translator = ({result, resultMsg, word, sw, userWord, fn}) => (
             </div>
         </form>
 
-        <KeyboardContainer onChange={inputChange} word={userWord}/>
+        <KeyboardContainer onChange={props.wordUpdate} word={props.userWord}/>
     </div>
 )
 

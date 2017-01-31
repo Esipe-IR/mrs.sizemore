@@ -66,19 +66,16 @@ export const getWords = (id) => {
 }
 
 export const getCompleteWorksheet = (id) => {
-    let data = {
-        worksheet: {},
-        words: []
-    }
+    let data = {}
 
     let count = 0
 
     return new Promise((resolve, reject) => {
         getWorksheet(id)
         .then(result => { 
-            if (!result) reject("Unavailable worksheet !")
+            if (!result) reject(new Error("Unavailable worksheet !"))
 
-            data["worksheet"] = result
+            data = result
             count++
 
             if (count > 1) resolve(data)
