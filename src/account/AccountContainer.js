@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Account from './component/Account'
-import { editField, editAction, register, connexion } from './duck'
+import { updateAction, updateUser, register, connexion } from './duck'
 import { updateLoading } from '../app/duck'
+import { editKey } from '../services/obj'
 
 class AccountContainer extends React.Component {
     componentDidMount() {
@@ -14,25 +15,23 @@ class AccountContainer extends React.Component {
     }
 }
 
-const mapStateToProps = ({accountReducer}) => ({
-    action: accountReducer.action,
-    user: accountReducer.user,
-    error: accountReducer.error,
-    errorMsg: accountReducer.errorMsg
+const mapStateToProps = ({accountReducer, appReducer}) => ({
+    action: accountReducer.get("action"),
+    user: accountReducer.get("user"),
+    error: appReducer.get("error")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateLoading: () => dispatch(updateLoading(false)),
-    updateAction: (action) => () => dispatch(editAction(!action)),
-    onChange: (e) => dispatch(editField(e.target.id, e.target.value, this.props.user)),
-    onSubmit: (e) => {
+    updateAction: (action) => () => dispatch(updateAction(!action)),
+    onChange: (user) => (e) => {
+        let newUser = editKey([e.target.id], e.target.value, user)
+        dispatch(updateUser(newUser))
+    },
+    onSubmit: (action, user) => (e) => {
         e.preventDefault()
-
-        if (!this.props.action) {
-            dispatch(register(this.props.user))
-        } else {
-            dispatch(connexion(this.props.user))            
-        }
+        if (!action) dispatch(register(user))
+        else dispatch(connexion(user))
     }
 })
 

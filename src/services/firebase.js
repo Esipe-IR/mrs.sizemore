@@ -145,3 +145,10 @@ export const getCurrentUser = () => {
         })
     })
 }
+
+export const logoutUser = () => {
+    return new Promise((resolve, reject) => {
+        fauth.signOut()
+        .then(resolve(), (error) => reject(error))
+    })
+}

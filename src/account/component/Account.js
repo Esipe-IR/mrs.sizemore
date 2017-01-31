@@ -2,7 +2,7 @@ import React from 'react'
 import Info from '../../general/Info'
 
 const Account = (props) => (
-    <form className="form-horizontal" onSubmit={props.onSubmit}>
+    <form className="form-horizontal" onSubmit={props.onSubmit(props.action, props.user)}>
         <h2 className="col-sm-offset-2 col-sm-10">{ props.action ? "Connexion" : "Register"}</h2>
 
         <p className="col-sm-offset-2 col-sm-10">
@@ -17,7 +17,7 @@ const Account = (props) => (
             <label htmlFor="email" className="col-sm-2 control-label">Email</label>
             
             <div className="col-sm-10">
-                <input type="email" className="form-control" id="email" placeholder="Email" onChange={props.onChange} value={props.user.email} />
+                <input type="email" className="form-control" id="email" placeholder="Email" onChange={props.onChange(props.user)} value={props.user.email} />
             </div>
         </div>
 
@@ -25,7 +25,7 @@ const Account = (props) => (
             <label htmlFor="password" className="col-sm-2 control-label">Password</label>
             
             <div className="col-sm-10">
-                <input type="password" className="form-control" id="password" placeholder="Password" onChange={props.onChange} value={props.user.password} />
+                <input type="password" className="form-control" id="password" placeholder="Password" onChange={props.onChange(props.user)} value={props.user.password} />
             </div>
         </div>
 

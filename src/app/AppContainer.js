@@ -3,22 +3,20 @@ import { connect } from 'react-redux'
 import App from './component/App'
 import Nav from './component/Nav'
 import Info from '../general/Info'
-import { fetchUser } from './duck'
+import { fetchUser, logout } from './duck'
 
 class AppContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.props.dispatch(fetchUser())
+    componentDidMount() {
+        this.props.getUser()
     }
 
     info() {
         let status = this.props.error === null ? null : !this.props.error
-
         return <Info status={status} msg={this.props.errorMsg} />
     }
 
     nav() {
-        return <Nav user={this.props.user} />
+        return <Nav user={this.props.user} logout={this.props.logout} />
     }
 
     render() {
@@ -26,16 +24,17 @@ class AppContainer extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    const { appReducer } = state
+const mapStateToProps = ({appReducer}) => ({
+    loading: appReducer.get("loading"),
+    user: appReducer.get("user"),
+    error: appReducer.get("error"),
+    errorMsg: appReducer.get("errorMsg")
+})
 
-    return {
-        loading: appReducer.get("loading"),
-        user: appReducer.get("user"),
-        error: appReducer.get("error"),
-        errorMsg: appReducer.get("errorMsg")
-    }
-}
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    getUser: () => dispatch(fetchUser()),
+    logout: () => dispatch(logout())
+})
 
 AppContainer.propTypes = {
     loading: PropTypes.bool,
@@ -44,4 +43,4 @@ AppContainer.propTypes = {
     errorMsg: PropTypes.string
 }
 
-export default connect(mapStateToProps)(AppContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)

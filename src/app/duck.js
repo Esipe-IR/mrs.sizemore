@@ -1,9 +1,11 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { getFingerPrint } from '../services/fingerprint'
-import { getCurrentUser, getWorksheets, getCompleteWorksheet } from '../services/firebase'
+import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet } from '../services/firebase'
+import { push } from 'react-router-redux'
 
 const UPDATE_ERROR = "old_wood/app/UPDATE::ERROR"
+const UPDATE_SUCCESS = "old_wood/app/UPDATE::SUCCESS"
 const UPDATE_USER = "old_wood/app/UPDATE::USER"
 const UPDATE_FINGERPRINT = "old_wood/app/UPDATE::FINGERPRINT"
 const UPDATE_LOADING = "old_wood/app/UPDATE::LOADING"
@@ -19,11 +21,21 @@ const INITIAL_STATE = Map({
 })
 
 export const updateError = createAction(UPDATE_ERROR)
+export const updateSuccess = createAction(UPDATE_SUCCESS)
 export const updateUser = createAction(UPDATE_USER)
 export const updateFingerprint = createAction(UPDATE_FINGERPRINT)
 export const updateLoading = createAction(UPDATE_LOADING)
 export const updateWorksheets = createAction(UPDATE_WORKSHEETS)
 export const updateWorksheet = createAction(UPDATE_WORKSHEET)
+
+export const logout = () => (dispatch) => {
+    logoutUser()
+    .then(() => {
+        dispatch(updateUser(null))
+        dispatch(push('/logout'))
+    })
+    .catch(err => dispatch(updateError(err)))
+}
 
 export const fetchFingerprint = () => (dispatch) => {
     getFingerPrint()
@@ -58,14 +70,17 @@ export const fetchWorksheets = () => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(updateError(true, err))
+        dispatch(updateError(err))
         dispatch(updateLoading(false))
     })
 }
 
 export default handleActions({
-    [updateError]: (state, action) => (state.withMutations((ctx) => {
+    [updateError]: (state, action) => (state.withMutations(ctx => {
         ctx.set("error", action.error).set("errorMsg", action.payload.message)
+    })),
+    [updateSuccess]: (state, action) => (state.withMutations(ctx => { 
+        ctx.set("error", false).set("errorMsg", action.payload) 
     })),
     [updateUser]: (state, action) => state.set("user", action.payload),
     [updateFingerprint]: (state, action) => state.set("fingerprint", action.payload),

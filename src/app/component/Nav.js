@@ -1,13 +1,13 @@
 import React from 'react'
 
-const UserIcon = ({user}) => (
+const UserIcon = ({user, logout}) => (
     <ul className="nav navbar-nav navbar-right">
         <li className="dropdown">
             <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                 <i className="fa fa-user"></i> {user.email} <span className="caret"></span>
             </a>
             <ul className="dropdown-menu">
-                <li><a href="#">Logout</a></li>
+                <li><a href="#" onClick={logout}>Logout</a></li>
             </ul>
         </li>
     </ul>
@@ -19,7 +19,7 @@ const SignIn = () => (
     </ul>
 )
 
-const Nav = ({user}) => (
+const Nav = ({user, logout}) => (
     <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div className="container">
             <div className="navbar-header">
@@ -39,7 +39,7 @@ const Nav = ({user}) => (
                     <li><a href="#">About</a></li>
                 </ul>
 
-                {user ? <UserIcon user={user} /> : <SignIn />}
+                {user ? <UserIcon user={user} logout={logout} /> : <SignIn />}
             </div>
         </div>
     </nav>
