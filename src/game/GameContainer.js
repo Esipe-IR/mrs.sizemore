@@ -21,7 +21,7 @@ class GameContainer extends React.Component {
         if (!this.props.worksheet) return null
         
         if (this.props.mode === 0) {
-            return <TranslatorContainer words={this.props.worksheet.words} />
+            return <TranslatorContainer words={this.props.worksheet.get("words")} />
         }
     
         return <FillgapContainer />

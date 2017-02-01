@@ -5,7 +5,7 @@ const Home = ({worksheets}) => (
     <div>
         <div className="row text-center">
             {worksheets ? worksheets.map((w) => (
-                <Thumbnail key={w.id} item={w}/>
+                <Thumbnail key={w.get('id')} item={w}/>
             )) : null}
         </div>
     </div>

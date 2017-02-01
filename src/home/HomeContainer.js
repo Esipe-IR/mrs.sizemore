@@ -24,7 +24,7 @@ function mapStateToProps(state) {
 }
 
 HomeContainer.propTypes = {
-    worksheets: PropTypes.array
+    worksheets: PropTypes.object
 }
 
 export default connect(mapStateToProps)(HomeContainer)

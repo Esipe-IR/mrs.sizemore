@@ -1,4 +1,5 @@
-import * as firebase from 'firebase';
+import * as firebase from 'firebase'
+import { Map, List } from 'immutable'
 
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
@@ -22,10 +23,11 @@ export const getWorksheets = () => {
             let list = []
 
             snapshot.forEach(sheet => {
-                list.push(sheet.val())
+                let s = Map(sheet.val())
+                list.push(s)
             })
 
-            resolve(list)
+            resolve(List(list))
         })
         .catch( err => reject(err) )
     })
@@ -36,7 +38,7 @@ export const getWorksheet = (id) => {
 
     return new Promise((resolve, reject) => {
         ref.once('value')
-        .then(snapshot => resolve(snapshot.val()))
+        .then(snapshot => resolve(Map(snapshot.val())))
         .catch(err => reject(err))
     })
 }
@@ -60,34 +62,40 @@ export const getWords = (id) => {
 
     return new Promise((resolve, reject) => {
         ref.orderByChild("worksheet").equalTo(id).once('value')
-        .then(snapshot => resolve(snapshot.val()))
+        .then(snapshot => {
+            let list = []
+
+            snapshot.forEach(word => {
+                let w = Map(word.val())
+                list.push(w)
+            })
+            
+            resolve(List(list))
+        })
         .catch(err => reject(err))
     })
 }
 
 export const getCompleteWorksheet = (id) => {
-    let data = {}
-
+    let data = Map()
     let count = 0
 
     return new Promise((resolve, reject) => {
         getWorksheet(id)
         .then(result => { 
             if (!result) reject(new Error("Unavailable worksheet !"))
-
             data = result
             count++
 
-            if (count > 1) resolve(data)
+            if (count > 1) resolve(result)
         })
         .catch(err => reject(err))
 
         getWords(id)
         .then(result => {
-            data["words"] = result
             count++
 
-            if (count > 1) resolve(data)
+            if (count > 1) resolve(data.set("words", result))
         })
         .catch(err => reject(err))
     })

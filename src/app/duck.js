@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
-import { Map } from 'immutable'
+import { fromJS } from 'immutable'
 import { getFingerPrint } from '../services/fingerprint'
 import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet } from '../services/firebase'
 import { push } from 'react-router-redux'
@@ -12,12 +12,9 @@ const UPDATE_LOADING = "old_wood/app/UPDATE::LOADING"
 const UPDATE_WORKSHEETS = "old_wood/app/UPDATE::WORKSHEETS"
 const UPDATE_WORKSHEET = "old_wood/app/UPDATE::WORKSHEET"
 
-const INITIAL_STATE = Map({
-    error: null, 
-    user: null, 
-    fingerprint: null,
+const INITIAL_STATE = fromJS({
     loading: true,
-    worksheets: null
+    user: null
 })
 
 export const updateError = createAction(UPDATE_ERROR)

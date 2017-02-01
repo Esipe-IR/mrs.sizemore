@@ -1,75 +1,25 @@
-const INPUT_CHANGE = "old_wood/translator/INPUT::CHANGE"
-const WORD_NEW = "old_wood/translator/WORD::NEW"
-const WORD_RESULT = "old_wood/translator/WORD::RESULT"
+import { createAction, handleActions } from 'redux-actions'
+import { Map } from 'immutable'
 
-const INITIAL_STATE = {
-    switch: false,
-    result: null,
-    userWord: "",
-    word: {
-        en: "",
-        fr: ""
-    }
-}
+const UPDATE_WORD = "old_wood/translator/UPDATE::WORD"
+const UPDATE_INPUT = "old_wood/translator/UPDATE::INPUT"
+const UPDATE_RESULT = "old_wood/translator/UPDATE::RESULT"
 
-export const inputChange = (val) => {
-    return {
-        type: INPUT_CHANGE,
-        payload: val
-    }
-}
+const INITIAL_STATE = Map({
+    input: ""
+})
 
-export const wordNew = (words) => {
-    let array = Object.keys(words)
-    let word = {}
+export const updateWord = createAction(UPDATE_WORD)
+export const updateInput = createAction(UPDATE_INPUT)
+export const updateResult = createAction(UPDATE_RESULT, (status, msg) => ({
+    msg,
+    status
+}))
 
-    if (array && array.length) {
-        let min = Math.ceil(0)
-        let max = Math.floor(array.length - 1)
-        let random = Math.floor(Math.random() * (max - min + 1)) + min
-        
-        word = words[array[random]]
-    }
-
-    return {
-        type: WORD_NEW,
-        payload: word
-    }
-}
-
-export const wordResult = (word, userWord) => {
-    let status = false
-    let msg = "Wrong! The correct answer for '" + word.fr + "' is: '" + word.en + "' not: '" + userWord + "'"
-
-    if (userWord === word.en) {
-        status = true
-        msg = "Great job!"
-    }
-
-    return {
-        type: WORD_RESULT,
-        payload: msg,
-        status: status
-    }
-}
-
-export default function translatorReducer(state = INITIAL_STATE, action) {
-    switch(action.type) {
-        case INPUT_CHANGE:
-            return Object.assign({}, state, {
-                userWord: action.payload
-            })
-        case WORD_RESULT:
-            return Object.assign({}, state, {
-                result: action.status,
-                resultMsg: action.payload,
-                userWord: ""
-            })
-        case WORD_NEW:
-            return Object.assign({}, state, {
-                word: action.payload
-            })
-        default:
-            return state
-    }
-}
+export default handleActions({
+    [updateWord]: (state, action) => state.set("word", action.payload),
+    [updateInput]: (state, action) => state.set("input", action.payload), 
+    [updateResult]: (state, action) => (state.withMutations(ctx => { 
+        ctx.set("result", action.payload.status).set("resultMsg", action.payload.msg).set("input", "")
+    }))
+}, INITIAL_STATE)

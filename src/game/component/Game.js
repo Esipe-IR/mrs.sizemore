@@ -4,7 +4,7 @@ import Resume from './Resume'
 const Game = (props) => (
     <div className="box">
         <div className="box-title">
-            <h2>{props.worksheet.name.toUpperCase()}</h2>
+            <h2>{props.worksheet.get("name").toUpperCase()}</h2>
 
             <hr/>
 

@@ -7,13 +7,13 @@ const Translator = (props) => (
     <div>
         <div className="row">
             <div className="col-sm-12">
-                <Switch onClick={props.switchUpdate} on={props.switch} />
+                <Switch onClick={props.switchUpdate(props.switch)} on={props.switch} />
             </div>
         </div>
 
         <Info status={props.result} msg={props.resultMsg} />
 
-        <form className="form-horizontal" onSubmit={props.wordCheck}>
+        <form className="form-horizontal" onSubmit={props.checkResult}>
             <div className="form-group">
                 <div className="hidden-xs hidden-sm">
                     <label className="col-sm-2 control-label" htmlFor="translate-french-value">French</label>
@@ -23,7 +23,7 @@ const Translator = (props) => (
                     <input type="text" 
                     className="form-control" 
                     id="translate-french-value" 
-                    value={props.word.fr} 
+                    value={props.word.get("fr")} 
                     disabled />
                 </div>
             </div>
@@ -38,8 +38,8 @@ const Translator = (props) => (
                     className="form-control" 
                     name="translate-english-value" 
                     id="translate-english-value" 
-                    value={props.userWord}
-                    onChange={props.wordUpdate}
+                    value={props.input}
+                    onChange={props.formatInput}
                     placeholder="English"
                     autoComplete="off" />
                 </div>
@@ -52,7 +52,7 @@ const Translator = (props) => (
             </div>
         </form>
 
-        <KeyboardContainer onChange={props.wordUpdate} word={props.userWord}/>
+        <KeyboardContainer onChange={props.updateInput} word={props.input}/>
     </div>
 )
 
