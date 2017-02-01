@@ -71,7 +71,7 @@ const mapStateToProps = ({ translatorReducer, keyboardReducer }) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateWord: (word) => dispatch(updateWord(word)),
-    updateInput: (word) => dispatch(updateInput(word)),
+    updateInput: (input) => dispatch(updateInput(input)),
     updateResult: (status, msg) => dispatch(updateResult(status, msg)),
     switchUpdate: (s) => () => dispatch(keyboardState(!s)),
 })

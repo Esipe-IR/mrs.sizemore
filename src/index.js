@@ -46,9 +46,9 @@ render(
                 <Route path="/game/:id" component={GameContainer} />
                 <Route path="/editor/:type/:id" component={EditorContainer} onEnter={checkEditor} />
                 <Route path="/account" component={AccountContainer} onEnter={checkAccount} />
-                <Redirect from='*' to='/' />
+                <Redirect from="*" to="/" />
             </Route>
         </Router>
     </Provider>,
-    document.getElementById('root')
+    document.getElementById("root")
 )
