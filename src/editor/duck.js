@@ -1,47 +1,16 @@
-import { update, create, getCompleteWorksheet, getWord } from '../services/firebase'
-import { loadingState, loadingError } from '../app/duck'
+import { createAction, handleActions } from 'redux-actions'
+import { Map } from 'immutable'
+
+import { update, create } from '../services/firebase'
+import { updateError, updateSuccess } from '../app/duck'
 import { addKey, editKey, deleteKey } from '../services/obj'
-import { push } from 'react-router-redux'
 
 const FULL_UPDATE = "old_wood/editor/FULL::UPDATE"
-const WORKSHEET_UPDATE = "old_wood/editor/WORKSHEET::UPDATE"
 const WORDS_UPDATE = "old_wood/editor/WORDS::UPDATE"
 const WORD_UPDATE = "old_wood/editor/WORD::UPDATE"
 const ADD_WORD = "old_wood/editor/ADD::WORD"
-const RECEIVE_SUCCESS = "old_wood/editor/RECEIVE::SUCCESS"
-const RECEIVE_ERROR = "old_wood/editor/RECEIVE::ERROR"
 
-const INITIAL_STATE = {
-    worksheet: {
-        state: false,
-        name: "",
-        img: "",
-        description: "",
-    },
-    words: [],
-    word: {
-        en: "",
-        fr: "",
-        definition: "",
-        examples: []
-    },
-    error: null,
-    errorMsg: ""
-}
-
-export const receiveSuccess = (msg) => {
-    return {
-        type: RECEIVE_SUCCESS,
-        payload: msg
-    }
-}
-
-export const receiveError = (err) => {
-    return {
-        type: RECEIVE_ERROR,
-        payload: err
-    }
-}
+const INITIAL_STATE = Map({})
 
 export const addChild = (name, child, former) => {
     let last = addKey(name.split("/"), child, former)
@@ -64,8 +33,6 @@ export const editChild = (name, value, former) => {
 export const deleteChild = (name, former) => {
     let last = deleteKey(name.split("/"), former)
 
-    console.log(last)
-
     return {
         type: FULL_UPDATE,
         payload: last
@@ -74,8 +41,8 @@ export const deleteChild = (name, former) => {
 
 export const updateChild = (id, data) => (dispatch) => {
     update(id, data)
-    .then(response => dispatch(receiveSuccess("Successfully update!")))
-    .catch(error => dispatch(receiveError(error)))
+    .then(response => dispatch(updateSuccess("Successfully update!")))
+    .catch(error => dispatch(updateError(error)))
 }
 
 export const addWord = (word) => {
@@ -89,9 +56,9 @@ export const createWord = (word) => (dispatch) => {
     create('words', word)
     .then(result => {
         dispatch(addWord(word))
-        dispatch(receiveSuccess("Successfully create!"))
+        dispatch(updateSuccess("Successfully create!"))
     })
-    .catch(err => dispatch(receiveError(err)))
+    .catch(err => dispatch(updateError(err)))
 }
 
 export const init = (data) => {
@@ -113,51 +80,11 @@ export const init = (data) => {
     }
 }
 
-export const updateWorksheet = (data) => {
-    return {
-        type: WORKSHEET_UPDATE,
-        payload: data
-    }
-}
-
 export const updateWords = (data) => {
     return {
         type: WORDS_UPDATE,
         payload: data
     }
-}
-
-export const updateWord = (data) => {
-    return {
-        type: WORD_UPDATE,
-        payload: data
-    }
-}
-
-export const fetchWorksheet = (sheet) => (dispatch) => {
-    getCompleteWorksheet(sheet)
-    .then(response => {
-        dispatch(init(response))
-        dispatch(loadingState(false))
-    })
-    .catch(err => {
-        dispatch(push('/'))
-        dispatch(loadingError(true, err))
-        dispatch(loadingState(false))
-    })
-}
-
-export const fetchWord = (id) => (dispatch) => {
-    getWord(id)
-    .then(response => {
-        dispatch(updateWord(response))
-        dispatch(loadingState(false))
-    })
-    .catch(err => {
-        dispatch(push('/'))
-        dispatch(loadingError(true, err))
-        dispatch(loadingState(false))
-    })
 }
 
 export default function editorReducer(state = INITIAL_STATE, action) {
@@ -176,16 +103,6 @@ export default function editorReducer(state = INITIAL_STATE, action) {
         case WORD_UPDATE:
             return Object.assign({}, state, {
                 word: action.payload
-            })
-        case RECEIVE_SUCCESS:
-            return Object.assign({}, state, {
-                error: false,
-                errorMsg: action.payload
-            })
-        case RECEIVE_ERROR:
-            return Object.assign({}, state, {
-                error: true,
-                errorMsg: action.payload
             })
         default:
             return state

@@ -1,24 +1,15 @@
-const MODE_CHANGE = "old_wood/game/MODE::CHANGE"
+import { createAction, handleActions } from 'redux-actions'
+import { Map } from 'immutable'
 
-const INITIAL_STATE = {
+const UPDATE_MODE = "old_wood/game/UPDATE::MODE"
+
+const INITIAL_STATE = Map({
     mode: 0,
     answer: []
-}
+})
 
-export const changeMode = mode => {
-    return {
-        type: MODE_CHANGE,
-        payload: mode
-    }
-}
+export const updateMode = createAction(UPDATE_MODE)
 
-export default function gameReducer(state = INITIAL_STATE, action) {
-    switch(action.type) {
-        case MODE_CHANGE:
-            return Object.assign({}, state, {
-                mode: action.payload
-            })
-        default:
-            return state
-    }
-}
+export default handleActions({
+    [UPDATE_MODE]: (state, action) => state.set("mode", action.payload)
+}, INITIAL_STATE)

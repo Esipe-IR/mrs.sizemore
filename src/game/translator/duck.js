@@ -17,9 +17,9 @@ export const updateResult = createAction(UPDATE_RESULT, (status, msg) => ({
 }))
 
 export default handleActions({
-    [updateWord]: (state, action) => state.set("word", action.payload),
-    [updateInput]: (state, action) => state.set("input", action.payload), 
-    [updateResult]: (state, action) => (state.withMutations(ctx => { 
+    [UPDATE_WORD]: (state, action) => state.set("word", action.payload),
+    [UPDATE_INPUT]: (state, action) => state.set("input", action.payload), 
+    [UPDATE_RESULT]: (state, action) => (state.withMutations(ctx => { 
         ctx.set("result", action.payload.status).set("resultMsg", action.payload.msg).set("input", "")
     }))
 }, INITIAL_STATE)

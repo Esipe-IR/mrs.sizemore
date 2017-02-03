@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import EditorWord from './component/EditorWord'
 import EditorWorksheet from './component/EditorWorksheet'
-import { fetchWorksheet, fetchWord, addChild, editChild, deleteChild, updateChild, createWord } from './duck'
+import { fetchWorksheet, fetchWord } from '../app/duck'
+import { addChild, editChild, deleteChild, updateChild, createWord } from './duck'
 
 class EditorContainer extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class EditorContainer extends React.Component {
         this.editChild = this.editChild.bind(this)
         this.deleteChild = this.deleteChild.bind(this)
         this.saveChild = this.saveChild.bind(this)
+    }
 
+    componentDidMount() {
         if (this.props.params.type === "worksheet") {
             this.props.dispatch(fetchWorksheet(this.props.params.id))
         } else {
@@ -72,10 +75,9 @@ class EditorContainer extends React.Component {
     }
 
     render() {
-        if (this.props.params.type === "worksheet") {
+        if (this.props.params.type === "worksheet" && this.props.worksheet) {
             return <EditorWorksheet
                     worksheet={this.props.worksheet}
-                    words={this.props.words}
                     word={this.props.word}
                     addWord={this.addWord}
                     editChild={this.editChild}
@@ -84,27 +86,26 @@ class EditorContainer extends React.Component {
                     errorMsg={this.props.errorMsg} />
         }
 
-        return <EditorWord 
-                word={this.props.word} 
-                addChild={this.addChild} 
-                editChild={this.editChild}
-                deleteChild={this.deleteChild}
-                saveChild={this.saveChild}
-                error={this.props.error}
-                errorMsg={this.props.errorMsg} />
+        if (this.props.word) {
+            return <EditorWord 
+                    word={this.props.word} 
+                    addChild={this.addChild} 
+                    editChild={this.editChild}
+                    deleteChild={this.deleteChild}
+                    saveChild={this.saveChild}
+                    error={this.props.error}
+                    errorMsg={this.props.errorMsg} />
+        }
+
+        return null
     }
 }
 
-function mapStateToProps(state) {
-    const { editorReducer } = state
-
-    return {
-        worksheet: editorReducer.worksheet,
-        words: editorReducer.words,
-        word: editorReducer.word,
-        error: editorReducer.error,
-        errorMsg: editorReducer.errorMsg
-    }
-}
+const mapStateToProps = ({appReducer, editorReducer}) => ({
+    worksheet: appReducer.get("worksheet"),
+    word: appReducer.get("word"),
+    error: editorReducer.error,
+    errorMsg: editorReducer.errorMsg
+})
 
 export default connect(mapStateToProps)(EditorContainer)

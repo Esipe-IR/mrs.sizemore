@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import Game from './component/Game'
-import {fetchWorksheet } from '../app/duck'
-import { changeMode } from './duck'
 
+import Game from './component/Game'
 import TranslatorContainer from './translator/TranslatorContainer'
 import FillgapContainer from './fillgap/FillgapContainer'
+
+import { fetchWorksheet } from '../app/duck'
+import { updateMode } from './duck'
 
 class GameContainer extends React.Component {
     constructor(props) {
@@ -43,12 +44,12 @@ GameContainer.propTypes = {
 
 const mapStateToProps = ({appReducer, gameReducer}) => ({
     worksheet: appReducer.get("worksheet"),
-    mode: gameReducer.mode,
-    answer: gameReducer.answer
+    mode: gameReducer.get("mode"),
+    answer: gameReducer.get("answer")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    changeMode: (e) => dispatch(changeMode(parseInt(e.target.dataset.mode, 3))),
+    changeMode: (e) => dispatch(updateMode(parseInt(e.target.dataset.mode, 3))),
     getWorksheet: (id) => dispatch(fetchWorksheet(id))
 })
 

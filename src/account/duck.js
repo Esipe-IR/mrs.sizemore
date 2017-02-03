@@ -35,6 +35,6 @@ export const connexion = (user) => (dispatch) => {
 }
 
 export default handleActions({
-    [updateAction]: (state, action) => state.set("action", action.payload),
-    [updateUser]: (state, action) => state.set("user", action.payload)
+    [UPDATE_ACTION]: (state, action) => state.set("action", action.payload),
+    [UPDATE_USER]: (state, action) => state.set("user", action.payload)
 }, INITIAL_STATE)

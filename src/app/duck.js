@@ -73,15 +73,15 @@ export const fetchWorksheets = () => (dispatch) => {
 }
 
 export default handleActions({
-    [updateError]: (state, action) => (state.withMutations(ctx => {
+    [UPDATE_ERROR]: (state, action) => (state.withMutations(ctx => {
         ctx.set("error", action.error).set("errorMsg", action.payload.message)
     })),
-    [updateSuccess]: (state, action) => (state.withMutations(ctx => { 
+    [UPDATE_SUCCESS]: (state, action) => (state.withMutations(ctx => { 
         ctx.set("error", false).set("errorMsg", action.payload) 
     })),
-    [updateUser]: (state, action) => state.set("user", action.payload),
-    [updateFingerprint]: (state, action) => state.set("fingerprint", action.payload),
-    [updateLoading]: (state, action) => state.set("loading", action.payload),
-    [updateWorksheets]: (state, action) => state.set("worksheets", action.payload),
-    [updateWorksheet]: (state, action) => state.set("worksheet", action.payload)
+    [UPDATE_USER]: (state, action) => state.set("user", action.payload),
+    [UPDATE_FINGERPRINT]: (state, action) => state.set("fingerprint", action.payload),
+    [UPDATE_LOADING]: (state, action) => state.set("loading", action.payload),
+    [UPDATE_WORKSHEETS]: (state, action) => state.set("worksheets", action.payload),
+    [UPDATE_WORKSHEET]: (state, action) => state.set("worksheet", action.payload)
 }, INITIAL_STATE)
