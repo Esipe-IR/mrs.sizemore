@@ -12,7 +12,7 @@ const AddWord = ({word, editChild, addWord}) => (
                         type="text" 
                         className="form-control"
                         placeholder="English" 
-                        value={word.en}
+                        value={word.get("en")}
                         onChange={editChild} 
                     />
                 </div>
@@ -27,7 +27,7 @@ const AddWord = ({word, editChild, addWord}) => (
                         type="text" 
                         className="form-control"
                         placeholder="French" 
-                        value={word.fr}
+                        value={word.get("fr")}
                         onChange={editChild} 
                     />
                 </div>
@@ -42,7 +42,7 @@ const AddWord = ({word, editChild, addWord}) => (
                         type="text" 
                         className="form-control"
                         placeholder="Definition" 
-                        value={word.definition}
+                        value={word.get("definition")}
                         onChange={editChild} 
                     />
                 </div>

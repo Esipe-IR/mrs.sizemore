@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
+
 import Translator from './component/Translator'
 
 import { updateWord, updateInput, updateResult } from './duck'
@@ -61,6 +62,14 @@ class TranslatorContainer extends React.Component {
     }
 }
 
+TranslatorContainer.propTypes = {
+    word: React.PropTypes.object,
+    input: React.PropTypes.string,
+    result: React.PropTypes.bool,
+    resultMsg: React.PropTypes.string,
+    switch: React.PropTypes.bool
+}
+
 const mapStateToProps = ({ translatorReducer, keyboardReducer }) => ({
     word: translatorReducer.get("word"),
     input: translatorReducer.get("input"),
@@ -75,13 +84,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateResult: (status, msg) => dispatch(updateResult(status, msg)),
     switchUpdate: (s) => () => dispatch(keyboardState(!s)),
 })
-
-TranslatorContainer.propTypes = {
-    word: PropTypes.object,
-    input: PropTypes.string,
-    result: PropTypes.bool,
-    resultMsg: PropTypes.string,
-    switch: PropTypes.bool
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TranslatorContainer)

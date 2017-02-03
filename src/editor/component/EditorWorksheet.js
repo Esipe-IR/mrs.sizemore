@@ -1,15 +1,12 @@
 import React from 'react'
 import AddWord from './AddWord'
-import Info from '../../general/Info'
 
-const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild, error, errorMsg}) => (
+const EditorWorksheet = (props) => (
     <form className="form-horizontal">
         <ol className="breadcrumb">
             <li><a href="/">Home</a></li>
-            <li className="active">Edit {worksheet.name}</li>
+            <li className="active">Edit {props.worksheet.get("name")}</li>
         </ol>
-
-        <Info status={!error} msg={errorMsg} />
 
         <div className="form-group">
             <label htmlFor="worksheet/name" className="col-sm-2 control-label">Name</label>
@@ -20,8 +17,8 @@ const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild,
                     type="text" 
                     className="form-control"
                     placeholder="Name" 
-                    value={worksheet.name}
-                    onChange={editChild} 
+                    value={props.worksheet.get("name")}
+                    onChange={props.editChild} 
                 />
             </div>
         </div>
@@ -35,8 +32,8 @@ const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild,
                     type="text"
                     className="form-control"
                     placeholder="Img"
-                    value={worksheet.img}
-                    onChange={editChild} 
+                    value={props.worksheet.get("img")}
+                    onChange={props.editChild} 
                 />
             </div>
         </div>
@@ -49,8 +46,8 @@ const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild,
                     id="worksheet/description"
                     className="form-control"
                     rows="3"
-                    value={worksheet.description}
-                    onChange={editChild}>
+                    value={props.worksheet.get("description")}
+                    onChange={props.editChild}>
                 </textarea>
             </div>
         </div>
@@ -60,9 +57,9 @@ const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild,
 
             <div className="col-sm-10">
                 <div className="list-group">
-                    {words.map(w => (
-                        <a key={w.id} href={"/editor/word/" + w.id} className="list-group-item">{w.en} <span className="label label-primary">Edit</span></a>
-                    ))}
+                    {props.worksheet.get("words") ? props.worksheet.get("words").map(w => (
+                            <a key={w.get("id")} href={"/editor/word/" + w.get("id")} className="list-group-item">{w.get("en")} <span className="label label-primary">Edit</span></a>
+                    )) : null}
                 </div>
             </div>
         </div>
@@ -71,13 +68,13 @@ const EditorWorksheet = ({worksheet, words, word, addWord, editChild, saveChild,
             <label className="col-sm-2 control-label">Add word</label>
 
             <div className="col-sm-10">
-                <AddWord word={word} editChild={editChild} addWord={addWord} />
+                {props.word ? <AddWord word={props.word} editChild={props.editChild} addWord={props.addWord} /> : null}
             </div>
         </div>
 
         <div className="form-group">
             <div className="col-sm-12">
-                <button type="submit" className="btn btn-app" onClick={saveChild}>Edit</button>
+                <button type="submit" className="btn btn-app" onClick={props.saveChild}>Edit</button>
             </div>
         </div>
     </form>

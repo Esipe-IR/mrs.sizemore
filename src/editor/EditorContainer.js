@@ -1,14 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { fromJS } from 'immutable'
+
 import EditorWord from './component/EditorWord'
 import EditorWorksheet from './component/EditorWorksheet'
-import { fetchWorksheet, fetchWord } from '../app/duck'
-import { addChild, editChild, deleteChild, updateChild, createWord } from './duck'
+
+import { fetchWorksheet, updateWorksheet } from '../app/duck'
+import { fetchWord, updateChild, createWord, updateWord } from './duck'
+
+import { addKey, editKey, deleteKey } from '../services/obj'
 
 class EditorContainer extends React.Component {
     constructor(props) {
         super(props)
-        this.getCurrent = this.getCurrent.bind(this)
+        this.getCurrentAction = this.getCurrentAction.bind(this)
         this.addWord = this.addWord.bind(this)
         this.addChild = this.addChild.bind(this)
         this.editChild = this.editChild.bind(this)
@@ -24,18 +29,18 @@ class EditorContainer extends React.Component {
         }
     }
 
-    getCurrent() {
-        return {
-            worksheet: this.props.worksheet,
-            words: this.props.words,
-            word: this.props.word
+    getCurrentAction(type) {
+        if (type === "worksheet") {
+            return updateWorksheet
         }
+
+        return updateWord
     }
 
     addWord(e) {
         e.preventDefault()
         let word = this.props.word
-        word.worksheet = this.props.params.id
+        word = word.set("worksheet", this.props.params.id)
 
         this.props.dispatch(createWord(word))
     }
@@ -44,26 +49,32 @@ class EditorContainer extends React.Component {
         e.preventDefault()
         let name = e.target.dataset.child
         let value = e.target.dataset.value
-        let state = this.getCurrent()
+        let pathArr = name.split("/")
 
-        this.props.dispatch(addChild(name, value, state))
+        let last = addKey(pathArr.slice(1, pathArr.length), value, this.props[pathArr[0]])
+
+        this.props.dispatch(this.getCurrentAction(pathArr[0])(fromJS(last)))
     }
 
     editChild(e) {
         e.preventDefault()
         let name = e.target.id
         let value = e.target.value
-        let state = this.getCurrent()
+        let pathArr = name.split("/")
+
+        let last = editKey(pathArr.slice(1, pathArr.length), value, this.props[pathArr[0]])
     
-        this.props.dispatch(editChild(name, value, state))
+        this.props.dispatch(this.getCurrentAction(pathArr[0])(fromJS(last)))
     }
 
     deleteChild(e) {
         e.preventDefault()
         let name = e.target.dataset.child
-        let state = this.getCurrent()
+        let pathArr = name.split("/")
 
-        this.props.dispatch(deleteChild(name, state))
+        let last = deleteKey(pathArr.slice(1, pathArr.length), this.props[pathArr[0]])
+
+        this.props.dispatch(this.getCurrentAction(pathArr[0])(last))
     }
 
     saveChild(e) {
@@ -81,9 +92,7 @@ class EditorContainer extends React.Component {
                     word={this.props.word}
                     addWord={this.addWord}
                     editChild={this.editChild}
-                    saveChild={this.saveChild}
-                    error={this.props.error}
-                    errorMsg={this.props.errorMsg} />
+                    saveChild={this.saveChild} />
         }
 
         if (this.props.word) {
@@ -92,20 +101,21 @@ class EditorContainer extends React.Component {
                     addChild={this.addChild} 
                     editChild={this.editChild}
                     deleteChild={this.deleteChild}
-                    saveChild={this.saveChild}
-                    error={this.props.error}
-                    errorMsg={this.props.errorMsg} />
+                    saveChild={this.saveChild} />
         }
 
         return null
     }
 }
 
+EditorContainer.propTypes = {
+    worksheet: React.PropTypes.object,
+    word: React.PropTypes.object
+}
+
 const mapStateToProps = ({appReducer, editorReducer}) => ({
     worksheet: appReducer.get("worksheet"),
-    word: appReducer.get("word"),
-    error: editorReducer.error,
-    errorMsg: editorReducer.errorMsg
+    word: editorReducer.get("word")
 })
 
 export default connect(mapStateToProps)(EditorContainer)

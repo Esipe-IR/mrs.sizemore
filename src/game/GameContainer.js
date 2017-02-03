@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import Game from './component/Game'
@@ -37,9 +37,9 @@ class GameContainer extends React.Component {
 }
 
 GameContainer.propTypes = {
-    mode: PropTypes.number.isRequired,
-    worksheet: PropTypes.object,
-    answer: PropTypes.array
+    mode: React.PropTypes.number.isRequired,
+    worksheet: React.PropTypes.object,
+    answer: React.PropTypes.array
 }
 
 const mapStateToProps = ({appReducer, gameReducer}) => ({
