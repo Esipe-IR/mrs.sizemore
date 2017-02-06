@@ -251,3 +251,8 @@ body {
 	color: white;
 	background-color: #d9534f;
 }
+
+.form-inline .input-group {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}

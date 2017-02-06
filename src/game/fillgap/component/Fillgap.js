@@ -6,13 +6,39 @@ const Examples = (props) => {
 
     return (
         <div className="form-group" key={props.itemKey}>
-            <p>
-                {reactStringReplace(props.item.get(props.random), '[x]', (match, i) => (
-                    <input key={i} type="text" data-index={props.itemKey - 1} onChange={props.onChange} value={props.userWord ? props.userWord : ''}/>
-                ))}
+                {reactStringReplace(props.item.get("example"), '[x]', (match, i) => (
+                    <div key={i} className="input-group">
+                        <input type="text" 
+                            className="form-control" 
+                            data-index={props.itemKey} 
+                            onChange={props.onChange} 
+                            value={props.userWord ? props.userWord : ''}
+                            placeholder="english word"
+                            readOnly={props.mode === 1 ? true : false}/>
 
-                <i className="fa fa-info-circle" onClick={() => (props.onClickHelp(props.definition))}></i>
-            </p>
+                            {props.mode === 1 ?
+                            (
+                                 <span className="input-group-btn">
+                                    <button className="btn btn-default" onClick={(e) => {e.preventDefault(); return props.onClick(props.itemKey)}}>
+                                        <i className="fa fa-info-circle"></i>
+                                    </button>
+
+                                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Word <span className="caret"></span>
+                                    </button>
+                                
+                                    <ul className="dropdown-menu dropdown-menu-right">
+                                        {props.words.map(w => (
+                                            <li><a href="#">{w.get("en")}</a></li>
+                                        ))}
+
+                                        <li role="separator" className="divider"></li>
+                                        <li><a href="#">Null</a></li>
+                                    </ul>
+                                </span>
+                            ) : null }
+                    </div>
+                ))}.
         </div>
     )
 }
@@ -20,23 +46,23 @@ const Examples = (props) => {
 const ListExamples = (props) => (
     <div>
         {props.words.map((w, i) => (
-            <Examples key={w.get("id")} 
-                item={w.get("examples")} 
+            <Examples
+                {...props}
+                key={w.get("id")} 
+                item={w} 
                 itemKey={i} 
-                definition={w.get("definition")} 
-                onChange={props.onChange}
-                userWord={props.userWords.get(i - 1)}
-                random={props.random(w.get("examples"))} />
+                userWord={props.userWords.get(i)}
+            />
         ))}
     </div>
 )
 
 const Fillgap = (props) => (
     <div className="text">
-        <p>Count: {props.userWords.size}/{props.fullCount}</p>
+        <p>Count: {props.userWords.size}/{props.words.size}</p>
 
-        <form onSubmit={props.onSubmit}>
-            <ListExamples words={props.words} onChange={props.onChange} userWords={props.userWords} random={props.random} />
+        <form onSubmit={props.onSubmit} className="form-inline">
+            <ListExamples {...props} />
 
             <input className="btn btn-app" type="submit" value="Submit" />
         </form>
