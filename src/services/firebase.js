@@ -66,7 +66,7 @@ export const getWords = (id) => {
             let list = []
 
             snapshot.forEach(word => {
-                let w = Map(word.val())
+                let w = fromJS(word.val())
                 list.push(w)
             })
             

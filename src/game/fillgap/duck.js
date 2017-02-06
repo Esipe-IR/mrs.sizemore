@@ -1,10 +1,32 @@
-const HELP = "old_wood/game/HELP"
-const WORD_COUNT_ADD = "old_wood/game/WORD_COUNT::ADD"
-const WORD_COUNT_LESS = "old_wood/game/WORD_COUNT::LESS"
+import { createAction, handleActions } from 'redux-actions'
+import { Map, List } from 'immutable'
 
-const INITIAL_STATE = {
-    wordcount: 0
+const UPDATE_USERWORDS = "old_wood/fillgap/UPDATE::USERWORDS"
+const HELP = "old_wood/game/HELP"
+
+const INITIAL_STATE = Map({
+    userWords: List()
+})
+
+export function randomizeWords(words) {
+    return words
 }
+
+export function getFullCount(words) {
+    let count = 0
+
+    for (let i = 0; i < words.size; i++) {
+        if (words.get(i).get("examples") && words.get(i).get("examples").size) {
+            count++
+        }
+    }
+
+    console.log(count)
+
+    return count
+}
+
+export const updateUserWords = createAction(UPDATE_USERWORDS)
 
 export const help = i => {
     return {
@@ -13,33 +35,6 @@ export const help = i => {
     }
 }
 
-export const wordCountAdd = wordcount => {
-    return {
-        type: WORD_COUNT_ADD,
-        payload: wordcount + 1
-    }
-}
-
-export const wordCountLess = wordcount => {
-    return {
-        type: WORD_COUNT_LESS,
-        payload: wordcount - 1
-    }
-}
-
-export default function fillgapReducer(state = INITIAL_STATE, action) {
-    switch(action.type) {
-        case HELP:
-            return Object.assign({}, state, {})
-        case WORD_COUNT_ADD:
-            return Object.assign({}, state, {
-                wordcount: action.payload
-            })
-        case WORD_COUNT_LESS:
-            return Object.assign({}, state, {
-                wordcount: action.payload
-            })
-        default:
-            return state
-    }
-}
+export default handleActions({
+    [UPDATE_USERWORDS]: (state, action) => state.set("userWords", action.payload)
+}, INITIAL_STATE)
