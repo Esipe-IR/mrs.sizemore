@@ -1,11 +1,13 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 
-import { update, create, getWord } from '../services/firebase'
-import { updateError, updateSuccess } from '../app/duck'
+import { update, create, del, getWord } from '../services/firebase'
+import { updateError, updateSuccess, updateLoading, updateWorksheet } from '../app/duck'
 
 const UPDATE_WORD = "old_wood/editor/UPDATE::WORD"
-const ADD_WORD = "old_wood/editor/ADD::WORD"
+const UPDATE_IS_UPDATE = "old_wood/editor/UPDATE::IS_UPDATE"
+const UPDATE_MODAL = "old_wood/editor/UPDATE::MODAL"
+const UPDATE_DELETE_ID = "old_wood/editor/UPDATE::DELETE_ID"
 
 const INITIAL_STATE = Map({
     word: Map({
@@ -15,30 +17,70 @@ const INITIAL_STATE = Map({
     })
 })
 
-export const addWord = createAction(ADD_WORD)
 export const updateWord = createAction(UPDATE_WORD)
+export const updateIsUpdate = createAction(UPDATE_IS_UPDATE)
+export const updateModal = createAction(UPDATE_MODAL)
+export const updateDeleteId = createAction(UPDATE_DELETE_ID)
 
-export const updateChild = (id, data) => (dispatch) => {
+export const saveChild = (id, data) => (dispatch) => {
     update(id, data)
-    .then(response => dispatch(updateSuccess("Successfully update!")))
-    .catch(error => dispatch(updateError(error)))
+    .then(response => {
+        dispatch(updateSuccess("Successfully update!"))
+        dispatch(updateIsUpdate(true))
+    })
+    .catch(error => {
+        dispatch(updateError(error))
+        dispatch(updateIsUpdate(true))
+    })
 }
 
-export const createWord = (word) => (dispatch) => {
+export const createWord = (word, worksheet) => (dispatch) => {
     create('words', word)
     .then(result => {
-        dispatch(addWord(word))
+        let words = worksheet.get("words").push(result)
+        worksheet = worksheet.set("words", words)
+
         dispatch(updateSuccess("Successfully create!"))
+        dispatch(updateIsUpdate(true))
+        dispatch(updateWorksheet(worksheet))
     })
-    .catch(err => dispatch(updateError(err)))
+    .catch(err => {
+        dispatch(updateError(err))
+        dispatch(updateIsUpdate(true))
+    })
+}
+
+export const deleteWord = (id) => (dispatch) => {
+    del(id)
+    .then(result => {
+        dispatch(updateSuccess("Word deleted succeffully!"))
+        dispatch(updateIsUpdate(true))
+    })
+    .catch(err => {
+        dispatch(updateError(err))
+        dispatch(updateIsUpdate(true))
+    })
+}
+
+export const resetWord = () => (dispatch) => {
+    dispatch(updateWord(INITIAL_STATE.get("word")))
 }
 
 export const fetchWord = (id) => (dispatch) => {
     getWord(id)
-    .then(result => dispatch(updateWord(result)))
-    .catch(err => dispatch(updateError(err)))
+    .then(result => {
+        dispatch(updateWord(result))
+        dispatch(updateLoading(false))
+    })
+    .catch(err => {
+        dispatch(updateError(err))
+        dispatch(updateLoading(false))
+    })
 }
 
 export default handleActions({
-    [UPDATE_WORD]: (state, action) => state.set("word", action.payload)
+    [UPDATE_WORD]: (state, action) => state.set("word", action.payload),
+    [UPDATE_IS_UPDATE]: (state, action) => state.set("isUpdate", action.payload),
+    [UPDATE_MODAL]: (state, action) => state.set("modal", action.payload),
+    [UPDATE_DELETE_ID]: (state, action) => state.set("deleteId", action.payload)
 }, INITIAL_STATE)

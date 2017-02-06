@@ -16,7 +16,7 @@ const App = (props) => (
 
         <ReactCSSTransitionGroup
             transitionName="overlay"
-            transitionEnterTimeout={1000}
+            transitionEnterTimeout={10}
             transitionLeaveTimeout={1200} >
             {props.loading ? <LoadingOverlay /> : null}
         </ReactCSSTransitionGroup>

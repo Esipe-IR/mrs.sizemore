@@ -1,3 +1,5 @@
+import { fromJS } from 'immutable'
+
 const getSchema = (pathArr, nObj) => {
     let schema = nObj
     let len = pathArr.length - 1
@@ -10,30 +12,45 @@ const getSchema = (pathArr, nObj) => {
 }
 
 export const addKey = (pathArr, value, obj) => {
-    let nObj = JSON.parse(JSON.stringify(obj))
+    let nObj = obj.toJS()
     let schema = getSchema(pathArr, nObj)
-    schema[pathArr[pathArr.length - 1]].push(value)
+    let len = pathArr.length - 1
+    
+    if (!schema[pathArr[len]]) {
+        schema[pathArr[len]] = []
+    }
 
-    return nObj
+    schema[pathArr[len]].push(value)
+
+    let immutable = fromJS(nObj)
+
+    return immutable
 }
 
 export const editKey = (pathArr, value, obj) => {
-    let nObj = JSON.parse(JSON.stringify(obj))
+    let nObj = obj.toJS()
     let schema = getSchema(pathArr, nObj)
-    schema[pathArr[pathArr.length - 1]] = value
+    let len = pathArr.length - 1
 
-    return nObj
+    schema[pathArr[len]] = value
+
+    let immutable = fromJS(nObj)
+
+    return immutable
 }
 
 export const deleteKey = (pathArr, obj) => {
-    let nObj = JSON.parse(JSON.stringify(obj))
+    let nObj = obj.toJS()
     let schema = getSchema(pathArr, nObj)
+    let len = pathArr.length - 1
 
     if (Array.isArray(schema)) {
-        schema.splice(pathArr[pathArr.length - 1], 1)
+        schema.splice(pathArr[len], 1)
     } else {
-         delete schema[pathArr[pathArr.length - 1]]
+         delete schema[pathArr[len]]
     }
 
-    return nObj
+    let immutable = fromJS(nObj)
+
+    return immutable
 }

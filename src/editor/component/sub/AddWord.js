@@ -50,7 +50,7 @@ const AddWord = ({word, editChild, addWord}) => (
 
             <div className="form-group">
                 <div className="col-sm-offset-2 col-sm-10">
-                    <button onClick={addWord} className="btn btn-app-secondary sized">
+                    <button onClick={addWord} className="btn btn-primary">
                         <i className="fa fa-plus" aria-hidden="true"></i> Add word
                     </button>
                 </div>

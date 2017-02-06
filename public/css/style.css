@@ -42,7 +42,7 @@ body {
 
 .box {
 	background: white;
-	border: 1px solid #eee;
+	border: 1px solid  #ddd;
 	margin: 5px;
 }
 
@@ -59,6 +59,10 @@ body {
 .box-footer {
 	border-top: 1px solid #D0D0D0;
 	padding: 20px;
+}
+
+.margin-lft-5 {
+	margin-left: 5px;
 }
 
 .margin-btm-5 {
@@ -98,7 +102,7 @@ body {
 
 .overlay-enter.overlay-enter-active {
   opacity: 1;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 10ms ease-in;
 }
 
 .overlay-leave {

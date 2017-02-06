@@ -1,5 +1,5 @@
 import * as firebase from 'firebase'
-import { Map, List } from 'immutable'
+import { Map, List, fromJS } from 'immutable'
 
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
@@ -51,7 +51,7 @@ export const getWord = (id) => {
         .then(snapshot => {
             if (!snapshot.val()) reject("Unavailable word !")
             
-            resolve(snapshot.val())
+            resolve(fromJS(snapshot.val()))
         })
         .catch(err => reject(err))
     })
@@ -105,17 +105,29 @@ export const create = (parent, obj) => {
     let ref = fdb.ref()
     let key = ref.child(parent).push().key
     let update = {}
+    let jsObj = obj.toJS()
+    jsObj.id = key
     
-    update["/"+ parent + "/" + key] = obj
-    obj.id = key
+    update["/"+ parent + "/" + key] = jsObj
 
-    return ref.update(update)
+    return new Promise((resolve, reject) => { 
+        ref.update(update)
+        .then(() => resolve(fromJS(jsObj)))
+        .catch(err => reject(err))
+    })
 }
 
 export const update = (id, data) => {
     let update = {}
-    update[id] = data
+    update[id] = data.toJS()
     
+    return fdb.ref().update(update)
+}
+
+export const del = (id) => {
+    let update = {}
+    update[id] = null
+
     return fdb.ref().update(update)
 }
 
