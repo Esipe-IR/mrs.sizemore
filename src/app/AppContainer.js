@@ -24,6 +24,13 @@ class AppContainer extends React.Component {
     }
 }
 
+AppContainer.propTypes = {
+    loading: PropTypes.bool,
+    user: PropTypes.object,
+    error: PropTypes.bool,
+    errorMsg: PropTypes.string
+}
+
 const mapStateToProps = ({appReducer}) => ({
     loading: appReducer.get("loading"),
     user: appReducer.get("user"),
@@ -35,12 +42,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     getUser: () => dispatch(fetchUser()),
     logout: () => dispatch(logout())
 })
-
-AppContainer.propTypes = {
-    loading: PropTypes.bool,
-    user: PropTypes.object,
-    error: PropTypes.bool,
-    errorMsg: PropTypes.string
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)

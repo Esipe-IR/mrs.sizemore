@@ -1,8 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
-
-import { update, create, del, getWord } from '../services/firebase'
 import { updateError, updateSuccess, updateLoading, updateWorksheet } from '../app/duck'
+import { update, create, del, getWord } from '../services/firebase'
 
 const UPDATE_WORD = "old_wood/editor/UPDATE::WORD"
 const UPDATE_IS_UPDATE = "old_wood/editor/UPDATE::IS_UPDATE"

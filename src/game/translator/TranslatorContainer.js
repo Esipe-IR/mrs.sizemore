@@ -1,10 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import Translator from './component/Translator'
-
 import { updateFormerWord, updateInput, updateResult, getRandomWord } from './duck'
-import { keyboardState } from '../../keyboard/duck'
+import { updateStatus } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
     constructor(props) {
@@ -51,14 +49,14 @@ const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => 
     input: translatorReducer.get("input"),
     result: translatorReducer.get("result"),
     resultMsg: translatorReducer.get("resultMsg"),
-    switch: keyboardReducer.open
+    switch: keyboardReducer.get("status")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateFormerWord: (former) => dispatch(updateFormerWord(former)),
     updateInput: (input) => dispatch(updateInput(input)),
     updateResult: (status, msg) => dispatch(updateResult(status, msg)),
-    switchUpdate: (s) => () => dispatch(keyboardState(!s)),
+    switchUpdate: (s) => () => dispatch(updateStatus(!s)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TranslatorContainer)

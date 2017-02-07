@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import Fillgap from './component/Fillgap'
-import { updateUserWords, getRandomizeWords } from './duck'
+import { updateUserWords, getRandomizeWords, getUserCount } from './duck'
 
 class FillgapContainer extends React.Component {
     constructor(props) {
@@ -26,8 +25,6 @@ class FillgapContainer extends React.Component {
         let value = e.target.value
 
         let last = this.props.userWords.set(index, value)
-
-        if (last.get(index) === "") last = last.delete(index)
         
         this.props.dispatch(updateUserWords(last))
     }
@@ -40,12 +37,14 @@ class FillgapContainer extends React.Component {
 FillgapContainer.propTypes = {
     words: React.PropTypes.object,
     userWords: React.PropTypes.object,
+    count: React.PropTypes.number,
     mode: React.PropTypes.number
 }
 
 const mapStateToProps = ({fillgapReducer, appReducer, gameReducer}) => ({
     words: getRandomizeWords({appReducer, gameReducer}),
     userWords: fillgapReducer.get("userWords"),
+    count: getUserCount(fillgapReducer),
     mode: gameReducer.get("mode")
 })
 

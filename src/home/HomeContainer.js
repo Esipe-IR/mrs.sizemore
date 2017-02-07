@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Home from './component/Home'
-
 import { fetchWorksheets } from '../app/duck'
 
 class HomeContainer extends React.Component {

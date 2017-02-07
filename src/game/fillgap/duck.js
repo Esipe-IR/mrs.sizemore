@@ -6,11 +6,12 @@ import { getRandom } from '../../services/obj'
 const UPDATE_USERWORDS = "old_wood/fillgap/UPDATE::USERWORDS"
 
 const INITIAL_STATE = Map({
-    userWords: List()
+    userWords: List().setSize(20)
 })
 
 export const updateUserWords = createAction(UPDATE_USERWORDS)
 
+const getUserWords = (fillgapReducer) => fillgapReducer.get("userWords")
 const getWords = ({ appReducer }) => appReducer.get("worksheet").get("words")
 const getMode = ({ gameReducer }) => gameReducer.get("mode")
 
@@ -44,6 +45,19 @@ export const getRandomizeWords = createSelector(
         }
 
         return list
+    }
+)
+
+export const getUserCount = createSelector(
+    [getUserWords],
+    (words) => {
+        let count = 0
+
+        for (let i = 0; i < words.size; i++) {
+            if (words.get(i) && words.get(i) !== "") count++
+        }
+
+        return count
     }
 )
 

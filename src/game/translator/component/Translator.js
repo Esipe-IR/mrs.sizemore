@@ -47,7 +47,7 @@ const Translator = (props) => (
 
             <div className="form-group">
                 <div className="col-sm-12 text-center">
-                    <input className="btn btn-app" type="submit" value="Submit" />
+                    <input className="btn btn-app-secondary" type="submit" value="Submit" />
                 </div>
             </div>
         </form>

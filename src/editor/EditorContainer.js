@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
 import EditorWord from './component/EditorWord'
 import EditorWorksheet from './component/EditorWorksheet'
-
 import { fetchWorksheet, updateWorksheet } from '../app/duck'
 import { 
     fetchWord, 
@@ -15,7 +13,6 @@ import {
     updateModal, 
     updateDeleteId, 
     resetWord } from './duck'
-
 import { addKey, editKey, deleteKey } from '../services/obj'
 
 class EditorContainer extends React.Component {

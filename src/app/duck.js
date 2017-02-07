@@ -1,8 +1,8 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
+import { push } from 'react-router-redux'
 import { getFingerPrint } from '../services/fingerprint'
 import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet } from '../services/firebase'
-import { push } from 'react-router-redux'
 
 const UPDATE_ERROR = "old_wood/app/UPDATE::ERROR"
 const UPDATE_SUCCESS = "old_wood/app/UPDATE::SUCCESS"

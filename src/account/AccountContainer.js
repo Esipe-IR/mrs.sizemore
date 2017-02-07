@@ -30,7 +30,7 @@ class AccountContainer extends React.Component {
     }
 
     updateAction() {
-        this.props.dispatch(updateAction(!action))
+        this.props.dispatch(updateAction(!this.props.action))
     }
 
     render() {

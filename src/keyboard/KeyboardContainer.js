@@ -31,7 +31,7 @@ class KeyboardContainer extends React.Component {
     }
 
     getHeight() {
-        if (this.props.open) {
+        if (this.props.status) {
             return {height: "40%"}
         }
 
@@ -39,7 +39,7 @@ class KeyboardContainer extends React.Component {
     }
 
     isDisplay() {
-        if (this.props.open) {
+        if (this.props.status) {
             return {display: "block"}
         }
 
@@ -56,18 +56,14 @@ class KeyboardContainer extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    const { keyboardReducer } = state
-
-    return {
-        open: keyboardReducer.open
-    }
-}
-
 KeyboardContainer.propTypes = {
-    open: PropTypes.bool.isRequired,
+    status: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
     word: PropTypes.string.isRequired
 }
+
+const mapStateToProps = ({ keyboardReducer }) => ({
+    status: keyboardReducer.get("status")
+})
 
 export default connect(mapStateToProps)(KeyboardContainer)

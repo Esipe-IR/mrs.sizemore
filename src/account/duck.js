@@ -1,13 +1,13 @@
 import { createAction, handleActions } from 'redux-actions'
-import { fromJS } from 'immutable'
-import { createUser, connectUser } from '../services/firebase'
-import { updateError, updateSuccess, fetchUser } from '../app/duck'
+import { Map } from 'immutable'
 import { push } from 'react-router-redux'
+import { updateError, updateSuccess, fetchUser } from '../app/duck'
+import { createUser, connectUser } from '../services/firebase'
 
 const UPDATE_ACTION = "old_wood/account/UPDATE::ACTION"
 const UPDATE_USER = "old_wood/account/UPDATE::USER"
 
-const INITIAL_STATE = fromJS({
+const INITIAL_STATE = Map({
     action: false
 })
 

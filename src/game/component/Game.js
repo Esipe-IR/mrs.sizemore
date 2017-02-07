@@ -1,4 +1,6 @@
 import React from 'react'
+import TranslatorContainer from '../translator/TranslatorContainer'
+import FillgapContainer from '../fillgap/FillgapContainer'
 
 const Game = (props) => (
     <div className="box">
@@ -12,7 +14,7 @@ const Game = (props) => (
                     <div className="col-sm-4">
                         <div className="mode">
                             <button 
-                                onClick={props.changeMode} 
+                                onClick={props.updateMode} 
                                 data-mode="0" 
                                 className={"btn btn-outline-success " + (props.mode === 0 ? "fill" : "")}>
                                 <i className="fa fa-thermometer-empty" aria-hidden="true"></i> Easy
@@ -22,7 +24,7 @@ const Game = (props) => (
                     <div className="col-sm-4">
                         <div className="mode">
                             <button 
-                                onClick={props.changeMode} 
+                                onClick={props.updateMode} 
                                 data-mode="1" 
                                 className={"btn btn-outline-warning " + (props.mode === 1 ? "fill" : "")}
                             >
@@ -33,7 +35,7 @@ const Game = (props) => (
                     <div className="col-sm-4">
                         <div className="mode">
                             <button 
-                                onClick={props.changeMode}
+                                onClick={props.updateMode}
                                 data-mode="2" 
                                 className={"btn btn-outline-danger " + (props.mode === 2 ? "fill" : "")}
                             >
@@ -46,7 +48,7 @@ const Game = (props) => (
         </div>
 
         <div className="box-body">
-            {props.children}
+            {props.mode === 0 ? <TranslatorContainer words={props.worksheet.get("words")} /> : <FillgapContainer words={props.worksheet.get("words")} />}
         </div>
 
         <div className="box-footer">

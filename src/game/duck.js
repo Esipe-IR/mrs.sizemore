@@ -4,8 +4,7 @@ import { Map } from 'immutable'
 const UPDATE_MODE = "old_wood/game/UPDATE::MODE"
 
 const INITIAL_STATE = Map({
-    mode: 0,
-    answer: []
+    mode: 0
 })
 
 export const updateMode = createAction(UPDATE_MODE)
