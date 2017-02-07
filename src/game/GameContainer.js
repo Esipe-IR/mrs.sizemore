@@ -30,8 +30,7 @@ class GameContainer extends React.Component {
 
     render() {
         return (
-            this.props.worksheet ?
-            <Game {...this.props} children={this.getMode()} /> : null
+            this.props.worksheet ? <Game {...this.props} children={this.getMode()} /> : null
         )
     }
 }

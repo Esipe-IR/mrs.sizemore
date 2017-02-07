@@ -1,5 +1,4 @@
 import React from 'react'
-import Resume from './Resume'
 
 const Game = (props) => (
     <div className="box">
@@ -51,7 +50,6 @@ const Game = (props) => (
         </div>
 
         <div className="box-footer">
-            <Resume result={props.answer} />
         </div>
     </div>
 )

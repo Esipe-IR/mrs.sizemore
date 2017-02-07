@@ -27,9 +27,7 @@ class FillgapContainer extends React.Component {
 
         let last = this.props.userWords.set(index, value)
 
-        if (last.get(index) === "") {
-            last = last.delete(index)
-        }
+        if (last.get(index) === "") last = last.delete(index)
         
         this.props.dispatch(updateUserWords(last))
     }
@@ -46,7 +44,7 @@ FillgapContainer.propTypes = {
 }
 
 const mapStateToProps = ({fillgapReducer, appReducer, gameReducer}) => ({
-    words: getRandomizeWords(appReducer),
+    words: getRandomizeWords({appReducer, gameReducer}),
     userWords: fillgapReducer.get("userWords"),
     mode: gameReducer.get("mode")
 })

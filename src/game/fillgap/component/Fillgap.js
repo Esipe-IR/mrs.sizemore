@@ -22,19 +22,12 @@ const Examples = (props) => {
                                     <button className="btn btn-default" onClick={(e) => {e.preventDefault(); return props.onClick(props.itemKey)}}>
                                         <i className="fa fa-info-circle"></i>
                                     </button>
-
-                                    <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Word <span className="caret"></span>
-                                    </button>
                                 
-                                    <ul className="dropdown-menu dropdown-menu-right">
-                                        {props.words.map(w => (
-                                            <li><a href="#">{w.get("en")}</a></li>
+                                    <select data-index={props.itemKey} className="btn btn-default" onChange={props.onChange}>
+                                        {props.words.map((w, i) => (
+                                            <option key={w.get("en")}>{w.get("en")}</option>
                                         ))}
-
-                                        <li role="separator" className="divider"></li>
-                                        <li><a href="#">Null</a></li>
-                                    </ul>
+                                    </select>
                                 </span>
                             ) : null }
                     </div>

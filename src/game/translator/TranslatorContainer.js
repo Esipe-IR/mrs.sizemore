@@ -3,38 +3,14 @@ import { connect } from 'react-redux'
 
 import Translator from './component/Translator'
 
-import { updateWord, updateInput, updateResult } from './duck'
+import { updateFormerWord, updateInput, updateResult, getRandomWord } from './duck'
 import { keyboardState } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
     constructor(props) {
         super(props)
-        this.randomWord = this.randomWord.bind(this)
         this.formatInput = this.formatInput.bind(this)
         this.checkResult = this.checkResult.bind(this)
-    }
-
-    componentDidMount() {
-        this.randomWord()
-    }
-
-    randomWord() {
-        let word = new Map()
-
-        if (this.props.words.size) {
-            let min = Math.ceil(0)
-            let max = Math.floor(this.props.words.size - 1)
-            let random = Math.floor(Math.random() * (max - min + 1)) + min
-            
-            word = this.props.words.get(random)
-
-            if (this.props.word && this.props.word.equals(word)) {
-                if (random + 1 < this.props.words.size - 1) word = this.props.words.get(random + 1)
-                if (random - 1 > -1) word =this.props.words.get(random - 1)    
-            }
-        }
-
-        this.props.updateWord(word)
     }
 
     formatInput(e) {
@@ -53,8 +29,8 @@ class TranslatorContainer extends React.Component {
             msg = "Wrong! The correct answer for '" + this.props.word.get("fr") + "' is: '" + en + "' not: '" + this.props.input + "'"
         }
 
+        this.props.updateFormerWord(this.props.word)
         this.props.updateResult(status, msg)
-        this.randomWord()
     }
 
     render() {
@@ -70,8 +46,8 @@ TranslatorContainer.propTypes = {
     switch: React.PropTypes.bool
 }
 
-const mapStateToProps = ({ translatorReducer, keyboardReducer }) => ({
-    word: translatorReducer.get("word"),
+const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => ({
+    word: getRandomWord({appReducer, translatorReducer}),
     input: translatorReducer.get("input"),
     result: translatorReducer.get("result"),
     resultMsg: translatorReducer.get("resultMsg"),
@@ -79,7 +55,7 @@ const mapStateToProps = ({ translatorReducer, keyboardReducer }) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    updateWord: (word) => dispatch(updateWord(word)),
+    updateFormerWord: (former) => dispatch(updateFormerWord(former)),
     updateInput: (input) => dispatch(updateInput(input)),
     updateResult: (status, msg) => dispatch(updateResult(status, msg)),
     switchUpdate: (s) => () => dispatch(keyboardState(!s)),

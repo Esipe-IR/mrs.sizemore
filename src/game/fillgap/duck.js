@@ -11,9 +11,11 @@ const INITIAL_STATE = Map({
 
 export const updateUserWords = createAction(UPDATE_USERWORDS)
 
-const getWord = (state) => state.get("worksheet").get("words")
+const getWords = ({ appReducer }) => appReducer.get("worksheet").get("words")
+const getMode = ({ gameReducer }) => gameReducer.get("mode")
+
 export const getRandomizeWords = createSelector(
-    [getWord],
+    [getWords, getMode],
     (words) => {
         let list = List()
         let size = words.size
@@ -40,8 +42,6 @@ export const getRandomizeWords = createSelector(
             exclude.push(random1)
             size--
         }
-
-        console.log(List.isList(list))
 
         return list
     }
