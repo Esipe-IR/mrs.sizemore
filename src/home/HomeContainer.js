@@ -5,8 +5,7 @@ import Home from './component/Home'
 import { fetchWorksheets } from '../app/duck'
 
 class HomeContainer extends React.Component {
-    constructor(props) {
-        super(props)
+    componentDidMount() {
         this.props.dispatch(fetchWorksheets())
     }
 
@@ -15,16 +14,12 @@ class HomeContainer extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
-    const { appReducer } = state
-
-    return {
-        worksheets: appReducer.get("worksheets")
-    }
-}
-
 HomeContainer.propTypes = {
     worksheets: PropTypes.object
 }
+
+const mapStateToProps = ({ appReducer }) => ({
+    worksheets: appReducer.get("worksheets")
+})
 
 export default connect(mapStateToProps)(HomeContainer)

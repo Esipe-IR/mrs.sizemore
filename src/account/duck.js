@@ -8,11 +8,7 @@ const UPDATE_ACTION = "old_wood/account/UPDATE::ACTION"
 const UPDATE_USER = "old_wood/account/UPDATE::USER"
 
 const INITIAL_STATE = fromJS({
-    action: false,
-    user: {
-        email: "",
-        password: ""
-    }
+    action: false
 })
 
 export const updateAction = createAction(UPDATE_ACTION)
