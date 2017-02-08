@@ -66,7 +66,7 @@ const WorksheetForm = (props) => (
 
         <div className="form-group">
             <div className="col-sm-12">
-                <button type="submit" className="btn btn-app-secondary" onClick={props.saveChild}>Edit</button>
+                <button type="submit" className="btn btn-app" onClick={props.saveChild}>Edit</button>
             </div>
         </div>
     </form>

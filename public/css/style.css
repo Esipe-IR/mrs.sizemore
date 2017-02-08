@@ -1,5 +1,35 @@
 body {
 	padding-top: 70px;
+	overflow-x: hidden;
+}
+
+.fa {
+	display: inline;
+}
+
+.navbar-btn {
+	margin-top: 0;
+}
+
+.navbar-btn .navbar-toggle {
+	display: block;
+	position: absolute;
+	top: 4px;
+}
+
+.navbar-header {
+    float: left;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.navbar-brand {
+	float: none;
+}
+
+.container .navbar-header {
+	margin-left: 0;
 }
 
 .navbar-inverse {
@@ -250,10 +280,4 @@ body {
 .btn.btn-outline-danger.fill {
 	color: white;
 	background-color: #d9534f;
-}
-
-.form-inline .input-group {
-	margin-top: 30px;
-	margin-bottom: 30px;
-	padding: 5px;
 }

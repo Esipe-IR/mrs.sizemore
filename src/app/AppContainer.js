@@ -1,46 +1,38 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import App from './component/App'
-import Nav from './component/Nav'
-import Info from '../general/Info'
-import { fetchUser, logout } from './duck'
+import { fetchUser, logout, updateSidebar } from './duck'
 
 class AppContainer extends React.Component {
     componentDidMount() {
         this.props.getUser()
     }
 
-    info() {
-        let status = this.props.error === null ? null : !this.props.error
-        return <Info status={status} msg={this.props.errorMsg} />
-    }
-
-    nav() {
-        return <Nav user={this.props.user} logout={this.props.logout} />
-    }
-
     render() {
-        return <App nav={this.nav()} info={this.info()} loading={this.props.loading} children={this.props.children} />
+        return <App {...this.props} children={this.props.children} />
     }
 }
 
 AppContainer.propTypes = {
-    loading: PropTypes.bool,
-    user: PropTypes.object,
-    error: PropTypes.bool,
-    errorMsg: PropTypes.string
+    loading: React.PropTypes.bool,
+    user: React.PropTypes.object,
+    error: React.PropTypes.bool,
+    errorMsg: React.PropTypes.string,
+    sidebar: React.PropTypes.bool
 }
 
 const mapStateToProps = ({appReducer}) => ({
     loading: appReducer.get("loading"),
     user: appReducer.get("user"),
     error: appReducer.get("error"),
-    errorMsg: appReducer.get("errorMsg")
+    errorMsg: appReducer.get("errorMsg"),
+    sidebar: appReducer.get("sidebar")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     getUser: () => dispatch(fetchUser()),
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    clickNav: (sidebar) => (e) => {e.preventDefault(); dispatch(updateSidebar(!sidebar))}
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)

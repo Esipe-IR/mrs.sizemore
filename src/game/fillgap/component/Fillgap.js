@@ -52,10 +52,10 @@ const Fillgap = (props) => (
     <div className="text">
         <p>Count: {props.count}/{props.words.size}</p>
 
-        <form onSubmit={props.onSubmit} className="form-inline">
+        <form onSubmit={props.onSubmit}>
             <ListExamples {...props} />
 
-            <input className="btn btn-app-secondary" type="submit" value="Submit" />
+            <input className="btn btn-app" type="submit" value="Submit" />
         </form>
     </div>
 )

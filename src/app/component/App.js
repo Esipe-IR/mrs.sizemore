@@ -1,6 +1,9 @@
 import React from 'react'
-import Footer from './Footer'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Topbar from './Topbar'
+import Sidebar from './Sidebar'
+import Info from '../../general/Info'
+import Footer from './Footer'
 
 const LoadingOverlay = () => {
     return <div className="overlay">
@@ -12,7 +15,8 @@ const LoadingOverlay = () => {
 
 const App = (props) => (
     <div>
-        {props.nav}
+        <Topbar onClick={props.clickNav} sidebar={props.sidebar} />
+        <Sidebar user={props.user} logout={props.logout} sidebar={props.sidebar} onClick={props.clickNav} />
 
         <ReactCSSTransitionGroup
             transitionName="overlay"
@@ -22,7 +26,7 @@ const App = (props) => (
         </ReactCSSTransitionGroup>
 
         <div className="container">
-            {props.info}
+            {props.error === null ? null : <Info status={!props.error} msg={props.errorMsg} />}
             {props.children}
             <Footer />
         </div>
