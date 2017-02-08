@@ -28,7 +28,14 @@ export const addKey = (pathArr, value, obj) => {
 }
 
 export const editKey = (pathArr, value, obj) => {
-    let nObj = obj.toJS()
+    let nObj
+    
+    if (!obj) {
+        nObj = {}
+    } else {
+        nObj = obj.toJS()
+    }
+
     let schema = getSchema(pathArr, nObj)
     let len = pathArr.length - 1
 

@@ -82,7 +82,7 @@ export const fetchWord = (id) => (dispatch) => {
 }
 
 export default handleActions({
-    [UPDATE_FIELD]: (state, action) => {console.log(action); return state.setIn(['fields', action.meta], action.payload)},
+    [UPDATE_FIELD]: (state, action) => state.setIn(['fields', action.meta], action.payload),
     [UPDATE_WORD]: (state, action) => state.set("word", action.payload),
     [UPDATE_IS_UPDATE]: (state, action) => state.set("isUpdate", action.payload),
     [UPDATE_MODAL]: (state, action) => state.set("modal", action.payload),

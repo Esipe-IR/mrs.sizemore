@@ -17,7 +17,7 @@ const Account = (props) => (
             <label htmlFor="email" className="col-sm-2 control-label">Email</label>
             
             <div className="col-sm-10">
-                <input type="email" className="form-control" id="email" placeholder="Email" onChange={props.onChange} value={props.user.email ? props.user.email : ''} />
+                <input type="email" className="form-control" id="email" placeholder="Email" onChange={props.onChange} value={props.user && props.user.get("email") ? props.user.get("email") : ""} />
             </div>
         </div>
 
@@ -25,7 +25,7 @@ const Account = (props) => (
             <label htmlFor="password" className="col-sm-2 control-label">Password</label>
             
             <div className="col-sm-10">
-                <input type="password" className="form-control" id="password" placeholder="Password" onChange={props.onChange} value={props.user.password ? props.user.password : ''} />
+                <input type="password" className="form-control" id="password" placeholder="Password" onChange={props.onChange} value={props.user && props.user.get("password") ? props.user.get("password") : ""} />
             </div>
         </div>
 

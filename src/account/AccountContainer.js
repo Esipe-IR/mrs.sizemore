@@ -39,7 +39,7 @@ class AccountContainer extends React.Component {
 }
 
 AccountContainer.propTypes = {
-    action: React.PropTypes.number,
+    action: React.PropTypes.bool,
     user: React.PropTypes.object,
     error: React.PropTypes.bool
 }
