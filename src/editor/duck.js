@@ -3,6 +3,8 @@ import { Map } from 'immutable'
 import { updateError, updateSuccess, updateLoading, updateWorksheet } from '../app/duck'
 import { update, create, del, getWord } from '../services/firebase'
 
+const UPDATE_FIELD = "old_wood/editor/UPDATE::FIELD"
+
 const UPDATE_WORD = "old_wood/editor/UPDATE::WORD"
 const UPDATE_IS_UPDATE = "old_wood/editor/UPDATE::IS_UPDATE"
 const UPDATE_MODAL = "old_wood/editor/UPDATE::MODAL"
@@ -15,6 +17,8 @@ const INITIAL_STATE = Map({
         definition: ""
     })
 })
+
+export const updateField = createAction(UPDATE_FIELD, null, (payload, fieldType) => fieldType)
 
 export const updateWord = createAction(UPDATE_WORD)
 export const updateIsUpdate = createAction(UPDATE_IS_UPDATE)
@@ -78,6 +82,7 @@ export const fetchWord = (id) => (dispatch) => {
 }
 
 export default handleActions({
+    [UPDATE_FIELD]: (state, action) => {console.log(action); return state.setIn(['fields', action.meta], action.payload)},
     [UPDATE_WORD]: (state, action) => state.set("word", action.payload),
     [UPDATE_IS_UPDATE]: (state, action) => state.set("isUpdate", action.payload),
     [UPDATE_MODAL]: (state, action) => state.set("modal", action.payload),
