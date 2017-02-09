@@ -10,7 +10,8 @@ import MainReducer from './reducers'
 import AppContainer from './app/AppContainer'
 import HomeContainer from './home/HomeContainer'
 import GameContainer from './game/GameContainer'
-import EditorContainer from './editor/EditorContainer'
+import WorksheetContainer from './editor/worksheet/WorksheetContainer'
+import WordContainer from './editor/word/WordContainer'
 import AccountContainer from './account/AccountContainer'
 
 import { getCurrentUser } from './services/firebase'
@@ -44,7 +45,8 @@ render(
             <Route component={AppContainer}>
                 <Route path="/" component={HomeContainer} />
                 <Route path="/game/:id" component={GameContainer} />
-                <Route path="/editor/:type/:id" component={EditorContainer} onEnter={checkEditor} />
+                <Route path="/editor/worksheet/:id" component={WorksheetContainer} onEnter={checkEditor} />
+                <Route path="/editor/word/:id" component={WordContainer} onEnter={checkEditor} />
                 <Route path="/account" component={AccountContainer} onEnter={checkAccount} />
                 <Redirect from="*" to="/" />
             </Route>
