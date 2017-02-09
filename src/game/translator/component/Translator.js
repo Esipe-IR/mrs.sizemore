@@ -1,6 +1,6 @@
 import Switch from 'react-toggle-switch'
 import React from 'react'
-import Info from '../../../general/Info'
+import Info from '../../../app/component/Info'
 import KeyboardContainer from '../../../keyboard/KeyboardContainer'
 
 const Translator = (props) => (

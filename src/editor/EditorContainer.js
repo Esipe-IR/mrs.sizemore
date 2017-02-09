@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import EditorWord from './component/EditorWord'
-import EditorWorksheet from './component/EditorWorksheet'
+import Editor from './component/Editor'
 import { fetchWorksheet, updateWorksheet } from '../app/duck'
 import { 
     fetchWord, 
@@ -135,27 +134,7 @@ class EditorContainer extends React.Component {
     }
 
     render() {
-        if (this.props.params.type === "worksheet" && this.props.worksheet) {
-            return <EditorWorksheet
-                    {...this.props}
-                    addWord={this.addWord}
-                    deleteWord={this.deleteWord}
-                    editChild={this.editChild}
-                    saveChild={this.saveChild}
-                    toggleModal={this.toggleModal}
-                    updateDeleteId={this.updateDeleteId} />
-        }
-
-        if (this.props.word) {
-            return <EditorWord 
-                    {...this.props}
-                    addChild={this.addChild} 
-                    editChild={this.editChild}
-                    deleteChild={this.deleteChild}
-                    saveChild={this.saveChild} />
-        }
-
-        return null
+        return this.props.worksheet ? <Editor {...this.props}/> : null
     }
 }
 

@@ -29,7 +29,7 @@ GameContainer.propTypes = {
     worksheet: React.PropTypes.object
 }
 
-const mapStateToProps = ({appReducer, gameReducer}) => ({
+const mapStateToProps = ({ appReducer, gameReducer }) => ({
     worksheet: appReducer.get("worksheet"),
     mode: gameReducer.get("mode")
 })

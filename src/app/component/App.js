@@ -2,7 +2,7 @@ import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Topbar from './Topbar'
 import Sidebar from './Sidebar'
-import Info from '../../general/Info'
+import Info from './Info'
 import Footer from './Footer'
 
 const LoadingOverlay = () => {

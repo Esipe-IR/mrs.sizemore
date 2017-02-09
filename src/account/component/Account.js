@@ -1,5 +1,5 @@
 import React from 'react'
-import Info from '../../general/Info'
+import Info from '../../app/component/Info'
 
 const Account = (props) => (
     <form className="form-horizontal" onSubmit={props.onSubmit}>

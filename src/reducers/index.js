@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
+import { reducer as formReducer } from 'redux-form'
 import appReducer from '../app/duck';
 import gameReducer from '../game/duck';
 import translatorReducer from '../game/translator/duck'
@@ -16,7 +17,8 @@ const MainReducer = combineReducers({
     keyboardReducer,
     editorReducer,
     accountReducer,
-    routing: routerReducer
+    routing: routerReducer,
+    form: formReducer
 })
 
 export default MainReducer
