@@ -1,6 +1,33 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, FieldArray, reduxForm } from 'redux-form'
 import ListWord from './ListWord'
+
+const renderWords = ({ fields, meta: { touched, error } }) => (
+    <ul className="list-group">
+        {fields.map((member, index) =>
+            <li key={index} className="list-group-item">
+                <Field
+                    name={`${member}.en`}
+                    type="text"
+                    component="input"/>
+
+                <Field
+                    name={`${member}.fr`}
+                    type="text"
+                    component="input"/>
+
+                <button title="Remove Member" onClick={() => fields.remove(index)} className="btn btn-danger">
+                    Delete
+                </button>
+            </li>
+        )}
+
+        <li className="list-group-item">
+            <button type="button" onClick={() => fields.push({})} className="btn btn-primary">Add Word</button>
+            {touched && error && <span>{error}</span>}
+        </li>
+    </ul>
+)
 
 const Worksheet = (props) => (
     <form className="form-horizontal" onSubmit={props.handleSubmit}>
@@ -29,6 +56,8 @@ const Worksheet = (props) => (
         </div>
 
         <ListWord words={props.initialValues.words} />
+
+        <FieldArray name="words" component={renderWords}/>
 
         <div className="form-group">
             <div className="col-sm-12">

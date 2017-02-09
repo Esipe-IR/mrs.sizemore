@@ -2,8 +2,8 @@ import React from 'react'
 
 const Word = (props) => (
     <div key={props.word.id} className="list-group-item">
-        {props.word.en} 
-        
+        {props.word.en}
+
         <a href={"/editor/word/" + props.word.id} className="btn btn-primary margin-lft-5">
             Edit
         </a> 
@@ -27,7 +27,8 @@ const ListWord = (props) => (
         <label className="col-sm-2 control-label">Words</label>
 
         <div className="col-sm-10">
-            {props.words ? 
+            {
+                props.words ? 
                 <div className="list-group">
                     {props.words.map((word, key) => (
                             <Word key={word.id} word={word} />
