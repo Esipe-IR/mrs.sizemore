@@ -1,10 +1,11 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
+import { Field, FieldArray, reduxForm } from 'redux-form'
+import Examples from './Examples'
 
 const Word = (props) => (
     <section>
         <div className="panel panel-default">
-            <div className="panel-heading">Edit</div>
+            <div className="panel-heading">Edit Word</div>
 
             <div className="panel-body">
                 <form className="form-horizontal" onSubmit={props.handleSubmit}>
@@ -36,12 +37,7 @@ const Word = (props) => (
                         <label className="col-sm-2 control-label">Examples</label>
                         
                         <div className="col-sm-10">
-                        </div>
-
-                        <div className="col-sm-offset-2 col-sm-10">
-                            <button data-child="word/examples" className="btn btn-primary">
-                                <i className="fa fa-plus" aria-hidden="true"></i> Add example
-                            </button>
+                            <FieldArray name="examples" component={Examples}/>
                         </div>
                     </div>
 

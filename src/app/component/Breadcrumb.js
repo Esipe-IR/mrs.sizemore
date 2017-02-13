@@ -1,14 +1,16 @@
 import React from 'react'
 
-const Breadcrumb = (props) => (
+const Breadcrumb = ({items = [], lastItem}) => (
     <ol className="breadcrumb">
         <li><a href="/">Home</a></li>
 
-        {props.elem.map((e, i) => (
-            <li key={i}><a href={e.link}>{e.title}</a></li>
+        {items.map((i, index) => (
+            <li key={index}>
+                <a href={i.link}>{i.title}</a>
+            </li>
         ))}
         
-        <li className="active">{props.lastElem}</li>
+        <li className="active">{lastItem}</li>
     </ol>
 )
 
