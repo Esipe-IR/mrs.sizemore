@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { push } from 'react-router-redux'
 import { getFingerPrint } from '../services/fingerprint'
-import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet, getWord } from '../services/firebase'
+import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet, getWord, update, create, del } from '../services/firebase'
 
 const UPDATE_ERROR = "old_wood/app/UPDATE::ERROR"
 const UPDATE_SUCCESS = "old_wood/app/UPDATE::SUCCESS"
@@ -90,6 +90,36 @@ export const fetchWord = (id) => (dispatch) => {
         dispatch(updateLoading(false))
     })
 }
+
+export const editWorksheet = (worksheet) => (dispatch) => {
+    update("/worksheets/" + worksheet.id, worksheet)
+    .then(response => dispatch(updateSuccess("Successfully update!")))
+    .catch(err => dispatch(updateError(err)))
+}
+
+export const editWord = (word) => (dispatch) => {
+    update("/words/" + word.id, word)
+    .then(response => dispatch(updateSuccess("Successfully update!")))
+    .catch(err => dispatch(updateError(err)))
+}
+
+export const createWorksheet = (worksheet) => (dispatch) => {
+    create("worksheets", worksheet)
+    .then(response => dispatch(updateSuccess("Successully create")))
+    .catch(err => dispatch(updateError(err)))
+}
+
+export const createWord = (word) => (dispatch) => {
+    create("words", word)
+    .then(response => dispatch(updateSuccess("Successully create")))
+    .catch(err => dispatch(updateError(err)))
+}
+
+export const deleteWord = (word) => (dispatch) => {
+    del("/words/" + word)
+    .then()
+    .catch(err => dispatch(updateError(err)))
+} 
 
 export default handleActions({
     [UPDATE_ERROR]: (state, action) => (state.withMutations(ctx => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Word from './component/Word'
-import { fetchWord } from '../../app/duck' 
+import { fetchWord, editWord } from '../../app/duck' 
 
 class WordContainer extends React.Component {
     componentDidMount() {
@@ -9,7 +9,7 @@ class WordContainer extends React.Component {
     }
 
     onSubmit(value) {
-        console.log(value)
+        this.props.dispatch(editWord(value))
     }
 
     render() {

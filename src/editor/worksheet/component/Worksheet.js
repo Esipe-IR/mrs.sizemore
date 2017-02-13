@@ -40,7 +40,7 @@ const Worksheet = (props) => (
                         <label className="col-sm-2 control-label">Words</label>
 
                         <div className="col-sm-10">
-                            <FieldArray name="words" component={Words} initialValues={props.initialValues} />
+                            <FieldArray name="words" component={Words} worksheetid={props.initialValues.id} addDelete={props.addDelete} />
                         </div>
                     </div>
 

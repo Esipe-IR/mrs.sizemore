@@ -20,9 +20,9 @@ const Examples = ({ fields, meta: { touched, error } }) => (
             <button type="button" onClick={() => fields.push("")} className="btn btn-primary">
                 <i className="fa fa-plus" aria-hidden="true"></i> Add example
             </button>
-
-            {touched && error && <span>{error}</span>}
         </li>
+
+        {touched && error && <li className="list-group-item">{error}</li>}
     </ul>
 )
 

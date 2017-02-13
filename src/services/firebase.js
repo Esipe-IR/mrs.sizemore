@@ -104,22 +104,21 @@ export const getCompleteWorksheet = (id) => {
 export const create = (parent, obj) => {
     let ref = fdb.ref()
     let key = ref.child(parent).push().key
+    obj.id = key
+
     let update = {}
-    let jsObj = obj.toJS()
-    jsObj.id = key
-    
-    update["/"+ parent + "/" + key] = jsObj
+    update["/"+ parent + "/" + key] = obj
 
     return new Promise((resolve, reject) => { 
         ref.update(update)
-        .then(() => resolve(fromJS(jsObj)))
+        .then(() => resolve(fromJS(obj)))
         .catch(err => reject(err))
     })
 }
 
 export const update = (id, data) => {
     let update = {}
-    update[id] = data.toJS()
+    update[id] = data
     
     return fdb.ref().update(update)
 }
@@ -129,16 +128,6 @@ export const del = (id) => {
     update[id] = null
 
     return fdb.ref().update(update)
-}
-
-export const saveWorksheet = (data) => {
-    let newKey = fdb.ref().child('worksheets').push().key
-    data.id = newKey
-
-    var updates = {}
-    updates['/worksheets/' + newKey] = data
-
-    return fdb.ref().update(updates)
 }
 
 export const createUser = (email, password) => {

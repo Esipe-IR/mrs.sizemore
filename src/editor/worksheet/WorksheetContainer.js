@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Worksheet from './component/Worksheet'
-import { fetchWorksheet } from '../../app/duck'
+import { fetchWorksheet, createWord, editWord, editWorksheet, deleteWord } from '../../app/duck'
+import { updateDelete } from '../duck'
 
 class WorksheetContainer extends React.Component {
     componentDidMount() {
@@ -9,19 +10,45 @@ class WorksheetContainer extends React.Component {
     }
 
     onSubmit(value) {
-        console.log(value)
+        let words = value.words
+        let worksheet = Object.assign({}, value, {})
+        delete worksheet.words
+
+        if (words) {
+            words.forEach((w, i) => {
+                if (w.id) this.props.dispatch(editWord(w))
+                else this.props.dispatch(createWord(w))
+            })
+        }
+
+        this.props.del.forEach(w => {
+            this.props.dispatch(deleteWord(w))
+        })
+
+        this.props.dispatch(editWorksheet(value))
     }
 
-    render() {        
+    addDelete(id) {
+        if (!id) return
+        
+        let del = this.props.del.push(id)
+        this.props.dispatch(updateDelete(del))
+    }
+
+    render() {
         return this.props.worksheet ? 
-            <Worksheet onSubmit={this.onSubmit.bind(this)} initialValues={this.props.worksheet.toJS()} /> 
+            <Worksheet
+                onSubmit={this.onSubmit.bind(this)}
+                addDelete={this.addDelete.bind(this)}
+                initialValues={this.props.worksheet.toJS()} /> 
             : 
             null
     }
 }
 
-const mapStateToProps = ({ appReducer }) => ({
-    worksheet: appReducer.get("worksheet")
+const mapStateToProps = ({ appReducer, editorReducer }) => ({
+    worksheet: appReducer.get("worksheet"),
+    del: editorReducer.get("del")
 })
 
 export default connect(mapStateToProps)(WorksheetContainer)

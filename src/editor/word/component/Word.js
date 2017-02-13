@@ -1,9 +1,12 @@
 import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import Examples from './Examples'
+import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Word = (props) => (
     <section>
+        <Breadcrumb lastItem={"Edit " + props.initialValues.name} />
+
         <div className="panel panel-default">
             <div className="panel-heading">Edit Word</div>
 
@@ -37,6 +40,9 @@ const Word = (props) => (
                         <label className="col-sm-2 control-label">Examples</label>
                         
                         <div className="col-sm-10">
+                            <em>(word = "World") => "Hey Hello [x]"</em><br />
+                            <em>(word = "English") => "My favourite subject is by far [x]"</em>
+
                             <FieldArray name="examples" component={Examples}/>
                         </div>
                     </div>
