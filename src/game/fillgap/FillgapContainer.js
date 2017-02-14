@@ -2,8 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 import Fillgap from './component/Fillgap'
-import { updateUserWords, updateRefresh, getRandomizeWords, getUserCount } from './duck'
-import { updateScore } from '../duck'
+import { updateUserWords, updateRefresh, updateScore, getRandomizeWords, getUserCount } from './duck'
 
 class FillgapContainer extends React.Component {
     onSubmit(e) {
@@ -48,6 +47,7 @@ class FillgapContainer extends React.Component {
     onClickRefresh() {
         this.props.dispatch(updateRefresh(this.props.refresh + 1))
         this.props.dispatch(updateUserWords(List().setSize(20)))
+        this.props.dispatch(updateScore(0))
     }
 
     render() {
@@ -73,7 +73,8 @@ const mapStateToProps = ({fillgapReducer, appReducer, gameReducer}) => ({
     userWords: fillgapReducer.get("userWords"),
     count: getUserCount(fillgapReducer),
     mode: gameReducer.get("mode"),
-    score: gameReducer.get("score"),
+    difficulty: fillgapReducer.get("difficulty"),
+    score: fillgapReducer.get("score"),
     refresh: fillgapReducer.get("refresh")
 })
 

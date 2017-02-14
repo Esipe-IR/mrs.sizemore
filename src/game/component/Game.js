@@ -4,26 +4,17 @@ import TranslatorContainer from '../translator/TranslatorContainer'
 import FillgapContainer from '../fillgap/FillgapContainer'
 
 const Game = (props) => (
-    <div className="box">
-        <div className="box-title">
-            <h2>{props.worksheet.get("name").toUpperCase()}</h2>
+    <section>
+        <h1 className="text-center">{props.worksheet.get("name")}</h1>
 
-            <hr/>
+        <ModeSelection mode={props.mode} updateMode={props.updateMode} />
 
-            <ModeSelection mode={props.mode} updateMode={props.updateMode} />
-        </div>
-
-        <div className="box-body">
-            {props.mode === 0 ? 
-                <TranslatorContainer words={props.worksheet.get("words")} /> 
-                    : 
-                <FillgapContainer words={props.worksheet.get("words")} />
-            }
-        </div>
-
-        <div className="box-footer">
-        </div>
-    </div>
+        {props.mode === 0 ? 
+            <TranslatorContainer words={props.worksheet.get("words")} /> 
+                : 
+            <FillgapContainer words={props.worksheet.get("words")} />
+        }
+    </section>
 )
 
 export default Game

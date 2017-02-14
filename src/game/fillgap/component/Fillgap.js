@@ -1,23 +1,26 @@
 import React from 'react'
-import ListExamples from './ListExamples'
+import Form from './Form'
 
 const Fillgap = (props) => (
-    <div className="text">
-        <p>Count: {props.count}/{props.words.size}</p>
+    <article className="box">
+        <div className="box-title text-center">
+            <h2>Fillgap</h2>
 
-        <div className="text-center margin-btm-20">
-            <h4>Score: {props.score}</h4>
+            <h3>Score: {props.score}/{props.words.size}</h3>
+            
             <button className="btn btn-default" onClick={props.onClickRefresh}>
                 <i className="fa fa-refresh" aria-hidden="true"></i> Refresh
             </button>
         </div>
 
-        <form onSubmit={props.onSubmit}>
-            <ListExamples {...props} />
-
-            <input className="btn btn-app" type="submit" value="Submit" />
-        </form>
-    </div>
+        <div className="box-body">
+            <div className="row">
+                <div className="col-sm-12">
+                    <Form {...props} />
+                </div>
+            </div>
+        </div>
+    </article>
 )
 
 export default Fillgap

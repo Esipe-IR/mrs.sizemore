@@ -5,7 +5,7 @@ const UPDATE_MODE = "old_wood/game/UPDATE::MODE"
 const UPDATE_SCORE = "old_wood/game/UPDATE::SCORE"
 
 const INITIAL_STATE = Map({
-    mode: 0,
+    mode: 1,
     score: 0
 })
 

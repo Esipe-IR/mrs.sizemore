@@ -3,16 +3,22 @@ import { Map, List } from 'immutable'
 import { createSelector } from 'reselect'
 import { getRandom } from '../../services/obj'
 
+const UPDATE_WORDS = "old_wood/fillgap/UPDATE::WORDS"
 const UPDATE_USERWORDS = "old_wood/fillgap/UPDATE::USERWORDS"
 const UPDATE_REFRESH = "old_wood/fillgap/UPDATE::REFRESH"
+const UPDATE_SCORE = "old_wood/fillgap/UPDATE::SCORE"
+const UPDATE_DIFFICULTY = "old_wood/fillgap/UPDATE::DIFFICULTY"
 
 const INITIAL_STATE = Map({
     userWords: List().setSize(20),
-    refresh: 0
+    refresh: 0,
+    score: 0
 })
 
 export const updateUserWords = createAction(UPDATE_USERWORDS)
 export const updateRefresh = createAction(UPDATE_REFRESH)
+export const updateScore = createAction(UPDATE_SCORE)
+export const updateDifficulty = createAction(UPDATE_DIFFICULTY)
 
 const getUserWords = (fillgapReducer) => fillgapReducer.get("userWords")
 const getWords = ({ appReducer }) => appReducer.get("worksheet").get("words")
@@ -58,7 +64,7 @@ export const getUserCount = createSelector(
         let count = 0
 
         for (let i = 0; i < words.size; i++) {
-            if (words.get(i) && words.get(i) !== "") count++
+            if (words.get(i) && words.get(i).get("value") !== "") count++
         }
 
         return count
@@ -67,5 +73,6 @@ export const getUserCount = createSelector(
 
 export default handleActions({
     [UPDATE_USERWORDS]: (state, action) => state.set("userWords", action.payload),
-    [UPDATE_REFRESH]: (state, action) => state.set("refresh", action.payload)
+    [UPDATE_REFRESH]: (state, action) => state.set("refresh", action.payload),
+    [UPDATE_SCORE]: (state, action) => state.set("score", action.payload)
 }, INITIAL_STATE)

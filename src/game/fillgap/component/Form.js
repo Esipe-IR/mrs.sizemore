@@ -25,9 +25,11 @@ const getClass = (userWord) => {
     if (status === false) return "has-error"
 }
 
-const ListExamples = (props) => (
-    <div>
-        {props.words.map((w, i) => (
+const Form = (props) => (
+    <form onSubmit={props.onSubmit}>
+        <p>Count: {props.count}/{props.words.size}</p>
+
+         {props.words.map((w, i) => (
             <Examples
                 {...props}
                 key={w.get("id")} 
@@ -37,7 +39,11 @@ const ListExamples = (props) => (
                 userWord={props.userWords.get(i)}
             />
         ))}
-    </div>
+
+        <hr />
+
+        <input className="btn btn-app" type="submit" value="Submit" />
+    </form>
 )
 
-export default ListExamples
+export default Form
