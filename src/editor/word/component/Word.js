@@ -5,7 +5,7 @@ import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Word = (props) => (
     <section>
-        <Breadcrumb lastItem={"Edit " + props.initialValues.name} />
+        <Breadcrumb items={[{title: "Edit Worksheet", link: "/edit/worksheet/" + props.initialValues.worksheet}]} lastItem={"Edit Word"} />
 
         <div className="panel panel-default">
             <div className="panel-heading">Edit Word</div>
@@ -61,7 +61,7 @@ const Word = (props) => (
 )
 
 const WordForm = reduxForm({
-    form: 'word'
+    form: 'word_editor'
 })(Word);
 
 export default WordForm

@@ -6,13 +6,6 @@ import { updateLoading } from '../app/duck'
 import { editKey } from '../services/obj'
 
 class AccountContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.onSubmit = this.onSubmit.bind(this)
-        this.onChange = this.onChange.bind(this)
-        this.updateAction = this.updateAction.bind(this)
-    }
-
     componentDidMount() {
         this.props.dispatch(updateLoading(false))
     }
@@ -34,7 +27,7 @@ class AccountContainer extends React.Component {
     }
 
     render() {
-        return <Account {...this.props} onSubmit={this.onSubmit} onChange={this.onChange} updateAction={this.updateAction} />
+        return <Account {...this.props} onSubmit={this.onSubmit.bind(this)} onChange={this.onChange.bind(this)} updateAction={this.updateAction.bind(this)} />
     }
 }
 

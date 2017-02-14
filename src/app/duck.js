@@ -119,7 +119,7 @@ export const deleteWord = (word) => (dispatch) => {
     del("/words/" + word)
     .then()
     .catch(err => dispatch(updateError(err)))
-} 
+}
 
 export default handleActions({
     [UPDATE_ERROR]: (state, action) => (state.withMutations(ctx => {

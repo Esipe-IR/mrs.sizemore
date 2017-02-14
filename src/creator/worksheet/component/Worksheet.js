@@ -5,10 +5,10 @@ import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Worksheet = (props) => (
     <section>
-        <Breadcrumb lastItem={"Edit Worksheet"} />
+        <Breadcrumb lastItem={"Create Worksheet"} />
 
         <div className="panel panel-default">
-            <div className="panel-heading">Edit Worksheet</div>
+            <div className="panel-heading">Create Worksheet</div>
 
             <div className="panel-body">
                 <form className="form-horizontal" onSubmit={props.handleSubmit}>
@@ -40,13 +40,13 @@ const Worksheet = (props) => (
                         <label className="col-sm-2 control-label">Words</label>
 
                         <div className="col-sm-10">
-                            <FieldArray name="words" component={Words} worksheetid={props.initialValues.id} addDelete={props.addDelete} />
+                            <FieldArray name="words" component={Words} />
                         </div>
                     </div>
 
                     <div className="form-group">
                         <div className="col-sm-12">
-                            <button type="submit" className="btn btn-app">Edit</button>
+                            <button type="submit" className="btn btn-app">Create</button>
                         </div>
                     </div>
                 </form>
@@ -56,7 +56,7 @@ const Worksheet = (props) => (
 )
 
 const WorksheetForm = reduxForm({
-    form: 'worksheet_editor'
+    form: 'worksheet_creator'
 })(Worksheet);
 
 export default WorksheetForm

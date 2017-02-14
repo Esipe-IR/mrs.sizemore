@@ -5,13 +5,13 @@ import Sidebar from './Sidebar'
 import Info from './Info'
 import Footer from './Footer'
 
-const LoadingOverlay = () => {
-    return <div className="overlay">
+const LoadingOverlay = () => (
+    <div className="overlay">
         <div className="overlay-content">
             <img src="/img/ripple.svg" alt="" />
         </div>
     </div>
-}
+)
 
 const App = (props) => (
     <div>

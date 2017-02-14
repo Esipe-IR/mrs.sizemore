@@ -5,12 +5,6 @@ import { updateFormerWord, updateInput, updateResult, getRandomWord } from './du
 import { updateStatus } from '../../keyboard/duck'
 
 class TranslatorContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.formatInput = this.formatInput.bind(this)
-        this.checkResult = this.checkResult.bind(this)
-    }
-
     formatInput(e) {
         this.props.updateInput(e.target.value.toLowerCase().trim())
     }
@@ -32,7 +26,10 @@ class TranslatorContainer extends React.Component {
     }
 
     render() {
-        return this.props.word ? <Translator {...this.props} checkResult={this.checkResult} formatInput={this.formatInput}/> : null
+        return this.props.word ? 
+            <Translator {...this.props} checkResult={this.checkResult.bind(this)} formatInput={this.formatInput.bind(this)}/> 
+                : 
+            null
     }
 }
 

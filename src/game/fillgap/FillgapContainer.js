@@ -3,14 +3,7 @@ import { connect } from 'react-redux'
 import Fillgap from './component/Fillgap'
 import { updateUserWords, getRandomizeWords, getUserCount } from './duck'
 
-class FillgapContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.onChange = this.onChange.bind(this)
-        this.onClick = this.onClick.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
-   }
-    
+class FillgapContainer extends React.Component {    
     onSubmit(e) {
         e.preventDefault()
         console.log(e)
@@ -30,7 +23,7 @@ class FillgapContainer extends React.Component {
     }
 
     render() {
-        return <Fillgap {...this.props} onChange={this.onChange} onClick={this.onClick} />
+        return <Fillgap {...this.props} onChange={this.onChange.bind(this)} onClick={this.onClick.bind(this)} />
     }
 }
 

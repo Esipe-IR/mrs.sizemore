@@ -4,7 +4,7 @@ import Worksheet from './component/Worksheet'
 import { fetchWorksheet, createWord, editWord, editWorksheet, deleteWord } from '../../app/duck'
 import { updateDelete } from '../duck'
 
-class WorksheetContainer extends React.Component {
+class WorksheetEditor extends React.Component {
     componentDidMount() {
         this.props.dispatch(fetchWorksheet(this.props.params.id))
     }
@@ -46,9 +46,14 @@ class WorksheetContainer extends React.Component {
     }
 }
 
+WorksheetEditor.propTypes = {
+    worksheet: React.PropTypes.object,
+    del: React.PropTypes.array
+}
+
 const mapStateToProps = ({ appReducer, editorReducer }) => ({
     worksheet: appReducer.get("worksheet"),
     del: editorReducer.get("del")
 })
 
-export default connect(mapStateToProps)(WorksheetContainer)
+export default connect(mapStateToProps)(WorksheetEditor)

@@ -11,7 +11,7 @@ const User = ({user}) => (
 const SignIn = () => (
     <li>
         <a href="/account">
-            Sign in
+            <i className="fa fa-sign-in" aria-hidden="true"></i> Sign in
         </a>
     </li>
 )
@@ -42,8 +42,8 @@ const Sidebar = (props) => (
             </li>
 
             <li>
-                <a href="/add">
-                    <i className="fa fa-plus" aria-hidden="true"></i> Add worksheet
+                <a href="/create/worksheet">
+                    <i className="fa fa-plus" aria-hidden="true"></i> Create worksheet
                 </a>
             </li>
 

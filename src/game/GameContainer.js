@@ -5,11 +5,6 @@ import { fetchWorksheet } from '../app/duck'
 import { updateMode } from './duck'
 
 class GameContainer extends React.Component {
-    constructor(props) {
-        super(props)
-        this.updateMode = this.updateMode.bind(this)
-    }
-
     componentDidMount() {
         this.props.dispatch(fetchWorksheet(this.props.params.id))
     }
@@ -20,13 +15,13 @@ class GameContainer extends React.Component {
     }
 
     render() {
-        return this.props.worksheet ? <Game {...this.props} updateMode={this.updateMode} /> : null
+        return this.props.worksheet ? <Game {...this.props} updateMode={this.updateMode.bind(this)} /> : null
     }
 }
 
 GameContainer.propTypes = {
-    mode: React.PropTypes.number.isRequired,
-    worksheet: React.PropTypes.object
+    worksheet: React.PropTypes.object,
+    mode: React.PropTypes.number.isRequired
 }
 
 const mapStateToProps = ({ appReducer, gameReducer }) => ({

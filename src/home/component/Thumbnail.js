@@ -12,10 +12,15 @@ const Thumbnail = ({item}) => (
                 <hr />
 
                 <div className="margin-btm-5">
-                    <a href={"/game/" + item.get("id")} className="btn btn-app"><i className="fa fa-gamepad" aria-hidden="true"></i> Play</a>
+                    <a href={"/game/" + item.get("id")} className="btn btn-app">
+                        <i className="fa fa-gamepad" aria-hidden="true"></i> Play
+                    </a>
                 </div>
+                
                 <div>
-                    <a href={"/editor/worksheet/" + item.get("id")} className="btn btn-app-secondary"><i className="fa fa-wrench" aria-hidden="true"></i> Edit</a>
+                    <a href={"/edit/worksheet/" + item.get("id")} className="btn btn-app-secondary">
+                        <i className="fa fa-wrench" aria-hidden="true"></i> Edit
+                    </a>
                 </div>
             </div>
         </div>
