@@ -34,7 +34,7 @@ export const getWorksheets = () => {
 }
 
 export const getWorksheet = (id) => {
-    let ref = fdb.ref('/worksheets/' + id)
+    let ref = fdb.ref('/worksheets/').child(id)
 
     return new Promise((resolve, reject) => {
         ref.once('value')
@@ -44,7 +44,7 @@ export const getWorksheet = (id) => {
 }
 
 export const getWord = (id) => {
-    let ref = fdb.ref('/words/' + id)
+    let ref = fdb.ref('/words/').child(id)
 
     return new Promise((resolve, reject) => {
         ref.once('value')
@@ -138,19 +138,38 @@ export const connectUser = (email, password) => {
     return fauth.signInWithEmailAndPassword(email, password)
 }
 
+export const getRole = (id) => {
+    return fdb.ref('roles').child(id).once('value')
+}
+
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
         fauth.onAuthStateChanged(function(user) {
             let _ = null
 
-            if (user) {
-                _ = {
-                    email: user.email,
-                    defined: true
-                }
+            if (!user) {
+                return resolve(_)
             }
 
-            resolve(_)
+            _ = {}
+
+            getRole(user.uid)
+            .then(response => {
+                let role = response.val()
+                _.email = user.email
+
+                if (!role) {
+                    return resolve(_)
+                }
+
+                _.role = role
+
+                resolve(_)
+            })
+            .catch(err => {
+                console.log(err)
+                resolve(null)
+            })
         })
     })
 }

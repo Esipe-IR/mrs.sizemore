@@ -103,9 +103,20 @@ export const editWord = (word) => (dispatch) => {
     .catch(err => dispatch(updateError(err)))
 }
 
-export const createWorksheet = (worksheet) => (dispatch) => {
+export const createWorksheet = (worksheet, words) => (dispatch) => {
     create("worksheets", worksheet)
-    .then(response => dispatch(updateSuccess("Successully create")))
+    .then(response => {
+        if (words) {
+            words.forEach((w, i) => {
+                w.worksheet = response.get("id")
+                
+                create("words", w)
+                .catch(err => dispatch(updateError(err)))
+            })
+        }
+
+        dispatch(updateSuccess("Successully create"))
+    })
     .catch(err => dispatch(updateError(err)))
 }
 

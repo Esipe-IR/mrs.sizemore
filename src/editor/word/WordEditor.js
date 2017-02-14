@@ -13,7 +13,6 @@ class WordEditor extends React.Component {
     }
 
     render() {
-        console.log("e")
         return this.props.word ?
             <Word onSubmit={this.onSubmit.bind(this)} initialValues={this.props.word.toJS()} />
             :

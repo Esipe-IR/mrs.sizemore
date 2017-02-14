@@ -4,19 +4,23 @@ import { createSelector } from 'reselect'
 import { getRandom } from '../../services/obj'
 
 const UPDATE_USERWORDS = "old_wood/fillgap/UPDATE::USERWORDS"
+const UPDATE_REFRESH = "old_wood/fillgap/UPDATE::REFRESH"
 
 const INITIAL_STATE = Map({
-    userWords: List().setSize(20)
+    userWords: List().setSize(20),
+    refresh: 0
 })
 
 export const updateUserWords = createAction(UPDATE_USERWORDS)
+export const updateRefresh = createAction(UPDATE_REFRESH)
 
 const getUserWords = (fillgapReducer) => fillgapReducer.get("userWords")
 const getWords = ({ appReducer }) => appReducer.get("worksheet").get("words")
 const getMode = ({ gameReducer }) => gameReducer.get("mode")
+const getRefresh = ({ fillgapReducer }) => fillgapReducer.get("refresh")
 
 export const getRandomizeWords = createSelector(
-    [getWords, getMode],
+    [getWords, getMode, getRefresh],
     (words) => {
         let list = List()
         let size = words.size
@@ -62,5 +66,6 @@ export const getUserCount = createSelector(
 )
 
 export default handleActions({
-    [UPDATE_USERWORDS]: (state, action) => state.set("userWords", action.payload)
+    [UPDATE_USERWORDS]: (state, action) => state.set("userWords", action.payload),
+    [UPDATE_REFRESH]: (state, action) => state.set("refresh", action.payload)
 }, INITIAL_STATE)

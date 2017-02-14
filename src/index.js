@@ -15,6 +15,8 @@ import WorksheetEditor from './editor/worksheet/WorksheetEditor'
 import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
 
+import { updateError } from './app/duck'
+
 import { getCurrentUser } from './services/firebase'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -32,7 +34,22 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 const isConnected = (nextState, replace) => {
     getCurrentUser()
-    .then(u => !u ? store.dispatch(push("/account")) : null)
+    .then(u => {
+        if (!u) {
+            store.dispatch(updateError(new Error("You are not connected")))
+            return store.dispatch(push("/account"))
+        }
+
+        if (!u.emailVerified) {
+            store.dispatch(updateError(new Error("Your email has not been verified")))
+            return store.dispatch(push("/"))
+        }
+
+        if (!u.role) {
+            store.dispatch(updateError(new Error("You are not accredited by the administrator")))
+            return store.dispatch(push("/"))
+        }
+    })
 }
 
 const isNotConnected = (nextState, replace) => {

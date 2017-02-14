@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Worksheet from './component/Worksheet'
-import { updateLoading, createWord, createWorksheet } from '../../app/duck'
+import { updateLoading, createWorksheet } from '../../app/duck'
 
 class WorksheetCreator extends React.Component {
     componentDidMount() {
@@ -13,13 +13,7 @@ class WorksheetCreator extends React.Component {
         let worksheet = Object.assign({}, value, {})
         delete worksheet.words
 
-        if (words) {
-            words.forEach((w, i) => {
-                this.props.dispatch(createWord(w))
-            })
-        }
-
-        this.props.dispatch(createWorksheet(value))
+        this.props.dispatch(createWorksheet(worksheet, words))
     }
 
     render() {
