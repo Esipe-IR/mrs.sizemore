@@ -281,3 +281,22 @@ body {
 	color: white;
 	background-color: #d9534f;
 }
+
+.score-box {
+	position: relative;
+	top: -10px;
+	right: -10px;
+	float: right;
+	padding: 10px;
+	background: rgb(0, 188, 212);
+	color: white;
+	margin: 0;
+}
+
+.clearfloat {
+	clear: both;
+}
+
+.no-margin-top {
+	margin-top: 0;
+}

@@ -5,7 +5,7 @@ const InputHard = (props) => (
         className="form-control"
         data-index={props.itemKey}
         onChange={props.onChange}
-        value={props.userWord ? props.userWord.get("value") : ''}
+        value={props.userWords.get(props.itemKey).get("value")}
         placeholder="english word" />
 )
 

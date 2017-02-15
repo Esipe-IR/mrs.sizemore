@@ -7,11 +7,11 @@ import KeyboardContainer from '../../../keyboard/KeyboardContainer'
 const Translator = (props) => (
     <article className="box">
         <div className="box-title text-center">
-            <h2>Translate</h2>
-            
-            <div className="float">
+            <div className="score-box">
                 <h3>Score: {props.score}</h3>
             </div>
+
+            <h2 className="clearfloat no-margin-top">Translator</h2>
 
             <button className="btn btn-default" onClick={props.onClickRefresh}>
                 <i className="fa fa-refresh" aria-hidden="true"></i> Refresh

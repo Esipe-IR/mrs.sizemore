@@ -10,7 +10,7 @@ class GameContainer extends React.Component {
     }
 
     updateMode(e) {
-        let mode = parseInt(e.target.dataset.mode, 3)
+        let mode = parseInt(e.target.value, 10)
         this.props.dispatch(updateMode(mode))
     }
 

@@ -1,16 +1,25 @@
 import React from 'react'
 import Form from './Form'
+import Difficulty from './Difficulty'
 
 const Fillgap = (props) => (
     <article className="box">
         <div className="box-title text-center">
-            <h2>Fillgap</h2>
+            <div className="score-box">
+                <h3>Score: {props.score}/{props.userWords.size}</h3>
+            </div>
 
-            <h3>Score: {props.score}/{props.words.size}</h3>
+            <h2 className="clearfloat no-margin-top">Fillgap</h2>
             
-            <button className="btn btn-default" onClick={props.onClickRefresh}>
-                <i className="fa fa-refresh" aria-hidden="true"></i> Refresh
-            </button>
+            <div className="row">
+                <div className="col-sm-12">
+                    <button className="btn btn-default margin-btm-20" onClick={props.onClickRefresh}>
+                        <i className="fa fa-refresh" aria-hidden="true"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <Difficulty {...props} />
         </div>
 
         <div className="box-body">
