@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
 import Examples from './Examples'
+import Tips from './Tips'
 import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Word = (props) => (
@@ -36,7 +37,7 @@ const Word = (props) => (
                                 <Field name="definition" component="input" type="text" className="form-control" />
 
                                 <span className="input-group-btn">
-                                    <button type="button" className="btn btn-success" onClick={props.clickDefinition}>
+                                    <button type="button" className="btn btn-success" onClick={() => props.fetchDefinitions(props.mutable_en)}>
                                         <i className="fa fa-question-circle"></i> Help
                                     </button>
                                 </span>
@@ -65,6 +66,8 @@ const Word = (props) => (
                 </form>
             </div>
         </div>
+
+        {props.tips ? <Tips modal={props.tips} onHide={() => props.updateTips(props.tips.set("show", false))} onSubmit={props.submitTips} /> : null}
     </section>
 )
 

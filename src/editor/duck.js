@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
-import { updateError } from '../app/duck'
+import { formValueSelector } from 'redux-form'
+import { updateLoading, updateError } from '../app/duck'
 import { getDefinitions, getExamples } from '../services/client'
 
 const INITIAL_STATE = Map({
@@ -14,14 +15,22 @@ export const updateDelete = createAction(UPDATE_DELETE)
 export const updateTips = createAction(UPDATE_TIPS)
 
 export const fetchDefinitions = (word) => (dispatch) => {
+    dispatch(updateLoading(true))
+
     getDefinitions(word)
     .then(response =>  {
-        console.log(response)
-        updateTips(response)
+        let tips = Map({
+            show: true,
+            body: response.data,
+            type: 0
+        })
+
+        dispatch(updateTips(tips))
+        dispatch(updateLoading(false))
     })
     .catch(err => {
-        console.log(err)
-        updateError(err)
+        dispatch(updateError(err))
+        dispatch(updateLoading(false))
     })
 }
 
@@ -30,6 +39,8 @@ export const fetchExamples = (word) => (dispatch) => (
     .then(response => updateTips(response))
     .catch(err => updateError(err))
 )
+
+export const wordSelector = formValueSelector("word_editor")
 
 export default handleActions({
     [UPDATE_DELETE]: (state, action) => state.set("delete", action.payload),
