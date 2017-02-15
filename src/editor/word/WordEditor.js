@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Word from './component/Word'
-import { fetchWord, editWord } from '../../app/duck' 
+import { fetchDefinitions, fetchExamples } from '../duck'
+import { fetchWord, editWord } from '../../app/duck'
 
 class WordEditor extends React.Component {
     componentDidMount() {
@@ -12,9 +13,21 @@ class WordEditor extends React.Component {
         this.props.dispatch(editWord(value))
     }
 
+    clickDefinition() {
+        this.props.dispatch(fetchDefinitions(this.props.word.get("en")))
+    }
+
+    clickExample() {
+        this.props.dispatch(fetchExamples(this.props.word.get("en")))
+    }
+
     render() {
         return this.props.word ?
-            <Word onSubmit={this.onSubmit.bind(this)} initialValues={this.props.word.toJS()} />
+            <Word 
+                onSubmit={this.onSubmit.bind(this)} 
+                clickDefinition={this.clickDefinition.bind(this)}
+                clickExample={this.clickExample.bind(this)}
+                initialValues={this.props.word.toJS()} />
             :
             null
     }

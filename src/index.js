@@ -40,10 +40,10 @@ const isConnected = (nextState, replace) => {
             return store.dispatch(push("/account"))
         }
 
-        if (!u.emailVerified) {
-            store.dispatch(updateError(new Error("Your email has not been verified")))
-            return store.dispatch(push("/"))
-        }
+        //if (!u.emailVerified) {
+        //    store.dispatch(updateError(new Error("Your email has not been verified")))
+        //    return store.dispatch(push("/"))
+        //}
 
         if (!u.role) {
             store.dispatch(updateError(new Error("You are not accredited by the administrator")))

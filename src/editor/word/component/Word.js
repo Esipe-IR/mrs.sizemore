@@ -32,7 +32,15 @@ const Word = (props) => (
                         <label htmlFor="definition" className="col-sm-2 control-label">Definition</label>
                         
                         <div className="col-sm-10">
-                            <Field name="definition" component="input" type="text" className="form-control" />
+                            <div className="input-group">
+                                <Field name="definition" component="input" type="text" className="form-control" />
+
+                                <span className="input-group-btn">
+                                    <button type="button" className="btn btn-success" onClick={props.clickDefinition}>
+                                        <i className="fa fa-question-circle"></i> Help
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                     </div>
 
