@@ -34,11 +34,25 @@ export const fetchDefinitions = (word) => (dispatch) => {
     })
 }
 
-export const fetchExamples = (word) => (dispatch) => (
+export const fetchExamples = (word) => (dispatch) => {
+    dispatch(updateLoading(true))
+
     getExamples(word)
-    .then(response => updateTips(response))
-    .catch(err => updateError(err))
-)
+    .then(response => {
+        let tips = Map({
+            show: true,
+            body: response.data.examples,
+            type: 1
+        })
+
+        dispatch(updateTips(tips))
+        dispatch(updateLoading(false))
+    })
+    .catch(err => {
+        dispatch(updateError(err))
+        dispatch(updateLoading(false))
+    })
+}
 
 export const wordSelector = formValueSelector("word_editor")
 

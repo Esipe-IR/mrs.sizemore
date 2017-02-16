@@ -52,7 +52,7 @@ const Word = (props) => (
                             <em>(word = "World") => "Hey Hello [x]"</em><br />
                             <em>(word = "English") => "My favourite subject is by far [x]"</em>
 
-                            <FieldArray name="examples" component={Examples}/>
+                            <FieldArray name="examples" component={Examples} fetchExamples={props.fetchExamples} mutable_en={props.mutable_en}/>
                         </div>
                     </div>
 

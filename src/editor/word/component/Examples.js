@@ -21,7 +21,7 @@ const Examples = (props) => (
                 <i className="fa fa-plus" aria-hidden="true"></i> Add example
             </button>
 
-            <button type="button" onClick={() => props.fetchExamples()} className="btn btn-success margin-lft-5">
+            <button type="button" onClick={() => props.fetchExamples(props.mutable_en)} className="btn btn-success margin-lft-5">
                 <i className="fa fa-question-circle" aria-hidden="true"></i> Help
             </button>
         </li>

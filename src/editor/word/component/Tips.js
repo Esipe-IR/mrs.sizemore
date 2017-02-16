@@ -15,13 +15,13 @@ const Tips = (props) => (
                         <li className="list-group-item" key={i}>
                             {props.modal.get("type") === 0 ?
                                 <div>
-                                    <Field name="definition" component="input" type="radio" value={data.text}/>
-                                    <label>{data.text}</label>
+                                    <Field name="definition" id={"definition_"+i} component="input" type="radio" value={data.text}/>
+                                    <label htmlFor={"definition_"+i}>{data.text}</label>
                                 </div>
                                     :
                                 <div>
-                                    <Field name="employed" id="employed" component="input" type="checkbox"/>
-                                    <label htmlFor="employed">{data.text}</label>
+                                    <Field name={"examples_"+i} id={"examples_"+i} component="input" type="checkbox" value={data.text}/>
+                                    <label htmlFor={"examples_"+i}>{data.text}</label>
                                 </div>
                             }
                         </li>
