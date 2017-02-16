@@ -13,10 +13,10 @@ const Worksheet = (props) => (
             <div className="panel-body">
                 <form className="form-horizontal" onSubmit={props.handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="name" className="col-sm-2 control-label">Name</label>
+                        <label htmlFor="name" className="col-sm-2 control-label">Title</label>
                         
                         <div className="col-sm-10">
-                            <Field name="name" component="input" type="text" className="form-control" />
+                            <Field name="name" component="input" type="text" className="form-control" placeholder="title" />
                         </div>
                     </div>
 
@@ -24,7 +24,7 @@ const Worksheet = (props) => (
                         <label htmlFor="img" className="col-sm-2 control-label">Image</label>
 
                         <div className="col-sm-10">
-                            <Field name="img" component="input" type="text" className="form-control" />
+                            <Field name="img" component="input" type="text" className="form-control" placeholder="image" />
                         </div>
                     </div>
 
@@ -32,7 +32,7 @@ const Worksheet = (props) => (
                         <label htmlFor="description" className="col-sm-2 control-label">Description</label>
 
                         <div className="col-sm-10">
-                            <Field name="description" component="textarea" className="form-control"/>
+                            <Field name="description" component="textarea" className="form-control" placeholder="description"/>
                         </div>
                     </div>
 

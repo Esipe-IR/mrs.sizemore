@@ -3,7 +3,7 @@ import React from 'react'
 const InputMedium = (props) => (
     <div className="input-group">
         <select data-index={props.itemKey} className="form-control" onChange={props.onChange} defaultValue="">
-            <option></option>
+            <option>---</option>
 
             {props.userWords.map((w, i) => (
                 <option key={w.get("en")}>{w.get("en")}</option>

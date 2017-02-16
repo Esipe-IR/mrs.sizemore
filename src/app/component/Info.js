@@ -1,19 +1,23 @@
 import React from 'react'
 
-const Info = ({status, msg}) => {
-    let c = "bg-danger"
+const Info = ({status, msg, extra}) => {
+    let c = "danger"
 
     if (status === null || typeof status === "undefined" || !msg) {
         c = "hidden"
     } else if (status) {
-        c = "bg-success"
+        c = "success"
     }
 
     return (
         <div className="row">
             <div className="col-xs-12">
-                <div className={"pad-10 margin-btm-20 " + c}>
+                <div className={"pad-10 margin-btm-20 bar-" + c}>
                     <p>{msg}</p>
+                </div>
+
+                <div className="text-center extra-box">
+                    {extra ? extra : ""}
                 </div>
             </div>
         </div>

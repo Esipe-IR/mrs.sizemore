@@ -1,36 +1,30 @@
 import React from 'react'
 
+const getClass = (result) => {
+    if (result === false) return "has-error"
+
+    if (result === true) return "has-success"
+}
+
 const Form = (props) => (
     <form className="form-horizontal" onSubmit={props.checkResult}>
         <div className="form-group">
-            <div className="hidden-xs hidden-sm">
-                <label className="col-sm-2 control-label" htmlFor="translate-french-value">French</label>
-            </div>
-
-            <div className="col-md-10 col-sm-12">
-                <input type="text" 
-                className="form-control" 
-                id="translate-french-value" 
-                value={props.word.get("fr")} 
-                disabled />
-            </div>
+            <input type="text" 
+            className="form-control" 
+            id="translate-french-value" 
+            value={props.word.get("fr")} 
+            disabled />
         </div>
 
-        <div className="form-group">
-            <div className="hidden-xs hidden-sm">
-                <label className="col-sm-2 control-label" htmlFor="translate-english-value">English</label>
-            </div>
-
-            <div className="col-md-10 col-sm-12">
-                <input type="text" 
-                className="form-control" 
-                name="translate-english-value" 
-                id="translate-english-value" 
-                value={props.input}
-                onChange={props.formatInput}
-                placeholder="English"
-                autoComplete="off" />
-            </div>
+        <div className={"form-group " + getClass(props.result)}>
+            <input type="text" 
+            className="form-control" 
+            name="translate-english-value" 
+            id="translate-english-value" 
+            value={props.input}
+            onChange={props.formatInput}
+            placeholder="English"
+            autoComplete="off" />
         </div>
 
         <hr />

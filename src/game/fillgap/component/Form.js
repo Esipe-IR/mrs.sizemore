@@ -11,6 +11,9 @@ const getClass = (status) => {
 const Form = (props) => (
     <form onSubmit={props.onSubmit}>
         <p>Count: {props.count}/{props.userWords.size}</p>
+        <div className="margin-btm-20">
+            <b>{props.difficulty === 0 ? "Choose" : "Write"} the right word in the sentence.</b>
+        </div>
 
          {props.userWords.map((w, index) => (
             <div key={w.get("id")} className={"form-group " + getClass(w.get("status")) }>

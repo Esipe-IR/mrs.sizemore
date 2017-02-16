@@ -13,9 +13,10 @@ const INITIAL_STATE = Map({
 
 export const updateWord = createAction(UPDATE_WORD)
 export const updateInput = createAction(UPDATE_INPUT)
-export const updateResult = createAction(UPDATE_RESULT, (status, msg) => ({
+export const updateResult = createAction(UPDATE_RESULT, (status, msg, extra) => ({
     msg,
-    status
+    status,
+    extra
 }))
 export const updateScore = createAction(UPDATE_SCORE)
 
@@ -23,7 +24,11 @@ export default handleActions({
     [UPDATE_WORD]: (state, action) => state.set("word", action.payload),
     [UPDATE_INPUT]: (state, action) => state.set("input", action.payload), 
     [UPDATE_RESULT]: (state, action) => (state.withMutations(ctx => { 
-        ctx.set("result", action.payload.status).set("resultMsg", action.payload.msg).set("input", "")
+        ctx
+        .set("result", action.payload.status)
+        .set("resultMsg", action.payload.msg)
+        .set("resultExtra", action.payload.extra)
+        .set("input", "")
     })),
     [UPDATE_SCORE]: (state, action) => state.set("score", action.payload)
 }, INITIAL_STATE)

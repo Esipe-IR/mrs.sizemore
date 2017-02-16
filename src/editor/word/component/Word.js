@@ -38,7 +38,7 @@ const Word = (props) => (
 
                                 <span className="input-group-btn">
                                     <button type="button" className="btn btn-success" onClick={() => props.fetchDefinitions(props.mutable_en)}>
-                                        <i className="fa fa-question-circle"></i> Help
+                                        <i className="fa fa-question-circle"></i> Example
                                     </button>
                                 </span>
                             </div>
@@ -46,11 +46,13 @@ const Word = (props) => (
                     </div>
 
                     <div className="form-group">
-                        <label className="col-sm-2 control-label">Examples</label>
+                        <label className="col-sm-2 control-label">Sentences</label>
                         
                         <div className="col-sm-10">
-                            <em>(word = "World") => "Hey Hello [x]"</em><br />
-                            <em>(word = "English") => "My favourite subject is by far [x]"</em>
+                            <p>
+                                <b>Replace the word you want to put in the example by : [x].</b><br/> 
+                                Example with the word "school" : I don't want to go to [x].
+                            </p>
 
                             <FieldArray name="examples" component={Examples} fetchExamples={props.fetchExamples} mutable_en={props.mutable_en}/>
                         </div>

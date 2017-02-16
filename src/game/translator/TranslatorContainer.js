@@ -32,7 +32,7 @@ class TranslatorContainer extends React.Component {
     checkResult(e) {
         e.preventDefault()
 
-        let status, msg
+        let status, msg, extra
         let score = this.props.score
         let en = this.props.word.get("en")
 
@@ -42,10 +42,16 @@ class TranslatorContainer extends React.Component {
             score++
         } else {
             status = false
-            msg = "Wrong! The correct answer for '" + this.props.word.get("fr") + "' is: '" + en + "' not: '" + this.props.input + "'"
-        }
+            msg = "Wrong!"
 
-        this.props.updateResult(status, msg)
+            if (this.props.input === "") {
+                extra = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not empty"
+            } else {
+                extra = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not \"" + this.props.input + "\""
+            }
+    }
+
+        this.props.updateResult(status, msg, extra)
         this.props.updateScore(score)
         this.randomWord()
     }
@@ -71,6 +77,7 @@ TranslatorContainer.propTypes = {
     input: React.PropTypes.string,
     result: React.PropTypes.bool,
     resultMsg: React.PropTypes.string,
+    resultExtra: React.PropTypes.string,
     switch: React.PropTypes.bool,
     score: React.PropTypes.number
 }
@@ -81,6 +88,7 @@ const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => 
     input: translatorReducer.get("input"),
     result: translatorReducer.get("result"),
     resultMsg: translatorReducer.get("resultMsg"),
+    resultExtra: translatorReducer.get("resultExtra"),
     switch: keyboardReducer.get("status"),
     score: translatorReducer.get("score")
 })
@@ -88,7 +96,7 @@ const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateWord: (word) => dispatch(updateWord(word)),
     updateInput: (input) => dispatch(updateInput(input)),
-    updateResult: (status, msg) => dispatch(updateResult(status, msg)),
+    updateResult: (status, msg, extra) => dispatch(updateResult(status, msg, extra)),
     updateSwitch: (status) => dispatch(updateStatus(status)),
     updateScore: (score) => dispatch(updateScore(score))
 })
