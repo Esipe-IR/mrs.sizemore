@@ -304,23 +304,23 @@ body {
 }
 
 .bar-success {
-	width: 300px;
 	margin: 0 auto;
 	margin-bottom: 20px;
 	background: #00A87E;
 	color: white;
 	text-align: center;
+	max-width: 300px;
 	font-weight: bold;
 	font-size: 1.4em;
 }
 
 .bar-danger {
-	width: 300px;
 	margin: 0 auto;
 	margin-bottom: 20px;
 	background: #d9534f;
 	color: white;
 	text-align: center;
+	max-width: 300px;
 	font-weight: bold;
 	font-size: 1.4em;
 }

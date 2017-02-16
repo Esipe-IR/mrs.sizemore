@@ -12,7 +12,7 @@ const Words = ({ fields, meta: { touched, error } }) => (
                     placeholder="English"/>
 
                 <button title="Remove" onClick={() => fields.remove(index)} className="btn btn-danger margin-lft-5">
-                    Delete
+                    <i className="fa fa-times" aria-hidden="true"></i> Delete
                 </button>
             </li>
         )}

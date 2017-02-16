@@ -23,7 +23,7 @@ export const getUserCount = createSelector(
         let count = 0
 
         words.forEach((w, i) => {
-            if (w.get("value") !== "") count++
+            if (w.get("value") !== "---") count++
         })
 
         return count

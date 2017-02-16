@@ -10,14 +10,19 @@ const Info = ({status, msg, extra}) => {
     }
 
     return (
-        <div className="row">
-            <div className="col-xs-12">
-                <div className={"pad-10 margin-btm-20 bar-" + c}>
-                    <p>{msg}</p>
+        <div>
+            <div className="row">
+                <div className="col-xs-12">
+                    <div className={"pad-10 margin-btm-20 bar-" + c}>
+                        <p>{msg}</p>
+                    </div>
                 </div>
-
-                <div className="text-center extra-box">
-                    {extra ? extra : ""}
+            </div>
+            <div className="row">
+                <div className="col-xs-12">
+                    <div className="text-center extra-box">
+                        {extra ? extra : ""}
+                    </div>
                 </div>
             </div>
         </div>

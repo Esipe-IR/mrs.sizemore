@@ -13,14 +13,17 @@ const Words = ({ fields, meta: { touched, error }, worksheetid, addDelete }) => 
 
                 {fields.get(index).id ? 
                     <a href={"/edit/word/" + fields.get(index).id} className="btn btn-primary margin-lft-5">
-                        Edit
+                        <i className="fa fa-wrench" aria-hidden="true"></i> Edit
                     </a>
                     : 
                     null 
                 }
 
-                <button title="Remove" onClick={(e) => {e.preventDefault();addDelete(fields.get(index).id);fields.remove(index)}} className="btn btn-danger margin-lft-5">
-                    Delete
+                <button title="Remove" type="button" onClick={() => {
+                        addDelete(fields.get(index).id)
+                        fields.remove(index)
+                }} className="btn btn-danger margin-lft-5">
+                    <i className="fa fa-times" aria-hidden="true"></i> Delete
                 </button>
             </li>
         )}

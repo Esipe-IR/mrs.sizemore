@@ -3,7 +3,7 @@ import React from 'react'
 const Difficulty = (props) => (
     <div className="mode-selection">
         <div className="row">
-            <div className="col-sm-6">
+            <div className="col-xs-6">
                 <div className="mode">
                     <button 
                         onClick={() => props.updateDifficulty(0)} 
@@ -13,7 +13,7 @@ const Difficulty = (props) => (
                     </button>
                 </div>
             </div>
-            <div className="col-sm-6">
+            <div className="col-xs-6">
                 <div className="mode">
                     <button 
                         onClick={() => props.updateDifficulty(1)}

@@ -5,7 +5,11 @@ import FillgapContainer from '../fillgap/FillgapContainer'
 
 const Game = (props) => (
     <section>
-        <h1 className="text-center">{props.worksheet.get("name")}</h1>
+        <div className="text-center margin-btm-20">
+            <h1>{props.worksheet.get("name")}</h1>
+
+            <img src={props.worksheet.get("img")} alt="" width="200px" />
+        </div>
 
         <ModeSelection mode={props.mode} updateMode={props.updateMode} />
 

@@ -11,7 +11,7 @@ const Examples = (props) => (
                     component="input"
                     placeholder="Your sentence"/>
 
-                <button title="Remove" onClick={() => props.fields.remove(index)} className="btn btn-danger">
+                <button type="button" title="Remove" onClick={() => props.fields.remove(index)} className="btn btn-danger">
                     <i className="fa fa-times" aria-hidden="true"></i> Delete
                 </button>
             </li>

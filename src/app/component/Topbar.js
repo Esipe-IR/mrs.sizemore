@@ -13,7 +13,7 @@ const Topbar = ({onClick, sidebar}) => (
             </div>
 
             <div className="navbar-header">
-                <a className="navbar-brand" href="/">Old Wood</a>
+                <a className="navbar-brand" href="/"><b>Old Wood <span className="badge">Beta</span></b></a>
             </div>
         </div>
     </nav>

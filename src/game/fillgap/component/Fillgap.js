@@ -5,11 +5,7 @@ import Difficulty from './Difficulty'
 const Fillgap = (props) => (
     <article className="box">
         <div className="box-title text-center">
-            <div className="score-box">
-                <h3>Score: {props.score}/{props.userWords.size}</h3>
-            </div>
-
-            <h2 className="clearfloat no-margin-top">Fillgap</h2>
+            <h2>Fillgap</h2>
             
             <div className="row">
                 <div className="col-sm-12">
