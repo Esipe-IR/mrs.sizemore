@@ -6,6 +6,7 @@ const Sentences = (props) => (
         {props.fields.map((sentence, index) =>
             <li key={index} className="list-group-item">
                 <Field
+                    className="margin-btm-5"
                     name={`${sentence}`}
                     type="text"
                     component="input"
@@ -18,11 +19,11 @@ const Sentences = (props) => (
         )}
 
         <li className="list-group-item">
-            <button type="button" onClick={() => props.fields.push("")} className="btn btn-primary">
+            <button type="button" onClick={() => props.fields.push("")} className="btn btn-primary margin-btm-5">
                 <i className="fa fa-plus" aria-hidden="true"></i> Add sentence
             </button>
 
-            <button type="button" onClick={() => props.fetchSentences(props.mutable_en)} className="btn btn-success margin-lft-5">
+            <button type="button" onClick={() => props.fetchSentences(props.mutable_en)} className="btn btn-success margin-lft-5 margin-btm-5">
                 <i className="fa fa-question-circle" aria-hidden="true"></i> Examples
             </button>
         </li>
