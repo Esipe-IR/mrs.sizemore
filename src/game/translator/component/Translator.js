@@ -1,8 +1,6 @@
-import Switch from 'react-toggle-switch'
 import React from 'react'
 import Form from './Form'
 import Info from '../../../app/component/Info'
-import KeyboardContainer from '../../../keyboard/KeyboardContainer'
 
 const Translator = (props) => (
     <article className="box">
@@ -15,15 +13,6 @@ const Translator = (props) => (
         </div>
 
         <div className="box-body">
-            <div className="row">
-                <div className="col-sm-2">
-                    Display keyboard
-                </div>
-                <div className="col-sm-10">
-                    <Switch onClick={props.toggleSwitch} on={props.switch} />
-                </div>
-            </div>
-
             <Info status={props.result} msg={props.resultMsg} extra={props.resultExtra} />
 
             <div className="row">
@@ -32,8 +21,6 @@ const Translator = (props) => (
                 </div>
             </div>
         </div>
-
-        <KeyboardContainer onChange={props.updateInput} word={props.input}/>
     </article>
 )
 

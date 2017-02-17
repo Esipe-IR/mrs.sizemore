@@ -15,12 +15,20 @@ export const updateAction = createAction(UPDATE_ACTION)
 export const updateUser = createAction(UPDATE_USER)
 
 export const register = (user) => (dispatch) => {
+    if (!user) {
+        return dispatch(updateError(new Error("No information submit")))
+    }
+
     createUser(user.get("email"), user.get("password"))
     .then(result => dispatch(updateSuccess("Well register")))
     .catch(error => dispatch(updateError(error)))
 }
 
 export const connexion = (user) => (dispatch) => {
+    if (!user) {
+        return dispatch(updateError(new Error("No information submit")))
+    }
+    
     connectUser(user.get("email"), user.get("password"))
     .then(result => {
         dispatch(updateSuccess("Well connected"))

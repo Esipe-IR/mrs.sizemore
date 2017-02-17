@@ -7,23 +7,23 @@ import { editKey } from '../services/obj'
 
 class AccountContainer extends React.Component {
     componentDidMount() {
-        this.props.dispatch(updateLoading(false))
+        this.props.updateLoading(false)
     }
 
     onSubmit(e) {
         e.preventDefault()
 
-        if (!this.props.action) this.props.dispatch(register(this.props.user))
-        else this.props.dispatch(connexion(this.props.user))
+        if (!this.props.action) this.props.register(this.props.user)
+        else this.props.connexion(this.props.user)
     }
 
     onChange(e) {
         let newUser = editKey([e.target.id], e.target.value, this.props.user)
-        this.props.dispatch(updateUser(newUser))
+        this.props.updateUser(newUser)
     }
 
     updateAction() {
-        this.props.dispatch(updateAction(!this.props.action))
+        this.props.updateAction(!this.props.action)
     }
 
     render() {
@@ -34,13 +34,23 @@ class AccountContainer extends React.Component {
 AccountContainer.propTypes = {
     action: React.PropTypes.bool,
     user: React.PropTypes.object,
-    error: React.PropTypes.bool
+    error: React.PropTypes.bool,
+    errorMsg: React.PropTypes.string
 }
 
 const mapStateToProps = ({accountReducer, appReducer}) => ({
     action: accountReducer.get("action"),
     user: accountReducer.get("user"),
-    error: appReducer.get("error")
+    error: appReducer.get("error"),
+    errorMsg: appReducer.get("errorMsg")
 })
 
-export default connect(mapStateToProps)(AccountContainer)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    updateLoading: (loading) => dispatch(updateLoading(loading)),
+    register: (user) => dispatch(register(user)),
+    connexion: (user) => dispatch(connexion(user)),
+    updateUser: (user) => dispatch(updateUser(user)),
+    updateAction: (action) => dispatch(updateAction(action))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AccountContainer)

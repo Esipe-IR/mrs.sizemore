@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, FieldArray, reduxForm } from 'redux-form'
-import Examples from './Examples'
+import Sentences from './Sentences'
 import Tips from './Tips'
 import Breadcrumb from '../../../app/component/Breadcrumb'
 
@@ -54,7 +54,7 @@ const Word = (props) => (
                                 Example with the word "school" : I don't want to go to [x].
                             </p>
 
-                            <FieldArray name="examples" component={Examples} fetchExamples={props.fetchExamples} mutable_en={props.mutable_en}/>
+                            <FieldArray name="sentences" component={Sentences} fetchSentences={props.fetchSentences} mutable_en={props.mutable_en}/>
                         </div>
                     </div>
 

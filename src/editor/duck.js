@@ -34,7 +34,7 @@ export const fetchDefinitions = (word) => (dispatch) => {
     })
 }
 
-export const fetchExamples = (word) => (dispatch) => {
+export const fetchSentences = (word) => (dispatch) => {
     dispatch(updateLoading(true))
 
     getExamples(word)

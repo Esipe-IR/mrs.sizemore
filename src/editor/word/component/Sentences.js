@@ -1,12 +1,12 @@
 import React from 'react'
 import { Field } from 'redux-form'
 
-const Examples = (props) => (
+const Sentences = (props) => (
     <ul className="list-group">
-        {props.fields.map((member, index) =>
+        {props.fields.map((sentence, index) =>
             <li key={index} className="list-group-item">
                 <Field
-                    name={`${member}`}
+                    name={`${sentence}`}
                     type="text"
                     component="input"
                     placeholder="Your sentence"/>
@@ -22,7 +22,7 @@ const Examples = (props) => (
                 <i className="fa fa-plus" aria-hidden="true"></i> Add sentence
             </button>
 
-            <button type="button" onClick={() => props.fetchExamples(props.mutable_en)} className="btn btn-success margin-lft-5">
+            <button type="button" onClick={() => props.fetchSentences(props.mutable_en)} className="btn btn-success margin-lft-5">
                 <i className="fa fa-question-circle" aria-hidden="true"></i> Examples
             </button>
         </li>
@@ -31,4 +31,4 @@ const Examples = (props) => (
     </ul>
 )
 
-export default Examples
+export default Sentences

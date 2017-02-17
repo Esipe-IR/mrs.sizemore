@@ -19,19 +19,19 @@ class FillgapContainer extends React.Component {
         while (size) {
             let random1 = getRandom(this.props.words.size, exclude)
 
-            if (!this.props.words.get(random1).get("examples") || 
-                !this.props.words.get(random1).get("examples").size) {
+            if (!this.props.words.get(random1).get("sentences") || 
+                !this.props.words.get(random1).get("sentences").size) {
                 exclude.push(random1)
                 size--
                 continue
             }
 
-            let random2 = getRandom(this.props.words.get(random1).get("examples").size)
+            let random2 = getRandom(this.props.words.get(random1).get("sentences").size)
             
             let w = Map({
                 id: this.props.words.get(random1).get("id"),
                 en: this.props.words.get(random1).get("en"), 
-                example: this.props.words.get(random1).get("examples").get(random2),
+                sentence: this.props.words.get(random1).get("sentences").get(random2),
                 definition: this.props.words.get(random1).get("definition"),
                 value: "",
                 status: null

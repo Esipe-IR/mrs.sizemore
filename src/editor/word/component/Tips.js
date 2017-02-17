@@ -20,8 +20,8 @@ const Tips = (props) => (
                                 </div>
                                     :
                                 <div>
-                                    <Field name={"examples_"+i} id={"examples_"+i} component="input" type="checkbox" value={data.text}/>
-                                    <label htmlFor={"examples_"+i}>{data.text}</label>
+                                    <Field name={"sentences_"+i} id={"sentences_"+i} component="input" type="checkbox" value={data.text}/>
+                                    <label htmlFor={"sentences_"+i}>{data.text}</label>
                                 </div>
                             }
                         </li>

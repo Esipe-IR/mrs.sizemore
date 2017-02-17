@@ -2,7 +2,6 @@ import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Topbar from './Topbar'
 import Sidebar from './Sidebar'
-import Info from './Info'
 import Footer from './Footer'
 
 const LoadingOverlay = () => (
@@ -26,7 +25,6 @@ const App = (props) => (
         </ReactCSSTransitionGroup>
 
         <div className="container">
-            {props.error === null ? null : <Info status={!props.error} msg={props.errorMsg} />}
             {props.children}
             <Footer />
         </div>

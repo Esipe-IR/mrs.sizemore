@@ -24,7 +24,9 @@ const Form = (props) => (
             value={props.input}
             onChange={props.formatInput}
             placeholder="English"
-            autoComplete="off" />
+            autoComplete="off"
+            autoCapitalize="off"
+            autoCorrect="off" />
         </div>
 
         <hr />

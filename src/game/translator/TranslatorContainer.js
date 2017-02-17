@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Translator from './component/Translator'
 import { updateWord, updateInput, updateResult, updateScore } from './duck'
-import { updateStatus } from '../../keyboard/duck'
 import { getRandom } from '../../services/obj'
 
 class TranslatorContainer extends React.Component {
@@ -56,16 +55,11 @@ class TranslatorContainer extends React.Component {
         this.randomWord()
     }
 
-    toggleSwitch() {
-        this.props.updateSwitch(!this.props.switch)
-    }
-
     render() {
         return this.props.word ? 
             <Translator {...this.props} 
                 checkResult={this.checkResult.bind(this)} 
-                formatInput={this.formatInput.bind(this)}
-                toggleSwitch={this.toggleSwitch.bind(this)}/> 
+                formatInput={this.formatInput.bind(this)}/> 
                 : 
             null
     }
@@ -78,7 +72,6 @@ TranslatorContainer.propTypes = {
     result: React.PropTypes.bool,
     resultMsg: React.PropTypes.string,
     resultExtra: React.PropTypes.string,
-    switch: React.PropTypes.bool,
     score: React.PropTypes.number
 }
 
@@ -89,7 +82,6 @@ const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => 
     result: translatorReducer.get("result"),
     resultMsg: translatorReducer.get("resultMsg"),
     resultExtra: translatorReducer.get("resultExtra"),
-    switch: keyboardReducer.get("status"),
     score: translatorReducer.get("score")
 })
 
@@ -97,7 +89,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateWord: (word) => dispatch(updateWord(word)),
     updateInput: (input) => dispatch(updateInput(input)),
     updateResult: (status, msg, extra) => dispatch(updateResult(status, msg, extra)),
-    updateSwitch: (status) => dispatch(updateStatus(status)),
     updateScore: (score) => dispatch(updateScore(score))
 })
 

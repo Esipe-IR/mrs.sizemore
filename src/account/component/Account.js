@@ -11,13 +11,16 @@ const Account = (props) => (
             Thank you for your understanding !
         </p>
 
-        <Info status={!props.error} msg={props.errorMsg} />
-
         <div className={"form-group " + (props.error ? "has-error" : "") }>
             <label htmlFor="email" className="col-sm-2 control-label">Email</label>
             
             <div className="col-sm-10">
-                <input type="email" className="form-control" id="email" placeholder="Email" onChange={props.onChange} value={props.user && props.user.get("email") ? props.user.get("email") : ""} />
+                <input type="email" 
+                    className="form-control" 
+                    id="email"
+                    placeholder="Email" 
+                    onChange={props.onChange} 
+                    value={props.user && props.user.get("email") ? props.user.get("email") : ""} />
             </div>
         </div>
 
@@ -25,12 +28,21 @@ const Account = (props) => (
             <label htmlFor="password" className="col-sm-2 control-label">Password</label>
             
             <div className="col-sm-10">
-                <input type="password" className="form-control" id="password" placeholder="Password" onChange={props.onChange} value={props.user && props.user.get("password") ? props.user.get("password") : ""} />
+                <input type="password" 
+                    className="form-control" 
+                    id="password" 
+                    placeholder="Password" 
+                    onChange={props.onChange} 
+                    value={props.user && props.user.get("password") ? props.user.get("password") : ""} />
             </div>
         </div>
 
         <div className="form-group">
-            <div className="col-sm-offset-2 col-sm-2">
+            {props.error === null ? null : <Info status={!props.error} msg={props.errorMsg} />}
+        </div>
+
+        <div className="form-group">
+            <div className="col-sm-offset-2 col-sm-2 margin-btm-5">
                 <button type="submit" className="btn btn-app-secondary sized">{ props.action ? "Connexion" : "Register"}</button>
             </div>
             <div className="col-sm-8">

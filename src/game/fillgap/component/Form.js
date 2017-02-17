@@ -17,7 +17,7 @@ const Form = (props) => (
 
          {props.userWords.map((w, index) => (
             <div key={w.get("id")} className={"form-group " + getClass(w.get("status")) }>
-                {reactStringReplace(w.get("example"), '[x]', (match, i) => (
+                {reactStringReplace(w.get("sentence"), '[x]', (match, i) => (
                     <div key={index}>
                         {props.difficulty === 0 ?
                             <InputMedium {...props} itemKey={index} />
