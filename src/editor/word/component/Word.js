@@ -6,10 +6,10 @@ import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Word = (props) => (
     <section>
-        <Breadcrumb items={[{title: "Edit Worksheet", link: "/edit/worksheet/" + props.initialValues.worksheet}]} lastItem={"Edit Word"} />
+        <Breadcrumb items={[{title: "Edit worksheet", link: "/edit/worksheet/" + props.initialValues.worksheet}]} lastItem={"Edit word"} />
 
         <div className="panel panel-default">
-            <div className="panel-heading">Edit Word</div>
+            <div className="panel-heading">Edit word</div>
 
             <div className="panel-body">
                 <form className="form-horizontal" onSubmit={props.handleSubmit}>
@@ -50,8 +50,8 @@ const Word = (props) => (
                         
                         <div className="col-sm-10">
                             <p>
-                                <b>Replace the word you want to put in the example by : [x].</b><br/> 
-                                Example with the word "school" : I don't want to go to [x].
+                                <b>Replace the word you want to put in the sentence by : [x].</b><br/> 
+                                Ex. with the word "school" : <i>I don't want to go to [x].</i>
                             </p>
 
                             <FieldArray name="sentences" component={Sentences} fetchSentences={props.fetchSentences} mutable_en={props.mutable_en}/>

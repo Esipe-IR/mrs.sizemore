@@ -6,6 +6,7 @@ const Words = ({ fields, meta: { touched, error } }) => (
         {fields.map((member, index) =>
             <li key={index} className="list-group-item">
                 <Field
+                    className="form-control margin-btm-5"
                     name={`${member}.en`}
                     type="text"
                     component="input"

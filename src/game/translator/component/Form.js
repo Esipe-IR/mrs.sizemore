@@ -1,11 +1,5 @@
 import React from 'react'
 
-const getClass = (result) => {
-    if (result === false) return "has-error"
-
-    if (result === true) return "has-success"
-}
-
 const Form = (props) => (
     <form className="form-horizontal" onSubmit={props.checkResult}>
         <div className="form-group">
@@ -16,7 +10,7 @@ const Form = (props) => (
             disabled />
         </div>
 
-        <div className={"form-group " + getClass(props.result)}>
+        <div className={"form-group"}>
             <input type="text" 
             className="form-control" 
             name="translate-english-value" 

@@ -6,7 +6,7 @@ import { updateDelete } from '../duck'
 
 class WorksheetEditor extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchWorksheet(this.props.params.id))
+        this.props.fetchWorksheet(this.props.params.id)
     }
 
     onSubmit(value) {
@@ -16,23 +16,23 @@ class WorksheetEditor extends React.Component {
 
         if (words) {
             words.forEach((w, i) => {
-                if (w.id) this.props.dispatch(editWord(w))
-                else this.props.dispatch(createWord(w))
+                if (w.id) this.props.editWord(w)
+                else this.props.createWord(w)
             })
         }
 
         this.props.del.forEach(w => {
-            this.props.dispatch(deleteWord(w))
+            this.props.deleteWord(w)
         })
 
-        this.props.dispatch(editWorksheet(value))
+        this.props.editWorksheet(value)
     }
 
     addDelete(id) {
         if (!id) return
         
         let del = this.props.del.push(id)
-        this.props.dispatch(updateDelete(del))
+        this.props.updateDelete(del)
     }
 
     render() {
@@ -56,4 +56,13 @@ const mapStateToProps = ({ appReducer, editorReducer }) => ({
     del: editorReducer.get("del")
 })
 
-export default connect(mapStateToProps)(WorksheetEditor)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    fetchWorksheet: (id) => dispatch(fetchWorksheet(id)),
+    editWord: (word) => dispatch(editWord(word)),
+    createWord: (word) => dispatch(createWord(word)),
+    deleteWord: (word) => dispatch(deleteWord(word)),
+    editWorksheet: (worksheet) => dispatch(editWorksheet(worksheet)),
+    updateDelete: (id) => dispatch(updateDelete(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(WorksheetEditor)

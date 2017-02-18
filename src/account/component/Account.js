@@ -1,5 +1,4 @@
 import React from 'react'
-import Info from '../../app/component/Info'
 
 const Account = (props) => (
     <form className="form-horizontal" onSubmit={props.onSubmit}>
@@ -35,10 +34,6 @@ const Account = (props) => (
                     onChange={props.onChange} 
                     value={props.user && props.user.get("password") ? props.user.get("password") : ""} />
             </div>
-        </div>
-
-        <div className="form-group">
-            {props.error === null ? null : <Info status={!props.error} msg={props.errorMsg} />}
         </div>
 
         <div className="form-group">

@@ -5,10 +5,10 @@ import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Worksheet = (props) => (
     <section>
-        <Breadcrumb lastItem={"Create Worksheet"} />
+        <Breadcrumb lastItem={"Create worksheet"} />
 
         <div className="panel panel-default">
-            <div className="panel-heading">Create Worksheet</div>
+            <div className="panel-heading">Create worksheet</div>
 
             <div className="panel-body">
                 <form className="form-horizontal" onSubmit={props.handleSubmit}>

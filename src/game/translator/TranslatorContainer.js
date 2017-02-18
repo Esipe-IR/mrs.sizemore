@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { addNotification as notify } from 'reapop'
 import Translator from './component/Translator'
-import { updateWord, updateInput, updateResult, updateScore } from './duck'
+import { updateWord, updateInput, updateScore } from './duck'
 import { getRandom } from '../../services/obj'
 
 class TranslatorContainer extends React.Component {
@@ -31,26 +32,34 @@ class TranslatorContainer extends React.Component {
     checkResult(e) {
         e.preventDefault()
 
-        let status, msg, extra
-        let score = this.props.score
-        let en = this.props.word.get("en")
+        let status = "success",
+            title  = "Great job!",
+            msg    = "Are you a champion ?",
+            score  = this.props.score + 1,
+            en     = this.props.word.get("en")
 
-        if (this.props.input === en) {
-            status = true
-            msg = "Great job!"
-            score++
-        } else {
-            status = false
-            msg = "Wrong!"
+        if (this.props.input !== en) {
+            status = "error"
+            title  = "Wrong!"
+            score -= 2
 
             if (this.props.input === "") {
-                extra = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not empty"
+                msg = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not empty"
             } else {
-                extra = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not \"" + this.props.input + "\""
+                msg = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not \"" + this.props.input + "\""
             }
-    }
+        }
 
-        this.props.updateResult(status, msg, extra)
+        this.props.updateNotify({
+            title: title,
+            message: msg,
+            status: status,
+            position: 'tr',
+            dismissible: true,
+            dismissAfter: 2000
+        })
+
+        this.props.updateInput("")
         this.props.updateScore(score)
         this.randomWord()
     }
@@ -69,9 +78,6 @@ TranslatorContainer.propTypes = {
     words: React.PropTypes.object,
     word: React.PropTypes.object,
     input: React.PropTypes.string,
-    result: React.PropTypes.bool,
-    resultMsg: React.PropTypes.string,
-    resultExtra: React.PropTypes.string,
     score: React.PropTypes.number
 }
 
@@ -79,17 +85,14 @@ const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => 
     words: appReducer.get("worksheet").get("words"),
     word: translatorReducer.get("word"),
     input: translatorReducer.get("input"),
-    result: translatorReducer.get("result"),
-    resultMsg: translatorReducer.get("resultMsg"),
-    resultExtra: translatorReducer.get("resultExtra"),
     score: translatorReducer.get("score")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateWord: (word) => dispatch(updateWord(word)),
     updateInput: (input) => dispatch(updateInput(input)),
-    updateResult: (status, msg, extra) => dispatch(updateResult(status, msg, extra)),
-    updateScore: (score) => dispatch(updateScore(score))
+    updateScore: (score) => dispatch(updateScore(score)),
+    updateNotify: (options) => dispatch(notify(options))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TranslatorContainer)

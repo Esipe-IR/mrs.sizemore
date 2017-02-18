@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
+import { addNotification as notify } from 'reapop'
 import Fillgap from './component/Fillgap'
 import { updateUserWords, updateDifficulty, updateScore, getUserCount } from './duck'
 import { getRandom } from '../../services/obj' 
@@ -42,13 +43,20 @@ class FillgapContainer extends React.Component {
             size--
         }
 
+        let similar = 0
+        this.props.userWords.forEach((i, index) => {
+            if (i.get("id") === list.get(index).get("id")) similar++
+        })
+        if (similar >= (list.size)) return this.randomWords()
+
         this.props.updateUserWords(list)
     }
 
     onSubmit(e) {
         e.preventDefault()
-        let score = 0
-        let userWords = this.props.userWords
+        let score     = 0,
+            userWords = this.props.userWords,
+            status    = "success"
 
         userWords.forEach((w, i) => { 
             let uw = w
@@ -63,12 +71,50 @@ class FillgapContainer extends React.Component {
             userWords = userWords.set(i, uw)
         })
 
+        let msg = "Oh my god ! Probably ready for the exam " + score + "/" + this.props.userWords.size
+
+        if (score < (this.props.userWords.size / 2)) {
+            status = "error"
+            msg    = "You only have " + score + "/" + this.props.userWords.size + " ! Please study !"
+        } else if (score < (this.props.userWords.size / 1.3)) {
+            status = "warning"
+            msg    = "Well ... " + score + "/" + this.props.userWords.size + " is good but can do better"
+        }
+
+        let options = {
+            title: "Result",
+            message: msg,
+            status: status,
+            position: 'tc',
+            closeButton: true,
+            buttons: [{
+                name: 'Retry',
+                primary: true,
+                onClick: () => {
+                    this.onClickRefresh()
+                }
+            }],
+            dismissible: true,
+            dismissAfter: 0
+        }
+
         this.props.updateUserWords(userWords)
         this.props.updateScore(score)
+        this.props.updateNotify(options)
     }
 
     onClickHelp(number) {
-        alert(this.props.userWords.get(number).get("definition"))
+        let options = {
+            title: "Definition",
+            message: this.props.userWords.get(number).get("definition"),
+            status: 'info',
+            position: 'tc',
+            closeButton: true,
+            dismissible: true,
+            dismissAfter: 0
+        }
+
+        this.props.updateNotify(options)
     }
 
     onChange(e) {
@@ -101,7 +147,6 @@ FillgapContainer.propTypes = {
     words: React.PropTypes.object,
     userWords: React.PropTypes.object,
     count: React.PropTypes.number,
-    mode: React.PropTypes.number,
     difficulty: React.PropTypes.number,
     score: React.PropTypes.number,
 }
@@ -110,7 +155,6 @@ const mapStateToProps = ({fillgapReducer, appReducer, gameReducer}) => ({
     words: appReducer.get("worksheet").get("words"),
     userWords: fillgapReducer.get("userWords"),
     count: getUserCount(fillgapReducer),
-    mode: gameReducer.get("mode"),
     difficulty: fillgapReducer.get("difficulty"),
     score: fillgapReducer.get("score"),
 })
@@ -119,6 +163,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateUserWords: (userWords) => dispatch(updateUserWords(userWords)),
     updateDifficulty: (difficulty) => dispatch(updateDifficulty(difficulty)),
     updateScore: (score) => dispatch(updateScore(score)),
+    updateNotify: (options) => dispatch(notify(options))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FillgapContainer)

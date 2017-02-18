@@ -35,14 +35,12 @@ AccountContainer.propTypes = {
     action: React.PropTypes.bool,
     user: React.PropTypes.object,
     error: React.PropTypes.bool,
-    errorMsg: React.PropTypes.string
 }
 
 const mapStateToProps = ({accountReducer, appReducer}) => ({
     action: accountReducer.get("action"),
     user: accountReducer.get("user"),
-    error: appReducer.get("error"),
-    errorMsg: appReducer.get("errorMsg")
+    error: accountReducer.get("error"),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

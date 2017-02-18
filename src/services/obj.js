@@ -76,3 +76,5 @@ export const getRandom = (len, exclude = []) => {
 
     return random
 }
+
+export const replaceAll = (str, search, rpl) => str.replace(new RegExp(search, 'g'), rpl)

@@ -289,9 +289,11 @@ body {
 	top: -10px;
 	right: -10px;
 	float: right;
-	padding: 10px;
-	background: rgb(0, 188, 212);
+	font-weight: bold;
+	padding: 10px 20px;
+	background: #fc7ca8;
 	color: white;
+	border-radius: 5px;
 	margin: 0;
 }
 

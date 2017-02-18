@@ -6,12 +6,12 @@ import { updateMode } from './duck'
 
 class GameContainer extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchWorksheet(this.props.params.id))
+        this.props.fetchWorksheet(this.props.params.id)
     }
 
     updateMode(e) {
         let mode = parseInt(e.target.value, 10)
-        this.props.dispatch(updateMode(mode))
+        this.props.updateMode(mode)
     }
 
     render() {
@@ -29,4 +29,9 @@ const mapStateToProps = ({ appReducer, gameReducer }) => ({
     mode: gameReducer.get("mode")
 })
 
-export default connect(mapStateToProps)(GameContainer)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    fetchWorksheet: (id) => dispatch(fetchWorksheet(id)),
+    updateMode: (mode) => dispatch(updateMode(mode))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(GameContainer)

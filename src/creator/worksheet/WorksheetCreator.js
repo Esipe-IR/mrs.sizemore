@@ -5,7 +5,7 @@ import { updateLoading, createWorksheet } from '../../app/duck'
 
 class WorksheetCreator extends React.Component {
     componentDidMount() {
-        this.props.dispatch(updateLoading(false))
+        this.props.updateLoading(false)
     }
 
     onSubmit(value) {
@@ -13,7 +13,7 @@ class WorksheetCreator extends React.Component {
         let worksheet = Object.assign({}, value, {})
         delete worksheet.words
 
-        this.props.dispatch(createWorksheet(worksheet, words))
+        this.props.createWorksheet(worksheet, words)
     }
 
     render() {
@@ -21,4 +21,9 @@ class WorksheetCreator extends React.Component {
     }
 }
 
-export default connect()(WorksheetCreator)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    updateLoading: (state) => dispatch(updateLoading(state)),
+    createWorksheet: (worksheet, words) => dispatch(createWorksheet(worksheet, words))
+})
+
+export default connect(null, mapDispatchToProps)(WorksheetCreator)

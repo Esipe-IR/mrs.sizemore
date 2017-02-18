@@ -5,6 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
+import { addNotification as notify } from 'reapop'
 
 import MainReducer from './reducers'
 import AppContainer from './app/AppContainer'
@@ -14,8 +15,6 @@ import WorksheetCreator from './creator/worksheet/WorksheetCreator'
 import WorksheetEditor from './editor/worksheet/WorksheetEditor'
 import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
-
-import { updateError } from './app/duck'
 
 import { getCurrentUser } from './services/firebase'
 
@@ -36,17 +35,17 @@ const isConnected = (nextState, replace) => {
     getCurrentUser()
     .then(u => {
         if (!u) {
-            store.dispatch(updateError(new Error("You are not connected")))
+            store.dispatch(notify({message: "You are not connected", status: "error"}))
             return store.dispatch(push("/account"))
         }
 
-        //if (!u.emailVerified) {
-        //    store.dispatch(updateError(new Error("Your email has not been verified")))
-        //    return store.dispatch(push("/"))
-        //}
+        // if (!u.emailVerified) {
+        //     store.dispatch(notify({message: "Your email has not been verified", status: "error"}))
+        //     return store.dispatch(push("/"))
+        // }
 
         if (!u.role) {
-            store.dispatch(updateError(new Error("You are not accredited by the administrator")))
+            store.dispatch(notify({message: "You are not accredited by the administrator", status: "error"}))
             return store.dispatch(push("/"))
         }
     })

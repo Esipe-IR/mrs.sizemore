@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
+import {reducer as notificationsReducer} from 'reapop'
 import appReducer from '../app/duck';
 import gameReducer from '../game/duck';
 import translatorReducer from '../game/translator/duck'
@@ -16,7 +17,8 @@ const MainReducer = combineReducers({
     editorReducer,
     accountReducer,
     routing: routerReducer,
-    form: formReducer
+    form: formReducer,
+    notifications: notificationsReducer()
 })
 
 export default MainReducer

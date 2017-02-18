@@ -5,7 +5,7 @@ import { fetchWorksheets } from '../app/duck'
 
 class HomeContainer extends React.Component {
     componentDidMount() {
-        this.props.dispatch(fetchWorksheets())
+        this.props.fetchWorksheets()
     }
 
     render() {
@@ -21,4 +21,8 @@ const mapStateToProps = ({ appReducer }) => ({
     worksheets: appReducer.get("worksheets")
 })
 
-export default connect(mapStateToProps)(HomeContainer)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+    fetchWorksheets: () => dispatch(fetchWorksheets())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer)

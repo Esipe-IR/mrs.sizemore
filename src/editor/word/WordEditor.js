@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { change } from 'redux-form'
+import { change, arrayPush, reset } from 'redux-form'
 import Word from './component/Word'
 import { fetchDefinitions, fetchSentences, updateTips, wordSelector } from '../duck'
 import { fetchWord, editWord } from '../../app/duck'
+import { replaceAll } from '../../services/obj'
 
 class WordEditor extends React.Component {
     componentDidMount() {
@@ -13,9 +14,6 @@ class WordEditor extends React.Component {
     submitTips(values) {
         if (values.definition) {
             this.props.updateField("definition", values.definition)
-            this.props.updateTips(this.props.tips.set("show", false))
-            
-            return
         }
 
         let keys = Object.keys(values)
@@ -25,6 +23,7 @@ class WordEditor extends React.Component {
 
         keys.forEach((k, i) => {
             if (k.indexOf("sentences") === -1) return
+            if (!values[k]) return
 
             let arr = k.split("_")
             let id = arr[1]
@@ -32,12 +31,12 @@ class WordEditor extends React.Component {
             if (!this.props.tips.get("body")[id].text) return
 
             let txt = this.props.tips.get("body")[id].text
-            txt = txt.replace(this.props.mutable_en, "[x]")
+            txt = replaceAll(txt, this.props.mutable_en, "[x]")
 
-            sentences.push(txt)
+            this.props.push("sentences", txt)
         })
 
-        this.props.updateField("sentences", sentences)
+        this.props.reset("tips")
         this.props.updateTips(this.props.tips.set("show", false))
     }
 
@@ -73,7 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     fetchSentences: (word) => dispatch(fetchSentences(word)),
     fetchWord: (id) => dispatch(fetchWord(id)),
     editWord: (word) => dispatch(editWord(word)),
-    updateField: (field, value) => dispatch(change("word_editor", field, value))
+    updateField: (field, value) => dispatch(change("word_editor", field, value)),
+    push: (field, value) => dispatch(arrayPush("word_editor", field, value)),
+    reset: (form) => dispatch(reset(form))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WordEditor)

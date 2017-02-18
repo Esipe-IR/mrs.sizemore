@@ -1,11 +1,10 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { push } from 'react-router-redux'
+import { addNotification as notify } from 'reapop'
 import { getFingerPrint } from '../services/fingerprint'
 import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet, getWord, update, create, del } from '../services/firebase'
 
-const UPDATE_ERROR = "old_wood/app/UPDATE::ERROR"
-const UPDATE_SUCCESS = "old_wood/app/UPDATE::SUCCESS"
 const UPDATE_USER = "old_wood/app/UPDATE::USER"
 const UPDATE_FINGERPRINT = "old_wood/app/UPDATE::FINGERPRINT"
 const UPDATE_LOADING = "old_wood/app/UPDATE::LOADING"
@@ -19,8 +18,6 @@ const INITIAL_STATE = Map({
     loading: true
 })
 
-export const updateError = createAction(UPDATE_ERROR)
-export const updateSuccess = createAction(UPDATE_SUCCESS)
 export const updateUser = createAction(UPDATE_USER)
 export const updateFingerprint = createAction(UPDATE_FINGERPRINT)
 export const updateLoading = createAction(UPDATE_LOADING)
@@ -36,7 +33,7 @@ export const logout = () => (dispatch) => {
         dispatch(updateUser(null))
         dispatch(push('/logout'))
     })
-    .catch(err => dispatch(updateError(err)))
+    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
 }
 
 export const fetchFingerprint = () => (dispatch) => {
@@ -58,7 +55,7 @@ export const fetchWorksheets = () => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(updateError(err))
+        dispatch(notify({message: err.toString(), status: "error"}))
         dispatch(updateLoading(false))
     })
 }
@@ -72,7 +69,7 @@ export const fetchWorksheet = (id) => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(updateError(err))
+        dispatch(notify({message: err.toString(), status: "error"}))
         dispatch(updateLoading(false))
     })
 }
@@ -86,21 +83,21 @@ export const fetchWord = (id) => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(updateError(err))
+        dispatch(notify({message: err.toString(), status: "error"}))
         dispatch(updateLoading(false))
     })
 }
 
 export const editWorksheet = (worksheet) => (dispatch) => {
     update("/worksheets/" + worksheet.id, worksheet)
-    .then(response => dispatch(updateSuccess("Successfully update!")))
-    .catch(err => dispatch(updateError(err)))
+    .then(response => dispatch(notify({message: "Successfully update", status: "success"})))
+    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
 }
 
 export const editWord = (word) => (dispatch) => {
     update("/words/" + word.id, word)
-    .then(response => dispatch(updateSuccess("Successfully update!")))
-    .catch(err => dispatch(updateError(err)))
+    .then(response => dispatch(notify({message: "Successfully update", status: "success"})))
+    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
@@ -111,34 +108,28 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
                 w.worksheet = response.get("id")
                 
                 create("words", w)
-                .catch(err => dispatch(updateError(err)))
+                .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
             })
         }
 
-        dispatch(updateSuccess("Successully create"))
+        dispatch(notify({message: "Successfully create", status: "success"}))
     })
-    .catch(err => dispatch(updateError(err)))
+    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
 }
 
 export const createWord = (word) => (dispatch) => {
     create("words", word)
-    .then(response => dispatch(updateSuccess("Successully create")))
-    .catch(err => dispatch(updateError(err)))
+    .then(response => dispatch(notify({message: "Successfully create", status: "success"})))
+    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
 }
 
 export const deleteWord = (word) => (dispatch) => {
     del("/words/" + word)
     .then()
-    .catch(err => dispatch(updateError(err)))
+    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
 }
 
 export default handleActions({
-    [UPDATE_ERROR]: (state, action) => (state.withMutations(ctx => {
-        ctx.set("error", action.error).set("errorMsg", action.payload.message)
-    })),
-    [UPDATE_SUCCESS]: (state, action) => (state.withMutations(ctx => { 
-        ctx.set("error", false).set("errorMsg", action.payload) 
-    })),
     [UPDATE_USER]: (state, action) => state.set("user", action.payload),
     [UPDATE_FINGERPRINT]: (state, action) => state.set("fingerprint", action.payload),
     [UPDATE_LOADING]: (state, action) => state.set("loading", action.payload),

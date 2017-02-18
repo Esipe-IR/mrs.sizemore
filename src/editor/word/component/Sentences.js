@@ -6,10 +6,11 @@ const Sentences = (props) => (
         {props.fields.map((sentence, index) =>
             <li key={index} className="list-group-item">
                 <Field
-                    className="margin-btm-5"
+                    className="margin-btm-5 form-control"
+                    rows={3}
                     name={`${sentence}`}
                     type="text"
-                    component="input"
+                    component="textarea"
                     placeholder="Your sentence"/>
 
                 <button type="button" title="Remove" onClick={() => props.fields.remove(index)} className="btn btn-danger">

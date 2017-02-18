@@ -14,14 +14,18 @@ const Tips = (props) => (
                     {props.modal.get("body").map((data, i) => (
                         <li className="list-group-item" key={i}>
                             {props.modal.get("type") === 0 ?
-                                <div>
-                                    <Field name="definition" id={"definition_"+i} component="input" type="radio" value={data.text}/>
-                                    <label htmlFor={"definition_"+i}>{data.text}</label>
+                                <div className="radio">
+                                    <label htmlFor={"definition_"+i}>
+                                        <Field name="definition" id={"definition_"+i} component="input" type="radio" value={data.text}/>
+                                        {data.text}
+                                    </label>
                                 </div>
                                     :
-                                <div>
-                                    <Field name={"sentences_"+i} id={"sentences_"+i} component="input" type="checkbox" value={data.text}/>
-                                    <label htmlFor={"sentences_"+i}>{data.text}</label>
+                                <div className="checkbox">
+                                    <label htmlFor={"sentences_"+i}>
+                                        <Field name={"sentences_"+i} id={"sentences_"+i} component="input" type="checkbox" value={data.text}/>
+                                        {data.text}
+                                    </label>
                                 </div>
                             }
                         </li>
