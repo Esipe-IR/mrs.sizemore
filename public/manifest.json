@@ -1,0 +1,27 @@
+{
+    "short_name": "OldWood",
+    "name": "OldWood",
+    "description": "The app that helps you to study your english !",
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "launcher-icon-1x.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "launcher-icon-2x.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "launcher-icon-4x.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "start_url": "/?utm_source=homescreen",
+    "background_color": "#00BCD4",
+    "theme_color": "#00BCD4",
+    "display": "standalone"
+}

@@ -18,6 +18,18 @@ import AccountContainer from './account/AccountContainer'
 
 import { getCurrentUser } from './services/firebase'
 
+ if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/js/sw.js')
+        .then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        })
+        .catch(function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+        });
+    });
+}
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     MainReducer,
