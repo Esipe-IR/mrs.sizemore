@@ -6,7 +6,10 @@ const InputHard = (props) => (
         data-index={props.itemKey}
         onChange={props.onChange}
         value={props.userWords.get(props.itemKey).get("value")}
-        placeholder="english word" />
+        placeholder="english word"
+        autoComplete="off"
+        autoCapitalize="off"
+        autoCorrect="off"  />
 )
 
 export default InputHard
