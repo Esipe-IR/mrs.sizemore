@@ -2,6 +2,10 @@ import React from 'react'
 
 const Form = (props) => (
     <form className="form-horizontal" onSubmit={props.checkResult}>
+        <div className="margin-btm-20">
+            <b>Translate in english the following words.</b>
+        </div>
+
         <div className="form-group">
             <input type="text" 
             className="form-control" 

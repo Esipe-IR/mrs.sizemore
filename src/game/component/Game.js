@@ -1,10 +1,13 @@
 import React from 'react'
 import ModeSelection from './ModeSelection'
+import Breadcrumb from '../../app/component/Breadcrumb'
 import TranslatorContainer from '../translator/TranslatorContainer'
 import FillgapContainer from '../fillgap/FillgapContainer'
 
 const Game = (props) => (
     <section>
+        <Breadcrumb lastItem={"Game"} />
+
         <div className="text-center margin-btm-20">
             <h1>{props.worksheet.get("name")} <a className="btn btn-app-secondary sized" href={"/edit/worksheet/"+props.worksheet.get("id")}><i className="fa fa-wrench" aria-hidden="true"></i></a></h1>
 
