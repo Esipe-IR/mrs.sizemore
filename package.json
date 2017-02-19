@@ -1,8 +1,8 @@
 {
     "name": "old_wood",
-        "version": "0.0.5",
-        "private": true,
-        "devDependencies": {
+    "version": "1.0.0",
+    "private": true,
+    "devDependencies": {
         "enzyme": "^2.7.0",
         "react-addons-test-utils": "^15.4.2",
         "react-scripts": "^0.6.1"
