@@ -5,7 +5,7 @@ import { fetchWorksheets } from '../app/duck'
 
 class HomeContainer extends React.Component {
     componentDidMount() {
-        this.props.fetchWorksheets()
+        if (!this.props.worksheets) this.props.fetchWorksheets()
     }
 
     render() {

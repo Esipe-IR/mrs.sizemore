@@ -6,7 +6,7 @@ import { updateMode } from './duck'
 
 class GameContainer extends React.Component {
     componentDidMount() {
-        this.props.fetchWorksheet(this.props.params.id)
+        if (!this.props.worksheet) this.props.fetchWorksheet(this.props.params.id)
     }
 
     updateMode(e) {

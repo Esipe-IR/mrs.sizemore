@@ -33,7 +33,10 @@ export const logout = () => (dispatch) => {
         dispatch(updateUser(null))
         dispatch(push('/logout'))
     })
-    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+    .catch(err => dispatch(notify({
+        message: err.toString(),
+        status: "error"
+    })))
 }
 
 export const fetchFingerprint = () => (dispatch) => {
@@ -55,7 +58,10 @@ export const fetchWorksheets = () => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(notify({message: err.toString(), status: "error"}))
+        dispatch(notify({
+            message: err.toString(),
+            status: "error"
+        }))
         dispatch(updateLoading(false))
     })
 }
@@ -69,7 +75,10 @@ export const fetchWorksheet = (id) => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(notify({message: err.toString(), status: "error"}))
+        dispatch(notify({
+            message: err.toString(),
+            status: "error"
+        }))
         dispatch(updateLoading(false))
     })
 }
@@ -83,21 +92,36 @@ export const fetchWord = (id) => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        dispatch(notify({message: err.toString(), status: "error"}))
+        dispatch(notify({
+            message: err.toString(),
+            status: "error"
+        }))
         dispatch(updateLoading(false))
     })
 }
 
 export const editWorksheet = (worksheet) => (dispatch) => {
     update("/worksheets/" + worksheet.id, worksheet)
-    .then(response => dispatch(notify({message: "Successfully update", status: "success"})))
-    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+    .then(response => dispatch(notify({
+        message: "Successfully update",
+        status: "success"
+    })))
+    .catch(err => dispatch(notify({
+        message: err.toString(),
+        status: "error"
+    })))
 }
 
 export const editWord = (word) => (dispatch) => {
     update("/words/" + word.id, word)
-    .then(response => dispatch(notify({message: "Successfully update", status: "success"})))
-    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+    .then(response => dispatch(notify({
+        message: "Successfully update",
+        status: "success"
+    })))
+    .catch(err => dispatch(notify({
+        message: err.toString(),
+        status: "error"
+    })))
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
@@ -108,25 +132,43 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
                 w.worksheet = response.get("id")
                 
                 create("words", w)
-                .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+                .catch(err => dispatch(notify({
+                    message: err.toString(),
+                    status: "error"
+                })))
             })
         }
 
-        dispatch(notify({message: "Successfully create", status: "success"}))
+        dispatch(notify({
+            message: "Successfully create",
+            status: "success"
+        }))
     })
-    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+    .catch(err => dispatch(notify({
+        message: err.toString(),
+        status: "error"
+    })))
 }
 
 export const createWord = (word) => (dispatch) => {
     create("words", word)
-    .then(response => dispatch(notify({message: "Successfully create", status: "success"})))
-    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+    .then(response => dispatch(notify({
+        message: "Successfully create",
+        status: "success"
+    })))
+    .catch(err => dispatch(notify({
+        message: err.toString(),
+        status: "error"
+    })))
 }
 
 export const deleteWord = (word) => (dispatch) => {
     del("/words/" + word)
     .then()
-    .catch(err => dispatch(notify({message: err.toString(), status: "error"})))
+    .catch(err => dispatch(notify({
+        message: err.toString(),
+        status: "error"
+    })))
 }
 
 export default handleActions({

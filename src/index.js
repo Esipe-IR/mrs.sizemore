@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
+import persistState from 'redux-localstorage'
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
 import { addNotification as notify } from 'reapop'
@@ -17,27 +18,21 @@ import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
 
 import { getCurrentUser } from './services/firebase'
+import { localConfig } from './services/localStorage'
+import { registerServiceWorker } from './services/serviceWorker'
 
- if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/js/sw.js')
-        .then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        })
-        .catch(function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-        });
-    });
-}
+registerServiceWorker()
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
 const store = createStore(
     MainReducer,
     composeEnhancers(
         applyMiddleware(
             routerMiddleware(browserHistory),
             thunk
-        )
+        ),
+        persistState(null, localConfig)
     )
 )
 

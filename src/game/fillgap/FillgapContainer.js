@@ -85,7 +85,6 @@ class FillgapContainer extends React.Component {
             title: "Result",
             message: msg,
             status: status,
-            position: 'tc',
             closeButton: true,
             buttons: [{
                 name: 'Retry',
@@ -108,7 +107,6 @@ class FillgapContainer extends React.Component {
             title: "Definition",
             message: this.props.userWords.get(number).get("definition"),
             status: 'info',
-            position: 'tc',
             closeButton: true,
             dismissible: true,
             dismissAfter: 0

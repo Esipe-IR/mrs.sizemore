@@ -54,7 +54,6 @@ class TranslatorContainer extends React.Component {
             title: title,
             message: msg,
             status: status,
-            position: 'tr',
             dismissible: true,
             dismissAfter: 2000
         })
