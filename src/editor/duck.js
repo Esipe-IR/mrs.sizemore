@@ -9,8 +9,8 @@ const INITIAL_STATE = Map({
     del: []
 })
 
-const UPDATE_DELETE = "old_wood/editor/UPDATE::DELETE"
-const UPDATE_TIPS = "old_wood/editor/UPDATE::TIPS"
+const UPDATE_DELETE = "mrs.sizemore/editor/UPDATE::DELETE"
+const UPDATE_TIPS = "mrs.sizemore/editor/UPDATE::TIPS"
 
 export const updateDelete = createAction(UPDATE_DELETE)
 export const updateTips = createAction(UPDATE_TIPS)

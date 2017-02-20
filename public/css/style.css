@@ -315,38 +315,13 @@ body, #root, .app, .page {
   	transition: opacity 1200ms ease-in;
 }
 
-/*.swipe-enter {
-	transform: translate(100%);
+/*
+** Muicss
+*/
+.mui-tabs__bar {
+	margin-bottom: 20px;
 }
 
-.swipe-enter.swipe-enter-active {
-	transform: translate(0%);
-  	transition: transform 300ms ease-in-out;
+.mui-tabs__bar li a {
+	cursor: pointer;
 }
-
-.swipe-leave {
-	transform: translate(-100%);
-}
-
-.swipe-leave.swipe-leave-active {
-  	transform: translate(0%);
-  	transition: transform 300ms ease-in-out;
-}
-
-.home.swipe-enter {
-  	transform: translate(-100%);
-}
-
-.home.swipe-enter.swipe-enter-active {
-	transform: translate(0%);
-  	transition: transform 300ms ease-in-out;
-}
-
-.home.swipe-leave {
-	transform: translate(100%);
-}
-
-.home.swipe-leave.swipe-leave-active {
-  	transform: translate(0%);
-  	transition: transform 300ms ease-in-out;
-}*/

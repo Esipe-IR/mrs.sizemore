@@ -5,14 +5,14 @@ import { addNotification as notify } from 'reapop'
 import { getFingerPrint } from '../services/fingerprint'
 import { logoutUser, getCurrentUser, getWorksheets, getCompleteWorksheet, getWord, update, create, del } from '../services/firebase'
 
-const UPDATE_USER = "old_wood/app/UPDATE::USER"
-const UPDATE_FINGERPRINT = "old_wood/app/UPDATE::FINGERPRINT"
-const UPDATE_LOADING = "old_wood/app/UPDATE::LOADING"
-const UPDATE_WORKSHEETS = "old_wood/app/UPDATE::WORKSHEETS"
-const UPDATE_WORKSHEET = "old_wood/app/UPDATE::WORKSHEET"
-const UPDATE_WORD = "old_wood/app/UPDATE::WORD"
-const UPDATE_SIDEBAR = "old_wood/app/UPDATE::SIDEBAR"
-const UPDATE_MODAL = "old_wood/app/UPDATE::MODAL"
+const UPDATE_USER = "mrs.sizemore/app/UPDATE::USER"
+const UPDATE_FINGERPRINT = "mrs.sizemore/app/UPDATE::FINGERPRINT"
+const UPDATE_LOADING = "mrs.sizemore/app/UPDATE::LOADING"
+const UPDATE_WORKSHEETS = "mrs.sizemore/app/UPDATE::WORKSHEETS"
+const UPDATE_WORKSHEET = "mrs.sizemore/app/UPDATE::WORKSHEET"
+const UPDATE_WORD = "mrs.sizemore/app/UPDATE::WORD"
+const UPDATE_SIDEBAR = "mrs.sizemore/app/UPDATE::SIDEBAR"
+const UPDATE_MODAL = "mrs.sizemore/app/UPDATE::MODAL"
 
 const INITIAL_STATE = Map({
     loading: true

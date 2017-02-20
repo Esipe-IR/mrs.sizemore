@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 
-const UPDATE_MODE = "old_wood/game/UPDATE::MODE"
+const UPDATE_MODE = "mrs.sizemore/game/UPDATE::MODE"
 
 const INITIAL_STATE = Map({
     mode: 0

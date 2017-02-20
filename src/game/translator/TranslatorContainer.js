@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addNotification as notify } from 'reapop'
+import { List, Map } from 'immutable'
 import Translator from './component/Translator'
-import { updateWord, updateInput, updateScore } from './duck'
+import { updateWord, updateHistory, updateInput, updateScore } from './duck'
 import { getRandom } from '../../services/obj'
 
 class TranslatorContainer extends React.Component {
@@ -36,7 +37,8 @@ class TranslatorContainer extends React.Component {
             title  = "Great job!",
             msg    = "Are you a champion ?",
             score  = this.props.score + 1,
-            en     = this.props.word.get("en")
+            en     = this.props.word.get("en"),
+            history = this.props.history
 
         if (this.props.input !== en) {
             status = "error"
@@ -58,6 +60,19 @@ class TranslatorContainer extends React.Component {
             dismissAfter: 2000
         })
 
+        if (!history) {
+            history = List()
+        } else if (history.size > 4) {
+            history = history.shift()
+        }
+
+        history = history.push(Map({
+            en: this.props.word.get("en"),
+            fr: this.props.word.get("fr"),
+            status: status
+        }))
+
+        this.props.updateHistory(history)
         this.props.updateInput("")
         this.props.updateScore(score)
         this.randomWord()
@@ -76,6 +91,7 @@ class TranslatorContainer extends React.Component {
 TranslatorContainer.propTypes = {
     words: React.PropTypes.object,
     word: React.PropTypes.object,
+    history: React.PropTypes.object,
     input: React.PropTypes.string,
     score: React.PropTypes.number
 }
@@ -83,12 +99,14 @@ TranslatorContainer.propTypes = {
 const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => ({
     words: appReducer.get("worksheet").get("words"),
     word: translatorReducer.get("word"),
+    history: translatorReducer.get("history"),
     input: translatorReducer.get("input"),
     score: translatorReducer.get("score")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     updateWord: (word) => dispatch(updateWord(word)),
+    updateHistory: (history) => dispatch(updateHistory(history)),
     updateInput: (input) => dispatch(updateInput(input)),
     updateScore: (score) => dispatch(updateScore(score)),
     updateNotify: (options) => dispatch(notify(options))

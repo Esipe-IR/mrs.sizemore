@@ -1,5 +1,6 @@
 import React from 'react'
 import Form from './Form'
+import History from './History'
 
 const Translator = (props) => (
     <article className="box">
@@ -19,6 +20,14 @@ const Translator = (props) => (
             <div className="row">
                 <div className="col-sm-12">
                     <Form {...props} />
+                </div>
+            </div>
+        </div>
+
+        <div className="box-footer">
+            <div className="row">
+                <div className="col-sm-12">
+                    <History items={props.history} />
                 </div>
             </div>
         </div>

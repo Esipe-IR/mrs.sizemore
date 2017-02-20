@@ -1,11 +1,12 @@
 import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import Breadcrumb from '../../app/component/Breadcrumb'
 
 const Account = (props) => (
     <section>
         <Breadcrumb lastItem={"Account"} />
 
-        <form className="form-horizontal" onSubmit={props.onSubmit}>
+        <form className="form-horizontal" onSubmit={props.handleSubmit}>
             <h2 className="col-sm-offset-2 col-sm-10">{ props.action ? "Connexion" : "Register"}</h2>
 
             <p className="col-sm-offset-2 col-sm-10">
@@ -18,12 +19,7 @@ const Account = (props) => (
                 <label htmlFor="email" className="col-sm-2 control-label">Email</label>
                 
                 <div className="col-sm-10">
-                    <input type="email" 
-                        className="form-control" 
-                        id="email"
-                        placeholder="Email" 
-                        onChange={props.onChange} 
-                        value={props.user && props.user.get("email") ? props.user.get("email") : ""} />
+                    <Field name="email" component="input" type="email" id="email" className="form-control" placeholder="email" />
                 </div>
             </div>
 
@@ -31,12 +27,7 @@ const Account = (props) => (
                 <label htmlFor="password" className="col-sm-2 control-label">Password</label>
                 
                 <div className="col-sm-10">
-                    <input type="password" 
-                        className="form-control" 
-                        id="password" 
-                        placeholder="Password" 
-                        onChange={props.onChange} 
-                        value={props.user && props.user.get("password") ? props.user.get("password") : ""} />
+                    <Field name="password" component="input" type="password" id="password" className="form-control" placeholder="password" />
                 </div>
             </div>
 
@@ -52,4 +43,8 @@ const Account = (props) => (
     </section>
 )
 
-export default Account
+const AccountForm = reduxForm({
+    form: 'account'
+})(Account);
+
+export default AccountForm

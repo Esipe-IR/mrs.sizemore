@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field } from 'redux-form'
 
-const Words = ({ fields, meta: { touched, error }, worksheetid, addDelete }) => (
+const Words = ({ fields, meta: { touched, error }, worksheetid, addDelete, push }) => (
     <ul className="list-group">
         {fields.map((member, index) =>
             <li key={index} className="list-group-item">
@@ -13,9 +13,9 @@ const Words = ({ fields, meta: { touched, error }, worksheetid, addDelete }) => 
                     placeholder="English"/>
 
                 {fields.get(index).id ? 
-                    <a href={"/edit/word/" + fields.get(index).id} className="btn btn-primary margin-lft-5 margin-btm-5">
+                    <button onClick={() => push("/edit/word/" + fields.get(index).id)} className="btn btn-primary margin-lft-5 margin-btm-5">
                         <i className="fa fa-wrench" aria-hidden="true"></i> Edit
-                    </a>
+                    </button>
                     : 
                     null 
                 }

@@ -14,14 +14,18 @@ const Topbar = (props) => (
                 </div>
                 :
                 <div className="navbar-btn">
-                    <button type="button" className="navbar-toggle" onClick={() => props.router.push("/")}>
+                    <button type="button" className="navbar-toggle" onClick={() => props.router.goBack()}>
                         <i className="fa fa-chevron-left" aria-hidden="true"></i> Back
                     </button>
                 </div>
             }
 
             <div className="navbar-header">
-                <a className="navbar-brand" href="/"><b>Old Wood <span className="badge">1.0</span></b></a>
+                <a className="navbar-brand" href="/">
+                    <b>
+                        Mrs. Sizemore <span className="label label-info">1.0</span>
+                    </b>
+                </a>
             </div>
         </div>
     </nav>

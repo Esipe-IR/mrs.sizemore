@@ -1,6 +1,6 @@
-# Old Wood 
+# Mrs. Sizemore
 
-Old wood est une web-app destiné à améliorer ses connaissances et s’entraîner sur des exercices. Cette application s’adresse principalement aux étudiants de l'ESIPE.
+Mrs. Sizemore est une web-app destiné à améliorer ses connaissances et s’entraîner sur des exercices d'anglais. Cette application s’adresse principalement aux étudiants de l'ESIPE.
 
 ## Prérequis
 Pour pouvoir installer le projet sur votre machine vous devez avoir les prérequis ci-dessous:
@@ -16,7 +16,7 @@ Nous vous conseillons également d'installer les Redux DevTools (https://chrome.
 Pour installer le projet tapez dans votre terminal :
 
     git clone https://github.com/Sipee/Bob-s-your-uncle.git
-    cd old_wood
+    cd mrs.sizemore
     npm install
 
 ## Lancement

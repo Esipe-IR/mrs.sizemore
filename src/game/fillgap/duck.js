@@ -2,9 +2,9 @@ import { createAction, handleActions } from 'redux-actions'
 import { Map, List } from 'immutable'
 import { createSelector } from 'reselect'
 
-const UPDATE_USERWORDS = "old_wood/fillgap/UPDATE::USERWORDS"
-const UPDATE_SCORE = "old_wood/fillgap/UPDATE::SCORE"
-const UPDATE_DIFFICULTY = "old_wood/fillgap/UPDATE::DIFFICULTY"
+const UPDATE_USERWORDS = "mrs.sizemore/fillgap/UPDATE::USERWORDS"
+const UPDATE_SCORE = "mrs.sizemore/fillgap/UPDATE::SCORE"
+const UPDATE_DIFFICULTY = "mrs.sizemore/fillgap/UPDATE::DIFFICULTY"
 
 const INITIAL_STATE = Map({
     userWords: List(),
