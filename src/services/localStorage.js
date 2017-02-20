@@ -27,6 +27,8 @@ export const localConfig = {
             fillgapReducer: newFillgapReducer
         }
 
+        console.log(newState)
+
         return JSON.stringify(newState)
     },
     deserialize: (serializedState) => {

@@ -1,8 +1,6 @@
 import React from 'react'
 import ModeSelection from './ModeSelection'
 import Breadcrumb from '../../app/component/Breadcrumb'
-import TranslatorContainer from '../translator/TranslatorContainer'
-import FillgapContainer from '../fillgap/FillgapContainer'
 
 const Game = (props) => (
     <section className="page-content">
@@ -21,15 +19,9 @@ const Game = (props) => (
         <div className="row">
             <div className="col-sm-12">
                 <p>Choose your game mode :</p>
-                <ModeSelection mode={props.mode} updateMode={props.updateMode} />
+                <ModeSelection mode={props.mode} updateMode={props.updateMode} worksheet={props.worksheet} />
             </div>
         </div>
-
-        {props.mode === 0 ? 
-            <TranslatorContainer words={props.worksheet.get("words")} /> 
-                : 
-            <FillgapContainer words={props.worksheet.get("words")} />
-        }
     </section>
 )
 
