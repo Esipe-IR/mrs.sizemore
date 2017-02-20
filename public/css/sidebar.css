@@ -28,24 +28,28 @@
 }
 
 .sidebar-nav li {
-    text-indent: 20px;
     line-height: 40px;
 }
 
-.sidebar-nav li a {
+.sidebar-nav li button {
     display: block;
     text-decoration: none;
     color: #999999;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding-left: 20px;
 }
 
-.sidebar-nav li a:hover {
+.sidebar-nav li button:hover {
     text-decoration: none;
     color: #fff;
     background: rgba(255,255,255,0.2);
 }
 
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
+.sidebar-nav li button:active,
+.sidebar-nav li button:focus {
     text-decoration: none;
 }
 
@@ -57,11 +61,13 @@
     text-indent: 0;
 }
 
-.sidebar-nav > .sidebar-brand a {
+.sidebar-nav > .sidebar-brand button {
     color: white;
+    text-align: center;
+    padding-left: 0;
 }
 
-.sidebar-nav > .sidebar-brand a:hover {
+.sidebar-nav > .sidebar-brand button:hover {
     color: #fff;
     background: none;
 }

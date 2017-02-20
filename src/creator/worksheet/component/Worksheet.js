@@ -4,7 +4,7 @@ import Words from './Words'
 import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Worksheet = (props) => (
-    <section>
+    <section className="page-content">
         <Breadcrumb lastItem={"Create worksheet"} />
 
         <div className="panel panel-default">

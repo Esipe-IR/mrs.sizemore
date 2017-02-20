@@ -1,8 +1,8 @@
 import React from 'react'
 import Thumbnail from './Thumbnail'
 
-const Home = ({worksheets, push}) => (
-    <section>
+const Home = ({ worksheets, push }) => (
+    <section className="page-content">
         <div className="row">
             <div className="col-md-12">
                 <h1>Old wood</h1>

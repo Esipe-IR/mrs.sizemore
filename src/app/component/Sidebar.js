@@ -8,19 +8,19 @@ const User = ({user}) => (
     </li>
 )
 
-const SignIn = () => (
+const SignIn = (props) => (
     <li>
-        <a href="/account">
+        <button onClick={() => {props.router.push("/account"); props.closeNav()}}>
             <i className="fa fa-sign-in" aria-hidden="true"></i> Sign in
-        </a>
+        </button>
     </li>
 )
 
 const Logout = ({ logout }) => (
     <li>
-        <a href="#" onClick={logout}>
+        <button onClick={logout}>
             <i className="fa fa-sign-out" aria-hidden="true"></i> Logout
-        </a>
+        </button>
     </li>
 )
 
@@ -28,35 +28,35 @@ const Sidebar = (props) => (
     <div id="sidebar-wrapper" className={props.sidebar ? "toggled" : ""}>
         <ul className="sidebar-nav">
             <li className="sidebar-brand">
-                <a href="#" onClick={props.onClick(props.sidebar)}>
+                <button onClick={props.closeNav}>
                     <i className="fa fa-times" aria-hidden="true"></i>
-                </a>
+                </button>
             </li>
 
-            {props.user ? <User user={props.user} /> : <SignIn />}
+            {props.user ? <User user={props.user} /> : <SignIn {...props} />}
 
             <li>
-                <a href="/">
+                <button onClick={() => {props.router.push("/"); props.closeNav()}}>
                     <i className="fa fa-home" aria-hidden="true"></i> Home
-                </a>
+                </button>
             </li>
 
             <li>
-                <a href="/create/worksheet">
+                <button onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
                     <i className="fa fa-plus" aria-hidden="true"></i> Create worksheet
-                </a>
+                </button>
             </li>
 
             <li>
-                <a href="/about">
+                <button onClick={() => {props.router.push("/about"); props.closeNav()}}>
                     <i className="fa fa-graduation-cap" aria-hidden="true"></i> About
-                </a>
+                </button>
             </li>
 
             <li>
-                <a href="/contact">
+                <button onClick={() => {props.router.push("/contact"); props.closeNav()}}>
                     <i className="fa fa-envelope-o" aria-hidden="true"></i> Contact
-                </a>
+                </button>
             </li>
 
             {props.user ? <Logout logout={props.logout} /> : null}

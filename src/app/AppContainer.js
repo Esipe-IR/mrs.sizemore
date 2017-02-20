@@ -32,7 +32,8 @@ const mapStateToProps = ({appReducer}) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     getUser: () => dispatch(fetchUser()),
     logout: () => dispatch(logout()),
-    clickNav: (sidebar) => (e) => {e.preventDefault(); dispatch(updateSidebar(!sidebar))}
+    openNav: () => dispatch(updateSidebar(true)),
+    closeNav: () => dispatch(updateSidebar(false))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)

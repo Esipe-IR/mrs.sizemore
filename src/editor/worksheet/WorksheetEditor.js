@@ -38,6 +38,7 @@ class WorksheetEditor extends React.Component {
     render() {
         return this.props.worksheet ? 
             <Worksheet
+                router={this.props.router}
                 onSubmit={this.onSubmit.bind(this)}
                 addDelete={this.addDelete.bind(this)}
                 initialValues={this.props.worksheet.toJS()} /> 

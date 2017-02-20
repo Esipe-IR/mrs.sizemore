@@ -1,16 +1,20 @@
 import React from 'react'
 
-const Breadcrumb = ({items = [], lastItem}) => (
+const Breadcrumb = ({items = [], lastItem, push}) => (
     <ol className="breadcrumb">
-        <li><a href="/">Home</a></li>
+        <li>
+            <a href="#" onClick={() => push("/")}>Home</a>
+        </li>
 
         {items.map((i, index) => (
             <li key={index}>
-                <a href={i.link}>{i.title}</a>
+                <a href="#" onClick={() => push(i.link)}>{i.title}</a>
             </li>
         ))}
         
-        <li className="active">{lastItem}</li>
+        <li className="active">
+            {lastItem}
+        </li>
     </ol>
 )
 

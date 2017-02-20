@@ -5,13 +5,17 @@ import TranslatorContainer from '../translator/TranslatorContainer'
 import FillgapContainer from '../fillgap/FillgapContainer'
 
 const Game = (props) => (
-    <section>
-        <Breadcrumb lastItem={"Game"} />
+    <section className="page-content">
+        <Breadcrumb lastItem={"Game"} push={props.router.push} />
 
         <div className="text-center margin-btm-20">
-            <h1>{props.worksheet.get("name")} <a className="btn btn-app-secondary sized" href={"/edit/worksheet/"+props.worksheet.get("id")}><i className="fa fa-wrench" aria-hidden="true"></i></a></h1>
-
-            <img src={props.worksheet.get("img")} alt="" width="200px" />
+            <h1>
+                {props.worksheet.get("name")} 
+                
+                <button onClick={() => props.router.push("/edit/worksheet/"+props.worksheet.get("id"))} className="btn btn-app-secondary sized">
+                    <i className="fa fa-wrench" aria-hidden="true"></i>
+                </button>
+            </h1>
         </div>
 
         <div className="row">

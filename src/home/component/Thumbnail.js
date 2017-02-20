@@ -18,9 +18,9 @@ const Thumbnail = ({item, push}) => (
                 </div>
                 
                 <div>
-                    <a href={"/edit/worksheet/" + item.get("id")} className="btn btn-app-secondary">
+                    <button onClick={() => push("/edit/worksheet/" + item.get("id"))} className="btn btn-app-secondary">
                         <i className="fa fa-wrench" aria-hidden="true"></i> Edit
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

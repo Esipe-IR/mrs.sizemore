@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Topbar = ({onClick, sidebar, route, router}) => (
+const Topbar = (props) => (
     <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div className="container">
-            {route.title === "home" ?
+            {props.routes[1].title === "home" ?
                 <div className="navbar-btn">
-                    <button type="button" className="navbar-toggle" onClick={onClick(sidebar)}>
+                    <button type="button" className="navbar-toggle" onClick={props.openNav}>
                         <span className="sr-only">Toggle navigation</span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
@@ -14,7 +14,7 @@ const Topbar = ({onClick, sidebar, route, router}) => (
                 </div>
                 :
                 <div className="navbar-btn">
-                    <button type="button" className="navbar-toggle" onClick={() => router.push("/")}>
+                    <button type="button" className="navbar-toggle" onClick={() => props.router.push("/")}>
                         <i className="fa fa-chevron-left" aria-hidden="true"></i> Back
                     </button>
                 </div>

@@ -4,8 +4,8 @@ import Words from './Words'
 import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Worksheet = (props) => (
-    <section>
-        <Breadcrumb lastItem={"Edit worksheet"} />
+    <section className="page-content">
+        <Breadcrumb lastItem={"Edit worksheet"} push={props.router.push} />
 
         <div className="panel panel-default">
             <div className="panel-heading">Edit worksheet</div>
