@@ -9,13 +9,8 @@ class GameContainer extends React.Component {
         if (!this.props.worksheet) this.props.fetchWorksheet(this.props.params.id)
     }
 
-    updateMode(e) {
-        let mode = parseInt(e.target.value, 10)
-        this.props.updateMode(mode)
-    }
-
     render() {
-        return this.props.worksheet ? <Game {...this.props} updateMode={this.updateMode.bind(this)} /> : null
+        return this.props.worksheet ? <Game {...this.props} /> : null
     }
 }
 
