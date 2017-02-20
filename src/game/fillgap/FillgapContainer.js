@@ -78,7 +78,7 @@ class FillgapContainer extends React.Component {
             msg    = "You only have " + score + "/" + this.props.userWords.size + " ! Please study !"
         } else if (score < (this.props.userWords.size / 1.3)) {
             status = "warning"
-            msg    = "Well ... " + score + "/" + this.props.userWords.size + " is good but can do better"
+            msg    = "Well ... " + score + "/" + this.props.userWords.size + " is good but you can do better"
         }
 
         let options = {

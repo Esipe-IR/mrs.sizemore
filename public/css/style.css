@@ -217,6 +217,12 @@ body, #root, .app, .page {
 	margin-bottom: 20px;
 }
 
+.reset-btn {
+	background: none;
+	border: none;
+	color: #337ab7;
+}
+
 
 /*
 ** Nav

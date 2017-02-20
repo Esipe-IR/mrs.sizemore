@@ -21,7 +21,7 @@ const Topbar = (props) => (
             }
 
             <div className="navbar-header">
-                <a className="navbar-brand" href="/"><b>Old Wood <span className="badge">Beta</span></b></a>
+                <a className="navbar-brand" href="/"><b>Old Wood <span className="badge">1.0</span></b></a>
             </div>
         </div>
     </nav>
