@@ -42,6 +42,22 @@
     padding-left: 20px;
 }
 
+.sidebar-nav li button.text-danger {
+    color: #a94442;
+}
+
+.sidebar-nav li button.text-success {
+    color: #3c763d;
+}
+
+.sidebar-nav li.text-primary {
+    color: #337ab7;
+}
+
+.sidebar-nav li a {
+    color: #fff;
+}
+
 .sidebar-nav li button:hover {
     text-decoration: none;
     color: #fff;

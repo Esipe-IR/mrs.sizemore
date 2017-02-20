@@ -1,10 +1,8 @@
 import React from 'react'
 
 const User = ({user}) => (
-    <li>
-        <a href="#">
-            <i className="fa fa-user" aria-hidden="true"></i> {user.email}
-        </a>
+    <li className="text-center text-primary">
+        <i className="fa fa-user" aria-hidden="true"></i> {user.email}
     </li>
 )
 
@@ -42,7 +40,7 @@ const Sidebar = (props) => (
             </li>
 
             <li>
-                <button onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
+                <button className="text-success" onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
                     <i className="fa fa-plus" aria-hidden="true"></i> Create worksheet
                 </button>
             </li>
@@ -59,11 +57,17 @@ const Sidebar = (props) => (
                 </button>
             </li>
 
+            <li>
+                <button className="text-danger" onClick={() =>  {localStorage.clear(); props.router.push("/contact"); props.closeNav()}}>
+                    <i className="fa fa-trash" aria-hidden="true"></i> Clear cache
+                </button>
+            </li>
+
             {props.user ? <Logout logout={props.logout} /> : null}
 
-            <li>
-                <a href="#">
-                    <i className="fa fa-github-square" aria-hidden="true"></i>
+            <li className="text-center">
+                <a href="https://github.com/Esipe-IR/mrs.sizemore">
+                    <i className="fa fa-github-square fa-4x" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>
