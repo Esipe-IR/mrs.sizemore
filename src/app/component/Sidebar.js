@@ -60,6 +60,12 @@ const Sidebar = (props) => (
             </li>
 
             {props.user ? <Logout logout={props.logout} /> : null}
+
+            <li>
+                <a href="#">
+                    <i className="fa fa-github-square" aria-hidden="true"></i>
+                </a>
+            </li>
         </ul>
     </div>
 )

@@ -1,12 +1,218 @@
+/*
+** General
+*/
 body {
 	padding-top: 70px;
 	overflow-x: hidden;
+}
+
+.btn.btn-app {
+	box-sizing: border-box;
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	margin: 0px;
+	padding: 10px;
+	width: 100%;
+	border-radius: 2px;
+	background-color: rgb(0, 188, 212);
+	text-align: center;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: white;
+}
+
+.btn.btn-app-secondary {
+	box-sizing: border-box;
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	margin: 0px;
+	padding: 10px;
+	width: 100%;
+	border-radius: 2px;
+	background-color: rgb(255, 64, 129);
+	text-align: center;
+	color: white;
+}
+
+.btn.sized {
+	width: auto;
+	padding: 6px 12px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.btn.sized.btn-app-secondary {
+	border-color: #fc7ca8;
+}
+
+.btn.btn-outline-success {
+	color: #5cb85c;
+	background-image: none;
+	background-color: transparent;
+	border-color: #5cb85c;
+}
+
+.btn.btn-outline-success.fill {
+	color: white;
+	background-color: #5cb85c;
+}
+
+.btn.btn-outline-warning {
+	color: #f0ad4e;
+	background-image: none;
+	background-color: transparent;
+	border-color: #f0ad4e;
+}
+
+.btn.btn-outline-warning.fill {
+	color: white;
+	background-color: #f0ad4e;
+}
+
+.btn.btn-outline-danger {
+	color: #d9534f;
+	background-image: none;
+	background-color: transparent;
+	border-color: #d9534f;
+}
+
+.btn.btn-outline-danger.fill {
+	color: white;
+	background-color: #d9534f;
+}
+
+.box {
+	background: white;
+	border: 1px solid  #ddd;
+	margin: 5px;
+}
+
+.box-title {
+	text-align: center;
+	padding: 10px;
+	border: 1px solid #D0D0D0;
+}
+
+.box-body {
+	padding: 20px;
+}
+
+.box-footer {
+	border-top: 1px solid #D0D0D0;
+	padding: 20px;
 }
 
 .fa {
 	display: inline;
 }
 
+.margin-lft-5 {
+	margin-left: 5px;
+}
+
+.margin-btm-5 {
+	margin-bottom: 5px;
+}
+
+.margin-btm-20 {
+	margin-bottom: 20px;
+}
+
+.pad-10 {
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+}
+
+.overlay {   
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 100000;
+	left: 0;
+	top: 0;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0, 0.9);
+	overflow: hidden;
+	-webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    -o-transition: all 0.1s ease-in-out;
+}
+
+.overlay-content {
+	position: relative;
+	top: 25%;
+	width: 100%;
+	text-align: center;
+	margin-top: 30px;
+}
+
+.mode-selection .mode {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.score-box {
+	position: relative;
+	top: -10px;
+	right: -10px;
+	float: right;
+	font-weight: bold;
+	padding: 10px 20px;
+	background: #fc7ca8;
+	color: white;
+	border-radius: 5px;
+	margin: 0;
+}
+
+.clearfloat {
+	clear: both;
+}
+
+.no-margin-top {
+	margin-top: 0;
+}
+
+.bar-success {
+	margin: 0 auto;
+	margin-bottom: 20px;
+	background: #00A87E;
+	color: white;
+	text-align: center;
+	max-width: 300px;
+	font-weight: bold;
+	font-size: 1.4em;
+}
+
+.bar-danger {
+	margin: 0 auto;
+	margin-bottom: 20px;
+	background: #d9534f;
+	color: white;
+	text-align: center;
+	max-width: 300px;
+	font-weight: bold;
+	font-size: 1.4em;
+}
+
+.bar-hidden {
+	display: none;
+}
+
+.extra-box {
+	font-style: italic;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+
+/*
+** Nav
+*/
 .navbar-btn {
 	margin-top: 0;
 }
@@ -70,269 +276,42 @@ body {
 	color: white;
 }
 
-.box {
-	background: white;
-	border: 1px solid  #ddd;
-	margin: 5px;
-}
-
-.box-title {
-	text-align: center;
-	padding: 10px;
-	border: 1px solid #D0D0D0;
-}
-
-.box-body {
-	padding: 20px;
-}
-
-.box-footer {
-	border-top: 1px solid #D0D0D0;
-	padding: 20px;
-}
-
-.margin-lft-5 {
-	margin-left: 5px;
-}
-
-.margin-btm-5 {
-	margin-bottom: 5px;
-}
-
-.margin-btm-20 {
-	margin-bottom: 20px;
-}
-
-.pad-10 {
-	padding-top: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
-	padding-bottom: 3px;
-}
-
-.overlay {   
-	height: 100%;
-	width: 100%;
-	position: fixed;
-	z-index: 100000;
-	left: 0;
-	top: 0;
-	background-color: rgb(0,0,0);
-	background-color: rgba(0,0,0, 0.9);
-	overflow: hidden;
-	-webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -ms-transition: all 0.1s ease-in-out;
-    -o-transition: all 0.1s ease-in-out;
-}
-
+/*
+** Transition
+*/
 .overlay-enter {
-  opacity: 0.01;
+  	opacity: 0.01;
 }
 
 .overlay-enter.overlay-enter-active {
-  opacity: 1;
-  transition: opacity 10ms ease-in;
+  	opacity: 1;
+  	transition: opacity 10ms ease-in;
 }
 
 .overlay-leave {
-  opacity: 1;
+  	opacity: 1;
 }
 
 .overlay-leave.overlay-leave-active {
-  opacity: 0.01;
-  transition: opacity 1200ms ease-in;
+  	opacity: 0.01;
+  	transition: opacity 1200ms ease-in;
 }
 
-.overlay-content {
-	position: relative;
-	top: 25%;
-	width: 100%;
-	text-align: center;
-	margin-top: 30px;
+.swipe-enter {
+  	transform: translate(100%);
 }
 
-.switch {
-	float: none;
-	margin-bottom: 20px;
+.swipe-enter.swipe-enter-active {
+	transform: translate(0%);
+  	transition: transform 300ms ease-in-out;
 }
 
-.keyboard {
-	height: 40%;
-	width: 100%;
-	z-index: 1;
-	left: 0;
-	bottom: -30px;
-	position: fixed;
-	background-color: rgb(0,0,0);
-	background-color: rgba(0,0,0, 0.9);
-	overflow: hidden;
-	transition: 0.5s;
-	padding-top: 10px;
-	text-align: center;
-}
-
-.keyboard .key {
-	color: white;
-	cursor: pointer;
-	padding: 13px;
-	display: inline-block;
-	background: #121211;
-	border: none;
-	border-bottom: 1px solid white;
-}
-
-.keyboard .key:active {
-	background-color: red;
-}
-
-.keyboard .key-d {
-	color: red;
-	border-bottom: 1px solid red;
-	margin-left: 2px;
-}
-
-.keyboard .key-s {
-	color: green;
-	border-bottom: 1px solid green;
-}
-
-.keyboard-space {
-	width: 100%;
-	height: 315px;
-}
-
-.btn.btn-app {
-	box-sizing: border-box;
-	display: inline-block;
-	cursor: pointer;
-	text-decoration: none;
-	margin: 0px;
-	padding: 10px;
-	width: 100%;
-	border-radius: 2px;
-	background-color: rgb(0, 188, 212);
-	text-align: center;
-	font-size: 1.3em;
-	font-weight: bold;
-	color: white;
-}
-
-.btn.btn-app-secondary {
-	box-sizing: border-box;
-	display: inline-block;
-	cursor: pointer;
-	text-decoration: none;
-	margin: 0px;
-	padding: 10px;
-	width: 100%;
-	border-radius: 2px;
-	background-color: rgb(255, 64, 129);
-	text-align: center;
-	color: white;
-}
-
-.btn.sized {
-	width: auto;
-	padding: 6px 12px;
-	border: 1px solid transparent;
-	border-radius: 4px;
-}
-
-.btn.sized.btn-app-secondary {
-	border-color: #fc7ca8;
-}
-
-.mode-selection .mode {
-	text-align: center;
-	margin-bottom: 10px;
-}
-
-.btn.btn-outline-success {
-	color: #5cb85c;
-	background-image: none;
-	background-color: transparent;
-	border-color: #5cb85c;
-}
-
-.btn.btn-outline-success.fill {
-	color: white;
-	background-color: #5cb85c;
-}
-
-.btn.btn-outline-warning {
-	color: #f0ad4e;
-	background-image: none;
-	background-color: transparent;
-	border-color: #f0ad4e;
-}
-
-.btn.btn-outline-warning.fill {
-	color: white;
-	background-color: #f0ad4e;
-}
-
-.btn.btn-outline-danger {
-	color: #d9534f;
-	background-image: none;
-	background-color: transparent;
-	border-color: #d9534f;
-}
-
-.btn.btn-outline-danger.fill {
-	color: white;
-	background-color: #d9534f;
-}
-
-.score-box {
-	position: relative;
-	top: -10px;
-	right: -10px;
-	float: right;
-	font-weight: bold;
-	padding: 10px 20px;
-	background: #fc7ca8;
-	color: white;
-	border-radius: 5px;
-	margin: 0;
-}
-
-.clearfloat {
-	clear: both;
-}
-
-.no-margin-top {
-	margin-top: 0;
-}
-
-.bar-success {
-	margin: 0 auto;
-	margin-bottom: 20px;
-	background: #00A87E;
-	color: white;
-	text-align: center;
-	max-width: 300px;
-	font-weight: bold;
-	font-size: 1.4em;
-}
-
-.bar-danger {
-	margin: 0 auto;
-	margin-bottom: 20px;
-	background: #d9534f;
-	color: white;
-	text-align: center;
-	max-width: 300px;
-	font-weight: bold;
-	font-size: 1.4em;
-}
-
-.bar-hidden {
+.swipe-leave {
 	display: none;
+	transform: translate(0%);
 }
 
-.extra-box {
-	font-style: italic;
-	font-weight: bold;
-	margin-bottom: 20px;
+.swipe-leave.swipe-leave-active {
+  	transform: translate(-100%);
+  	transition: transform 300ms ease-in-out;
 }

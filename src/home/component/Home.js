@@ -1,7 +1,7 @@
 import React from 'react'
 import Thumbnail from './Thumbnail'
 
-const Home = ({worksheets}) => (
+const Home = ({worksheets, push}) => (
     <section>
         <div className="row">
             <div className="col-md-12">
@@ -11,7 +11,7 @@ const Home = ({worksheets}) => (
         </div>
         <div className="row text-center">
             {worksheets ? worksheets.map((w) => (
-                <Thumbnail key={w.get('id')} item={w}/>
+                <Thumbnail key={w.get('id')} item={w} push={push}/>
             )) : null}
         </div>
     </section>

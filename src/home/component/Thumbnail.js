@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Thumbnail = ({item}) => (
+const Thumbnail = ({item, push}) => (
     <div className="col-md-3 col-sm-6 hero-feature">
         <div className="thumbnail">
             <img src={item.get("img")} alt=""/>
@@ -12,9 +12,9 @@ const Thumbnail = ({item}) => (
                 <hr />
 
                 <div className="margin-btm-5">
-                    <a href={"/game/" + item.get("id")} className="btn btn-app">
+                    <button onClick={() => push("/game/" + item.get("id"))} className="btn btn-app">
                         <i className="fa fa-gamepad" aria-hidden="true"></i> Play
-                    </a>
+                    </button>
                 </div>
                 
                 <div>

@@ -67,8 +67,8 @@ render(
     <Provider store={store}>
         <Router history={history}>
             <Route component={AppContainer}>
-                <Route path="/" component={HomeContainer} />
-                <Route path="/game/:id" component={GameContainer} />
+                <Route path="/" title="home" initial={true} component={HomeContainer} />
+                <Route path="/game/:id" title="game" component={GameContainer} />
                 <Route path="/create/worksheet" component={WorksheetCreator} onEnter={isConnected} />
                 <Route path="/edit/worksheet/:id" component={WorksheetEditor} onEnter={isConnected} />
                 <Route path="/edit/word/:id" component={WordEditor} onEnter={isConnected} />

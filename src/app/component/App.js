@@ -16,7 +16,7 @@ const LoadingOverlay = () => (
 
 const App = (props) => (
     <div>
-        <Topbar onClick={props.clickNav} sidebar={props.sidebar} />
+        <Topbar onClick={props.clickNav} sidebar={props.sidebar} route={props.routes[1]} router={props.router} />
         <Sidebar user={props.user} logout={props.logout} sidebar={props.sidebar} onClick={props.clickNav} />
         <NotificationsSystem theme={theme} />
 
@@ -28,7 +28,15 @@ const App = (props) => (
         </ReactCSSTransitionGroup>
 
         <div className="container">
-            {props.children}
+            <ReactCSSTransitionGroup
+                transitionName="swipe"
+                transitionEnterTimeout={300}
+                transitionLeaveTimeout={300}>
+                {React.cloneElement(props.children, {
+                    key: location.pathname
+                })}
+            </ReactCSSTransitionGroup>
+
             <Footer />
         </div>
     </div>
