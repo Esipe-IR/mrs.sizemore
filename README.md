@@ -15,7 +15,7 @@ Nous vous conseillons également d'installer les Redux DevTools (https://chrome.
 ## Installation
 Pour installer le projet tapez dans votre terminal :
 
-    git clone https://github.com/Sipee/Bob-s-your-uncle.git
+    git clone https://github.com/Esipe-IR/mrs.sizemore
     cd mrs.sizemore
     npm install
 
