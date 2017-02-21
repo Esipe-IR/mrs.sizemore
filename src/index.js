@@ -46,10 +46,10 @@ const isConnected = (nextState, replace) => {
             return store.dispatch(push("/account"))
         }
 
-        // if (!u.emailVerified) {
-        //     store.dispatch(notify({message: "Your email has not been verified", status: "error"}))
-        //     return store.dispatch(push("/"))
-        // }
+        if (!u.emailVerified) {
+            store.dispatch(notify({message: "Your email has not been verified", status: "error"}))
+            return store.dispatch(push("/"))
+        }
 
         if (!u.role) {
             store.dispatch(notify({message: "You are not accredited by the administrator", status: "error"}))

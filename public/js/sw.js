@@ -1,4 +1,4 @@
-var CACHE_NAME = 'old_wood_cache';
+var CACHE_NAME = 'mrs.sizemore_cache';
 var urlsToCache = [
     '/',
     '/styles/main.css',
@@ -18,7 +18,6 @@ self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
         .then(function(response) {
-            // Cache hit - return response
             if (response) {
                 return response;
             }
@@ -36,10 +35,10 @@ self.addEventListener('fetch', function(event) {
                 caches.open(CACHE_NAME)
                 .then(function(cache) {
                     cache.put(event.request, responseToCache);
-                });
+                })
 
                 return response;
-            });
+            })
         })
     );
 });
