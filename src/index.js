@@ -46,6 +46,8 @@ const isConnected = (nextState, replace) => {
             return store.dispatch(push("/account"))
         }
 
+        console.log(u)
+
         if (!u.emailVerified) {
             store.dispatch(notify({message: "Your email has not been verified", status: "error"}))
             return store.dispatch(push("/"))

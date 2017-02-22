@@ -1,7 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { formValueSelector } from 'redux-form'
-import { addNotification as notify } from 'reapop'
 import { updateLoading, notifError } from '../app/duck'
 import { getDefinitions, getExamples } from '../services/client'
 

@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { push } from 'react-router-redux'
-import { notifSuccess, notifError } from '../app/duck'
+import { Map } from 'immutable'
+import { notifSuccess, notifError, updateLoading } from '../app/duck'
 import { updateError } from '../account/duck'
 import {
     createUser,
@@ -121,6 +122,12 @@ export const editWord = (word) => (dispatch) => {
     .catch(err => dispatch(notifError(err.toString())))
 }
 
+export const createWord = (word) => (dispatch) => {
+    create("words", word)
+    .then(() => dispatch(notifSuccess("Successfully create")))
+    .catch(err => dispatch(notifError(err.toString())))
+}
+
 export const createWorksheet = (worksheet, words) => (dispatch) => {
     create("worksheets", worksheet)
     .then(response => {
@@ -133,12 +140,6 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
 
         dispatch(notifSuccess("Successfully create"))
     })
-    .catch(err => dispatch(notifError(err.toString())))
-}
-
-export const createWord = (word) => (dispatch) => {
-    create("words", word)
-    .then(() => dispatch(notifSuccess("Successfully create")))
     .catch(err => dispatch(notifError(err.toString())))
 }
 

@@ -159,10 +159,13 @@ export const getCurrentUser = () => {
 
             _ = {}
 
+            console.log(user)
+
             getRole(user.uid)
             .then(response => {
                 let role = response.val()
                 _.email = user.email
+                _.emailVerified = user.emailVerified
 
                 if (!role) {
                     return resolve(_)

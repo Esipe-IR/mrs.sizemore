@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
-import { push } from 'react-router-redux'
 import { addNotification as notify } from 'reapop'
 import { getFingerPrint } from '../services/fingerprint'
 

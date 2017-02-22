@@ -3,28 +3,28 @@ import { fromJS } from 'immutable'
 export const localConfig = { 
     serialize: (state) => {
         const { 
-            appReducer,
-            gameReducer,
-            accountReducer,
-            translatorReducer,
-            fillgapReducer
+            app,
+            game,
+            account,
+            translator,
+            fillgap
         } = state
 
-        let newAppReducer = appReducer.set("sidebar", null)
-        let newAccountReducer = accountReducer.withMutations(ctx => 
+        let newApp = app.set("sidebar", null)
+        let newAccount = account.withMutations(ctx => 
             ctx.set("error", null).set("user", null)
         )
-        let newTranslatorReducer = translatorReducer.withMutations(ctx => 
+        let newTranslator = translator.withMutations(ctx => 
             ctx.set("input", "").set("word", null)
         )
-        let newFillgapReducer = fillgapReducer.set("userWords", [])
+        let newFillgap = fillgap.set("userWords", [])
         
         let newState = {
-            appReducer: newAppReducer,
-            gameReducer: gameReducer,
-            accountReducer: newAccountReducer,
-            translatorReducer: newTranslatorReducer,
-            fillgapReducer: newFillgapReducer
+            app: newApp,
+            game: game,
+            account: newAccount,
+            translator: newTranslator,
+            fillgap: newFillgap
         }
 
         return JSON.stringify(newState)

@@ -17,8 +17,8 @@ HomeContainer.propTypes = {
     worksheets: PropTypes.object
 }
 
-const mapStateToProps = ({ app }) => ({
-    worksheets: app.get("worksheets")
+const mapStateToProps = ({ firebase }) => ({
+    worksheets: firebase.get("worksheets")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
