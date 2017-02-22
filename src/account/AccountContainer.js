@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Account from './component/Account'
-import { updateAction, register, connexion } from './duck'
+import { updateAction } from './duck'
 import { updateLoading } from '../app/duck'
+import { register, connexion } from '../firebase/duck'
 
 class AccountContainer extends React.Component {
     componentDidMount() {
@@ -25,12 +26,12 @@ class AccountContainer extends React.Component {
 
 AccountContainer.propTypes = {
     action: React.PropTypes.bool,
-    error: React.PropTypes.bool,
+    error: React.PropTypes.bool
 }
 
-const mapStateToProps = ({accountReducer, appReducer}) => ({
-    action: accountReducer.get("action"),
-    error: accountReducer.get("error"),
+const mapStateToProps = ({ account }) => ({
+    action: account.get("action"),
+    error: account.get("error")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

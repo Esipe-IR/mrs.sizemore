@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import App from './component/App'
-import { fetchUser, logout, updateSidebar } from './duck'
+import { updateSidebar } from './duck'
+import { fetchUser, logout } from '../firebase/duck'
 
 class AppContainer extends React.Component {
     componentDidMount() {
@@ -15,18 +16,14 @@ class AppContainer extends React.Component {
 
 AppContainer.propTypes = {
     loading: React.PropTypes.bool,
-    user: React.PropTypes.object,
-    error: React.PropTypes.bool,
-    errorMsg: React.PropTypes.string,
-    sidebar: React.PropTypes.bool
+    sidebar: React.PropTypes.bool,
+    user: React.PropTypes.object
 }
 
-const mapStateToProps = ({appReducer}) => ({
-    loading: appReducer.get("loading"),
-    user: appReducer.get("user"),
-    error: appReducer.get("error"),
-    errorMsg: appReducer.get("errorMsg"),
-    sidebar: appReducer.get("sidebar")
+const mapStateToProps = ({ app, firebase }) => ({
+    loading: app.get("loading"),
+    sidebar: app.get("sidebar"),
+    user: firebase.get("user")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

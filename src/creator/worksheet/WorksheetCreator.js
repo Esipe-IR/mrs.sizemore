@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Worksheet from './component/Worksheet'
-import { updateLoading, createWorksheet } from '../../app/duck'
+import { updateLoading } from '../../app/duck'
+import { createWorksheet } from '../../firebase/duck'
 
 class WorksheetCreator extends React.Component {
     componentDidMount() {

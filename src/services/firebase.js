@@ -12,7 +12,6 @@ const config = {
 const f = firebase.initializeApp(config)
 const fdb = f.database()
 const fauth = f.auth()
-let _USER = null
 
 export const getWorksheets = () => {
     let ref = fdb.ref('/worksheets/')
@@ -131,7 +130,14 @@ export const del = (id) => {
 }
 
 export const createUser = (email, password) => {
-    return fauth.createUserWithEmailAndPassword(email, password)
+    return new Promise((resolve, reject) => {
+        fauth.createUserWithEmailAndPassword(email, password)
+        .then(user => {
+            user.sendEmailVerification()
+            resolve(user)
+        })
+        .catch(err => reject(err))
+    })
 }
 
 export const connectUser = (email, password) => {
