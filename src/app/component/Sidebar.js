@@ -40,7 +40,7 @@ const Sidebar = (props) => (
             </li>
 
             <li>
-                <button className="text-success" onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
+                <button onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
                     <i className="fa fa-plus" aria-hidden="true"></i> Create worksheet
                 </button>
             </li>

@@ -27,10 +27,15 @@ export const register = (user) => (dispatch) => {
     }
 
     createUser(user.email, user.password)
+    .then(result => result.sendEmailVerification())
     .then(result => dispatch(notify({
         message: "Well register",
         status: "success"
     })))
+    .then(result => {
+        dispatch(fetchUser())
+        dispatch(push('/'))
+    })
     .catch(err => {
         dispatch(updateError(err))
         dispatch(notify({
@@ -57,6 +62,8 @@ export const connexion = (user) => (dispatch) => {
             message: "Well connected",
             status: "success"
         }))
+    })
+    .then(result => {
         dispatch(fetchUser())
         dispatch(push('/'))
     })

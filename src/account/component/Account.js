@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import Breadcrumb from '../../app/component/Breadcrumb'
 
 const Account = (props) => (
-    <section>
+    <section className="page-content">
         <Breadcrumb lastItem={"Account"} />
 
         <form className="form-horizontal" onSubmit={props.handleSubmit}>
