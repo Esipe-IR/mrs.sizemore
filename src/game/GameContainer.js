@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Game from './component/Game'
-import { fetchWorksheet } from '../app/duck'
+import { fetchWorksheet } from '../firebase/duck'
 import { updateMode } from './duck'
 
 class GameContainer extends React.Component {
@@ -19,9 +19,9 @@ GameContainer.propTypes = {
     mode: React.PropTypes.number.isRequired
 }
 
-const mapStateToProps = ({ appReducer, gameReducer }) => ({
-    worksheet: appReducer.get("worksheet"),
-    mode: gameReducer.get("mode")
+const mapStateToProps = ({ firebase, game }) => ({
+    worksheet: firebase.get("worksheet"),
+    mode: game.get("mode")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

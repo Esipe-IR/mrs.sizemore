@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Worksheet from './component/Worksheet'
-import { fetchWorksheet, createWord, editWord, editWorksheet, deleteWord } from '../../app/duck'
+import { fetchWorksheet, createWord, editWord, editWorksheet, deleteWord } from '../../firebase/duck'
 import { updateDelete } from '../duck'
 
 class WorksheetEditor extends React.Component {
@@ -52,9 +52,9 @@ WorksheetEditor.propTypes = {
     del: React.PropTypes.array
 }
 
-const mapStateToProps = ({ appReducer, editorReducer }) => ({
-    worksheet: appReducer.get("worksheet"),
-    del: editorReducer.get("del")
+const mapStateToProps = ({ firebase, editor }) => ({
+    worksheet: firebase.get("worksheet"),
+    del: editor.get("del")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

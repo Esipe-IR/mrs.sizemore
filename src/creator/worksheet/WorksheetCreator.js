@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Worksheet from './component/Worksheet'
-import { updateLoading, createWorksheet } from '../../app/duck'
+import { updateLoading } from '../../app/duck'
+import { createWorksheet } from '../../firebase/duck'
 
 class WorksheetCreator extends React.Component {
     componentDidMount() {
@@ -17,7 +18,7 @@ class WorksheetCreator extends React.Component {
     }
 
     render() {
-        return <Worksheet onSubmit={this.onSubmit.bind(this)} />
+        return <Worksheet onSubmit={this.onSubmit.bind(this)} push={this.props.router.push} />
     }
 }
 

@@ -6,12 +6,14 @@ const Home = ({ worksheets, push }) => (
         <div className="row">
             <div className="col-md-12 text-center">
                 <h1>Mrs. Sizemore</h1>
-                <p>Gets better marks thanks to Mrs. Sizemore and her wonderful exercices!</p>
+                <p>Gets better marks in english thanks to Mrs. Sizemore!</p>
             </div>
         </div>
         <div className="row">
             <div className="col-lg-12">
-                <h2 className="page-header">Worksheets</h2>
+                <h2 className="page-header">
+                    Worksheets <button onClick={() => push("/create/worksheet")} className="btn btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add</button>
+                </h2>
             </div>
         </div>
         <div className="row text-center">

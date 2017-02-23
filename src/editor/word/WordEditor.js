@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { change, arrayPush, reset } from 'redux-form'
 import Word from './component/Word'
 import { fetchDefinitions, fetchSentences, updateTips, wordSelector } from '../duck'
-import { fetchWord, editWord } from '../../app/duck'
+import { fetchWord, editWord } from '../../firebase/duck'
 import { replaceAll } from '../../services/obj'
 
 class WordEditor extends React.Component {
@@ -59,9 +59,9 @@ WordEditor.propTypes = {
     mutable_sentences: React.PropTypes.array
 }
 
-const mapStateToProps = ({ appReducer, editorReducer, form }) => ({
-    word: appReducer.get("word"),
-    tips: editorReducer.get("tips"),
+const mapStateToProps = ({ firebase, editor, form }) => ({
+    word: firebase.get("word"),
+    tips: editor.get("tips"),
     mutable_en: wordSelector({form}, 'en'),
     mutable_sentences: wordSelector({form}, 'sentences')
 })

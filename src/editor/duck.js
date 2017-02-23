@@ -1,8 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { formValueSelector } from 'redux-form'
-import { addNotification as notify } from 'reapop'
-import { updateLoading } from '../app/duck'
+import { updateLoading, notifError } from '../app/duck'
 import { getDefinitions, getExamples } from '../services/client'
 
 const INITIAL_STATE = Map({
@@ -30,9 +29,7 @@ export const fetchDefinitions = (word) => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        let options = {message: err.toString(), status: "error"}
-
-        dispatch(notify(options))
+        dispatch(notifError(err.toString()))
         dispatch(updateLoading(false))
     })
 }
@@ -52,9 +49,7 @@ export const fetchSentences = (word) => (dispatch) => {
         dispatch(updateLoading(false))
     })
     .catch(err => {
-        let options = {message: err.toString(), status: "error"}
-
-        dispatch(notify(options))
+        dispatch(notifError(err.toString()))
         dispatch(updateLoading(false))
     })
 }
