@@ -318,10 +318,6 @@ body, #root, .app, .page {
 /*
 ** Muicss
 */
-.mui-tabs__bar {
-	margin-bottom: 20px;
-}
-
 .mui-tabs__bar li a {
 	cursor: pointer;
 }
