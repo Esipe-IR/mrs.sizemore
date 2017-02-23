@@ -155,8 +155,6 @@ export const getCurrentUser = () => {
 
             _ = {}
 
-            console.log(user)
-
             getRole(user.uid)
             .then(response => {
                 let role = response.val()

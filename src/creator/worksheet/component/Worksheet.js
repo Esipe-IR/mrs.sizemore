@@ -5,7 +5,7 @@ import Breadcrumb from '../../../app/component/Breadcrumb'
 
 const Worksheet = (props) => (
     <section className="page-content">
-        <Breadcrumb lastItem={"Create worksheet"} />
+        <Breadcrumb lastItem={"Create worksheet"} push={props.push} />
 
         <div className="panel panel-default">
             <div className="panel-heading">Create worksheet</div>

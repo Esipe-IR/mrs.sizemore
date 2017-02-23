@@ -52,8 +52,8 @@ WorksheetEditor.propTypes = {
     del: React.PropTypes.array
 }
 
-const mapStateToProps = ({ app, editor }) => ({
-    worksheet: app.get("worksheet"),
+const mapStateToProps = ({ firebase, editor }) => ({
+    worksheet: firebase.get("worksheet"),
     del: editor.get("del")
 })
 

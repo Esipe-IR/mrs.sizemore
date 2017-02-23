@@ -18,7 +18,7 @@ class WorksheetCreator extends React.Component {
     }
 
     render() {
-        return <Worksheet onSubmit={this.onSubmit.bind(this)} />
+        return <Worksheet onSubmit={this.onSubmit.bind(this)} push={this.props.router.push} />
     }
 }
 

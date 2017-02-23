@@ -59,8 +59,8 @@ WordEditor.propTypes = {
     mutable_sentences: React.PropTypes.array
 }
 
-const mapStateToProps = ({ app, editor, form }) => ({
-    word: app.get("word"),
+const mapStateToProps = ({ firebase, editor, form }) => ({
+    word: firebase.get("word"),
     tips: editor.get("tips"),
     mutable_en: wordSelector({form}, 'en'),
     mutable_sentences: wordSelector({form}, 'sentences')

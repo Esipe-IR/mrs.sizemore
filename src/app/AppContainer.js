@@ -29,7 +29,6 @@ const mapStateToProps = ({ app, firebase }) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
     getUser: () => dispatch(fetchUser()),
     logout: () => dispatch(logout()),
-    openNav: () => dispatch(updateSidebar(true)),
     closeNav: () => dispatch(updateSidebar(false)),
     toggleNav: (status) => () => dispatch(updateSidebar(!status))
 })

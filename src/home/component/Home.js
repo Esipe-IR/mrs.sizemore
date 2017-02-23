@@ -6,7 +6,7 @@ const Home = ({ worksheets, push }) => (
         <div className="row">
             <div className="col-md-12 text-center">
                 <h1>Mrs. Sizemore</h1>
-                <p>Gets better marks thanks to Mrs. Sizemore!</p>
+                <p>Gets better marks in english thanks to Mrs. Sizemore!</p>
             </div>
         </div>
         <div className="row">
