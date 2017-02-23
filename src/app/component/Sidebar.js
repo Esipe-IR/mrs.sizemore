@@ -1,7 +1,7 @@
 import React from 'react'
 
 const User = ({user}) => (
-    <li className="text-center text-primary">
+    <li className="text-center">
         <i className="fa fa-user" aria-hidden="true"></i> {user.email}
     </li>
 )
@@ -52,12 +52,6 @@ const Sidebar = (props) => (
             </li>
 
             <li>
-                <button onClick={() => {props.router.push("/contact"); props.closeNav()}}>
-                    <i className="fa fa-envelope-o" aria-hidden="true"></i> Contact
-                </button>
-            </li>
-
-            <li>
                 <button className="text-danger" onClick={() =>  {localStorage.clear(); props.router.push("/contact"); props.closeNav()}}>
                     <i className="fa fa-trash" aria-hidden="true"></i> Clear cache
                 </button>
@@ -67,7 +61,7 @@ const Sidebar = (props) => (
 
             <li className="text-center">
                 <a href="https://github.com/Esipe-IR/mrs.sizemore">
-                    <i className="fa fa-github-square fa-4x" aria-hidden="true"></i>
+                    <i className="fa fa-github-square fa-2x" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>

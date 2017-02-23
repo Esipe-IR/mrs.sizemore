@@ -19,8 +19,8 @@ GameContainer.propTypes = {
     mode: React.PropTypes.number.isRequired
 }
 
-const mapStateToProps = ({ app, game }) => ({
-    worksheet: app.get("worksheet"),
+const mapStateToProps = ({ firebase, game }) => ({
+    worksheet: firebase.get("worksheet"),
     mode: game.get("mode")
 })
 

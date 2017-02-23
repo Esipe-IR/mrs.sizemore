@@ -13,6 +13,17 @@ const f = firebase.initializeApp(config)
 const fdb = f.database()
 const fauth = f.auth()
 
+export const get = (ref) => {
+    return new Promise((resolve, reject) => {
+        ref.once('value')
+        .then(snapshot => {
+            if (!snapshot.val()) throw new Error("Unavailable !")
+            resolve(fromJS(snapshot.val()))
+        })
+        .catch(err => reject(err))
+    })
+}
+
 export const getWorksheets = () => {
     let ref = fdb.ref('/worksheets/')
 
@@ -34,33 +45,19 @@ export const getWorksheets = () => {
 
 export const getWorksheet = (id) => {
     let ref = fdb.ref('/worksheets/').child(id)
-
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => resolve(Map(snapshot.val())))
-        .catch(err => reject(err))
-    })
+    return get(ref)
 }
 
 export const getWord = (id) => {
     let ref = fdb.ref('/words/').child(id)
+    return get(ref)
+}
+
+export const getWords = (worksheet) => {
+    let ref = fdb.ref('/words/').orderByChild("worksheet").equalTo(worksheet)
 
     return new Promise((resolve, reject) => {
         ref.once('value')
-        .then(snapshot => {
-            if (!snapshot.val()) reject("Unavailable word !")
-            
-            resolve(fromJS(snapshot.val()))
-        })
-        .catch(err => reject(err))
-    })
-}
-
-export const getWords = (id) => {
-    let ref = fdb.ref('/words/')
-
-    return new Promise((resolve, reject) => {
-        ref.orderByChild("worksheet").equalTo(id).once('value')
         .then(snapshot => {
             let list = []
 
@@ -82,7 +79,6 @@ export const getCompleteWorksheet = (id) => {
     return new Promise((resolve, reject) => {
         getWorksheet(id)
         .then(result => { 
-            if (!result) reject(new Error("Unavailable worksheet !"))
             data = result
             count++
 

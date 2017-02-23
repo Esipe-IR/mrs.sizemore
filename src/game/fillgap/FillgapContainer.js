@@ -149,12 +149,12 @@ FillgapContainer.propTypes = {
     score: React.PropTypes.number,
 }
 
-const mapStateToProps = ({fillgapReducer, appReducer, gameReducer}) => ({
-    words: appReducer.get("worksheet").get("words"),
-    userWords: fillgapReducer.get("userWords"),
-    count: getUserCount(fillgapReducer),
-    difficulty: fillgapReducer.get("difficulty"),
-    score: fillgapReducer.get("score"),
+const mapStateToProps = ({ firebase, fillgap }) => ({
+    words: firebase.get("worksheet").get("words"),
+    userWords: fillgap.get("userWords"),
+    count: getUserCount(fillgap),
+    difficulty: fillgap.get("difficulty"),
+    score: fillgap.get("score"),
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -96,12 +96,12 @@ TranslatorContainer.propTypes = {
     score: React.PropTypes.number
 }
 
-const mapStateToProps = ({ appReducer, translatorReducer, keyboardReducer }) => ({
-    words: appReducer.get("worksheet").get("words"),
-    word: translatorReducer.get("word"),
-    history: translatorReducer.get("history"),
-    input: translatorReducer.get("input"),
-    score: translatorReducer.get("score")
+const mapStateToProps = ({ firebase, translator }) => ({
+    words: firebase.get("worksheet").get("words"),
+    word: translator.get("word"),
+    history: translator.get("history"),
+    input: translator.get("input"),
+    score: translator.get("score")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

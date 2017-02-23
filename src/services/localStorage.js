@@ -1,52 +1,51 @@
 import { fromJS } from 'immutable'
 
-export const localConfig = { 
-    serialize: (state) => {
-        const { 
-            app,
-            game,
-            account,
-            translator,
-            fillgap
-        } = state
+export const serialize = (state) => {
+    const {
+        app,
+        firebase,
+        game,
+        account,
+        translator,
+        fillgap
+    } = state
 
-        let newApp = app.set("sidebar", null)
-        let newAccount = account.withMutations(ctx => 
-            ctx.set("error", null).set("user", null)
-        )
-        let newTranslator = translator.withMutations(ctx => 
-            ctx.set("input", "").set("word", null)
-        )
-        let newFillgap = fillgap.set("userWords", [])
-        
-        let newState = {
-            app: newApp,
-            game: game,
-            account: newAccount,
-            translator: newTranslator,
-            fillgap: newFillgap
-        }
+    let newTranslator = translator.withMutations(ctx => 
+        ctx.set("input", "").set("word", null)
+    )
 
-        return JSON.stringify(newState)
-    },
-    deserialize: (serializedState) => {
-        if (!serializedState) {
-            return
-        }
+    return JSON.stringify({
+        app: app.set("sidebar", null),
+        firebase: firebase,
+        game: game,
+        account: account.set("error", null),
+        translator: newTranslator,
+        fillgap: fillgap.set("userWords", [])
+    })
+}
 
-        try {
-            var obj = JSON.parse(serializedState)
-        } catch (err) {
-            return
-        }
-        
-        var state = {}
-        let keys = Object.keys(obj)
-
-        keys.forEach(k => {
-            state[k] = fromJS(obj[k])
-        })
-
-        return state
+export const deserialize = (serializedState) => {
+    if (!serializedState) {
+        return
     }
+
+    try {
+        var obj = JSON.parse(serializedState)
+    } catch (err) {
+        return
+    }
+    
+    var state = {}
+    let keys = Object.keys(obj)
+
+    keys.forEach(k => {
+        state[k] = fromJS(obj[k])
+    })
+
+    return state
+}
+
+export const localConfig = {
+    serialize: serialize,
+    deserialize: deserialize
 }
