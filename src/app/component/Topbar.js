@@ -5,7 +5,7 @@ const Topbar = (props) => (
         <div className="container">
             {props.routes[1].title === "home" ?
                 <div className="navbar-btn">
-                    <button type="button" className="navbar-toggle" onClick={props.openNav}>
+                    <button type="button" className="navbar-toggle" onClick={props.toggleNav(props.sidebar)}>
                         <span className="sr-only">Toggle navigation</span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
@@ -26,7 +26,7 @@ const Topbar = (props) => (
             <div className="navbar-header">
                 <a className="navbar-brand" href="/">
                     <b>
-                        Mrs. Sizemore <span className="label label-info">1.0</span>
+                        Mrs. Sizemore <span className="label label-info">1.1</span>
                     </b>
                 </a>
             </div>

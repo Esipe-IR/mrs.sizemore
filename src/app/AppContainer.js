@@ -30,7 +30,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     getUser: () => dispatch(fetchUser()),
     logout: () => dispatch(logout()),
     openNav: () => dispatch(updateSidebar(true)),
-    closeNav: () => dispatch(updateSidebar(false))
+    closeNav: () => dispatch(updateSidebar(false)),
+    toggleNav: (status) => () => dispatch(updateSidebar(!status))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)
