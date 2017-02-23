@@ -34,6 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "post": "cp build/index.html build/200.html && surge",
     "eject": "react-scripts eject",
     "test": "react-scripts test"
   }
