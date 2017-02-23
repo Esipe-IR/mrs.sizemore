@@ -42,7 +42,7 @@ const Game = (props) => (
 
         <div className="row">
             <div className="col-sm-12">
-                {props.mode === 1 ? 
+                {props.mode === 0 ? 
                     <TranslatorContainer words={props.worksheet.get("words")} /> 
                     :
                     <FillgapContainer words={props.worksheet.get("words")} />

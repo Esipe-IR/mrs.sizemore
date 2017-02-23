@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Home from './component/Home'
+import { updateLoading } from '../app/duck'
 import { fetchWorksheets } from '../firebase/duck'
 
 class HomeContainer extends React.Component {
     componentDidMount() {
         if (!this.props.worksheets) this.props.fetchWorksheets()
+        else this.props.updateLoading(false)
     }
 
     render() {
@@ -22,7 +24,8 @@ const mapStateToProps = ({ firebase }) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    fetchWorksheets: () => dispatch(fetchWorksheets())
+    fetchWorksheets: () => dispatch(fetchWorksheets()),
+    updateLoading: (status) => dispatch(updateLoading(status))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeContainer)
