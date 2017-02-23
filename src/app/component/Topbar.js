@@ -14,7 +14,10 @@ const Topbar = (props) => (
                 </div>
                 :
                 <div className="navbar-btn">
-                    <button type="button" className="navbar-toggle" onClick={() => props.router.goBack()}>
+                    <button 
+                    type="button" 
+                    className="navbar-toggle" 
+                    onClick={() => props.routes[1].title === "account" ? props.router.push("/") : props.router.goBack()}>
                         <i className="fa fa-chevron-left" aria-hidden="true"></i> Back
                     </button>
                 </div>

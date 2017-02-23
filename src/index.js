@@ -70,10 +70,10 @@ render(
             <Route component={AppContainer}>
                 <Route path="/" title="home" initial={true} component={HomeContainer} />
                 <Route path="/game/:id" title="game" component={GameContainer} />
-                <Route path="/create/worksheet" component={WorksheetCreator} onEnter={isConnected} />
-                <Route path="/edit/worksheet/:id" component={WorksheetEditor} onEnter={isConnected} />
-                <Route path="/edit/word/:id" component={WordEditor} onEnter={isConnected} />
-                <Route path="/account" component={AccountContainer} onEnter={isNotConnected} />
+                <Route path="/create/worksheet" title="create-worksheet" component={WorksheetCreator} onEnter={isConnected} />
+                <Route path="/edit/worksheet/:id" title="edit-worksheet" component={WorksheetEditor} onEnter={isConnected} />
+                <Route path="/edit/word/:id" title="edit-word" component={WordEditor} onEnter={isConnected} />
+                <Route path="/account" title="account" component={AccountContainer} onEnter={isNotConnected} />
                 <Redirect from="*" to="/" />
             </Route>
         </Router>
