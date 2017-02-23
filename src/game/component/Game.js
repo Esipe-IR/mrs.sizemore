@@ -12,7 +12,7 @@ const Game = (props) => (
             <div className="panel panel-default">
                 <div className="panel-body">
                     <div className="row">
-                        <div className="col-sm-6">
+                        <div className="col-xs-6">
                             <h1>{props.worksheet.get("name")}</h1>
 
                             <p>{props.worksheet.get("description")}</p>
@@ -21,7 +21,7 @@ const Game = (props) => (
                                 <i className="fa fa-wrench" aria-hidden="true"></i> Edit
                             </button>
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-xs-6">
                             <img src={props.worksheet.get("img")} alt="" className="img-responsive" style={{ margin: "0 auto"}} />
                         </div>
                     </div>
@@ -31,9 +31,9 @@ const Game = (props) => (
 
         <div className="row">
             <div className="col-sm-12">
-                <p>Choose your game mode :</p>
                 <div className="panel panel-default">
                     <div className="panel-body">
+                        <p>Choose your game mode :</p>
                         <ModeSelection mode={props.mode} updateMode={props.updateMode} worksheet={props.worksheet} />
                     </div>
                 </div>
@@ -42,7 +42,7 @@ const Game = (props) => (
 
         <div className="row">
             <div className="col-sm-12">
-                {props.mode === 1 ? 
+                {props.mode === 0 ? 
                     <TranslatorContainer words={props.worksheet.get("words")} /> 
                     :
                     <FillgapContainer words={props.worksheet.get("words")} />
