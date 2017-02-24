@@ -12,6 +12,7 @@ class GameContainer extends React.Component {
     }
 
     render() {
+        console.log(this.props.worksheet)
         return this.props.worksheet ? <Game {...this.props} /> : null
     }
 }

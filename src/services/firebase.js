@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import { Observable } from 'rxjs'
 import { Map, List, fromJS } from 'immutable'
 
 const config = {  
@@ -12,6 +13,17 @@ const config = {
 const f = firebase.initializeApp(config)
 const fdb = f.database()
 const fauth = f.auth()
+
+const snapshotToList = (snapshot) => {
+    let list = []
+
+    snapshot.forEach(snap => {
+        let value = fromJS(snap.val())
+        list.push(value)
+    })
+    
+    return List(list)
+}
 
 export const get = (ref) => {
     return new Promise((resolve, reject) => {
@@ -27,19 +39,16 @@ export const get = (ref) => {
 export const getWorksheets = () => {
     let ref = fdb.ref('/worksheets/')
 
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => {
-            let list = []
-
-            snapshot.forEach(sheet => {
-                let s = Map(sheet.val())
-                list.push(s)
-            })
-
-            resolve(List(list))
-        })
-        .catch( err => reject(err) )
+    return Observable.create(observer => {
+        Observable.from(ref.once('value')).subscribe(
+            snapshot => {
+                let worksheets = snapshotToList(snapshot)
+                observer.next(worksheets)
+            },
+            err => {
+                observer.error(err)
+            }
+        )
     })
 }
 
@@ -74,23 +83,23 @@ export const getWords = (worksheet) => {
 
 export const getCompleteWorksheet = (id) => {
     let data = Map()
-    let count = 0
+
+    console.log("START")
 
     return new Promise((resolve, reject) => {
         getWorksheet(id)
-        .then(result => { 
-            data = result
-            count++
+        .then(worksheet => {
+            data = worksheet
 
-            if (count > 1) resolve(result)
+            console.log("HERE")
+
+            getWords(id)
+            .then(words => {console.log("HERE 2"); data.set("words", words);})
+            .catch(err => {throw err})
         })
-        .catch(err => reject(err))
-
-        getWords(id)
         .then(result => {
-            count++
-
-            if (count > 1) resolve(data.set("words", result))
+            console.log("HERE 3")
+            resolve(data)
         })
         .catch(err => reject(err))
     })

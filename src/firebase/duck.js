@@ -78,12 +78,13 @@ export const fetchWorksheets = () => (dispatch) => {
     dispatch(updateLoading(true))
     
     getWorksheets()
-    .then(response => dispatch(updateWorksheets(response)))
-    .then(() => dispatch(updateLoading(false)))
-    .catch(err => {
-        dispatch(notifError(err.toString()))
-        dispatch(updateLoading(false))
-    })
+    .subscribe(response => console.log(response))
+    // .then(response => dispatch(updateWorksheets(response)))
+    // .then(() => dispatch(updateLoading(false)))
+    // .catch(err => {
+    //     dispatch(notifError(err.toString()))
+    //     dispatch(updateLoading(false))
+    // })
 }
 
 export const fetchWorksheet = (id) => (dispatch) => {
