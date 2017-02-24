@@ -11,9 +11,9 @@ import {
     getWorksheets,
     getCompleteWorksheet,
     getWord,
-    update,
-    create,
-    del
+    setWorksheet,
+    setCompleteWorksheet,
+    setWord
 } from '../services/firebase'
 
 const INITIAL_STATE = Map({})
@@ -112,41 +112,45 @@ export const fetchWord = (id) => (dispatch) => {
 }
 
 export const editWorksheet = (worksheet) => (dispatch) => {
-    update("/worksheets/" + worksheet.id, worksheet)
-    .then(() => dispatch(notifSuccess("Successfully update")))
-    .catch(err => dispatch(notifError(err.toString())))
+    dispatch(updateLoading(true))
+
+    setWorksheet(worksheet)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully update")),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const editWord = (word) => (dispatch) => {
-    update("/words/" + word.id, word)
-    .then(() => dispatch(notifSuccess("Successfully update")))
-    .catch(err => dispatch(notifError(err.toString())))
+    dispatch(updateLoading(true))
+
+    setWord(word)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully update")),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const createWord = (word) => (dispatch) => {
-    create("words", word)
-    .then(() => dispatch(notifSuccess("Successfully create")))
-    .catch(err => dispatch(notifError(err.toString())))
+    setWord(word)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully create")),
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
-    create("worksheets", worksheet)
-    .then(response => {
-        if (words) {
-            words.forEach((w, i) => {
-                w.worksheet = response.get("id")
-                dispatch(createWord(w))
-            })
-        }
-
-        dispatch(notifSuccess("Successfully create"))
-    })
-    .catch(err => dispatch(notifError(err.toString())))
+    setCompleteWorksheet(worksheet, words)
+    .subscribe(
+        response => dispatch(notifSuccess("Successfully create")),
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
-export const deleteWord = (word) => (dispatch) => {
-    del("/words/" + word)
-    .then()
+export const deleteWord = (id) => (dispatch) => {
+    setWord(id, null)
     .catch(err => dispatch(notifError(err.toString())))
 }
 

@@ -3,6 +3,9 @@ import { Observable } from 'rxjs'
 import { List, fromJS } from 'immutable'
 
 const TIME_OUT = 5000
+const WS = "/worksheets/"
+const W = "/words/"
+
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
     authDomain: "worksheet-trainer.firebaseapp.com",
@@ -34,10 +37,6 @@ const _once = (ref) => {
     .timeout(TIME_OUT)
 }
 
-const _update = (ref, obj) => {
-    return Observable.from(ref.update(obj))
-}
-
 const _getToImmu = (ref) => {
     return _once(ref)
     .map(snapshot => fromJS(snapshot.val()))
@@ -46,6 +45,26 @@ const _getToImmu = (ref) => {
 const _getToList = (ref) => {
     return _once(ref)
     .map(snapshot => snapshotToList(snapshot))
+}
+
+const _set = (ref, obj) => {
+    return Observable.from(ref.update(obj))
+}
+
+const _update = (parent, id, data) => {
+    let ref = fdb.ref().child(parent)
+
+    let update = {}
+    update[id] = data
+    
+    return _set(ref, update)
+}
+
+const _create = (parent, data) => {
+    let id = fdb.ref().child(parent).push().key
+    data.id = id
+
+    return _update(parent, id, data)
 }
 
 /**
@@ -95,28 +114,31 @@ export const getRole = (id) => {
 /**
  * Setters
  */
-export const create = (parent, obj) => {
-    let ref = fdb.ref().child(parent)
-    let key = ref.push().key
-    obj.id = key
-
-    let update = {}
-    update[key] = obj
-
-    return _update(ref, update)
+export const setWorksheet = (id, worksheet) => {
+    if (id) return _update(WS + id, worksheet)
+    return _create(WS, worksheet)
+}
+export const setWord = (id, word) => {
+    if (id) return _update(W + id, word)
+    return _create(W, word)
 }
 
-export const update = (id, data) => {
-    let update = {}
-    update[id] = data
-    
-    return _update(fdb.ref(), update)
+export const setCompleteWorksheet = (id, worksheet, words) => {
+    createWorksheet(worksheet).subscribe(
+        response => {
+            if (words) return
+
+            words.forEach((w, i) => {
+                w.worksheet = response.get("id")
+                createWord(w)
+            })
+        }
+    )
 }
 
-export const del = (id) => {
-    return update(id, null)
-}
-
+/**
+ * USERS
+ */
 export const createUser = (email, password) => {
     return Observable.from(fauth.createUserWithEmailAndPassword(email, password))
     .map(user => user.sendEmailVerification())
