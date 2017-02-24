@@ -3,7 +3,6 @@ import { Observable } from 'rxjs'
 import { List, fromJS } from 'immutable'
 
 const TIME_OUT = 5000
-
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
     authDomain: "worksheet-trainer.firebaseapp.com",
@@ -27,55 +26,56 @@ const snapshotToList = (snapshot) => {
     return List(list)
 }
 
-const get = (ref) => {
-    return Observable.create(observer => {
-        Observable.from(ref.once('value'))
-        .subscribe(
-            snapshot => {
-                if (!snapshot.val()) observer.error(new Error("Unavailable !"))
-                observer.next(fromJS(snapshot.val()))
-            },
-            err => observer.error(err),
-            complete => observer.complete()
-        )
-    }).timeout(TIME_OUT)
+/**
+ * CORE
+ */
+const _once = (ref) => {
+    return Observable.from(ref.once('value'))
+    .timeout(TIME_OUT)
 }
 
-const getToList = (ref) => {
-    return Observable.create(observer => {
-        Observable.from(ref.once('value'))
-        .subscribe(
-            snapshot => observer.next(snapshotToList(snapshot)),
-            err => observer.error(err),
-            complete => observer.complete()
-        )
-    }).timeout(TIME_OUT)
+const _update = (ref, obj) => {
+    return Observable.from(ref.update(obj))
 }
 
+const _getToImmu = (ref) => {
+    return _once(ref)
+    .map(snapshot => fromJS(snapshot.val()))
+}
+
+const _getToList = (ref) => {
+    return _once(ref)
+    .map(snapshot => snapshotToList(snapshot))
+}
+
+/**
+ * Getters
+ */
 export const getWorksheets = () => {
     let ref = fdb.ref('/worksheets/')
-    return getToList(ref)
+
+    return _getToList(ref)
 }
 
 export const getWords = (id) => {
     if (!id) throw new Error("FirebaseService - getWords: ID must be defined")
-
     let ref = fdb.ref('/words/').orderByChild("worksheet").equalTo(id)
-    return getToList(ref)
+
+    return _getToList(ref)
 }
 
 export const getWorksheet = (id) => {
     if (!id) throw new Error("FirebaseService - getWorksheet: ID must be defined")
-
     let ref = fdb.ref('/worksheets/').child(id)
-    return get(ref)
+
+    return _getToImmu(ref)
 }
 
 export const getWord = (id) => {
     if (!id) throw new Error("FirebaseService - getWord: ID must be defined")
-
     let ref = fdb.ref('/words/').child(id)
-    return get(ref)
+
+    return _getToImmu(ref)
 }
 
 export const getCompleteWorksheet = (id) => {
@@ -96,17 +96,15 @@ export const getCompleteWorksheet = (id) => {
     })
 }
 
-const set = (ref, obj) => {
-    return Observable.create(observer => {
-        Observable.from(ref.update(obj))
-        .subscribe(
-            resp => observer.next(resp),
-            err => observer.error(err),
-            complete => observer.complete()
-        )
-    })
+export const getRole = (id) => {
+    let ref = fdb.ref('roles').child(id)
+    
+    return _getToImmu(ref)
 }
 
+/**
+ * Setters
+ */
 export const create = (parent, obj) => {
     let ref = fdb.ref().child(parent)
     let key = ref.push().key
@@ -115,14 +113,14 @@ export const create = (parent, obj) => {
     let update = {}
     update[key] = obj
 
-    return set(ref, update)
+    return _update(ref, update)
 }
 
 export const update = (id, data) => {
     let update = {}
     update[id] = data
     
-    return set(fdb.ref(), update)
+    return _update(fdb.ref(), update)
 }
 
 export const del = (id) => {
@@ -154,11 +152,9 @@ export const connectUser = (email, password) => {
     })
 }
 
-export const getRole = (id) => {
-    let ref = fdb.ref('roles').child(id)
-    return get(ref)
-}
-
+/**
+ * To do
+ */
 export const getCurrentUser = () => {
     return new Promise((resolve, reject) => {
         fauth.onAuthStateChanged(function(user) {
