@@ -27,7 +27,7 @@ const snapshotToList = (snapshot) => {
     return List(list)
 }
 
-export const get = (ref) => {
+const get = (ref) => {
     return Observable.create(observer => {
         Observable.from(ref.once('value'))
         .subscribe(
@@ -41,7 +41,7 @@ export const get = (ref) => {
     }).timeout(TIME_OUT)
 }
 
-export const getToList = (ref) => {
+const getToList = (ref) => {
     return Observable.create(observer => {
         Observable.from(ref.once('value'))
         .subscribe(
@@ -96,52 +96,67 @@ export const getCompleteWorksheet = (id) => {
     })
 }
 
+const set = (ref, obj) => {
+    return Observable.create(observer => {
+        Observable.from(ref.update(obj))
+        .subscribe(
+            resp => observer.next(resp),
+            err => observer.error(err),
+            complete => observer.complete()
+        )
+    })
+}
+
 export const create = (parent, obj) => {
-    let ref = fdb.ref()
-    let key = ref.child(parent).push().key
+    let ref = fdb.ref().child(parent)
+    let key = ref.push().key
     obj.id = key
 
     let update = {}
-    update["/"+ parent + "/" + key] = obj
+    update[key] = obj
 
-    return new Promise((resolve, reject) => { 
-        ref.update(update)
-        .then(() => resolve(fromJS(obj)))
-        .catch(err => reject(err))
-    })
+    return set(ref, update)
 }
 
 export const update = (id, data) => {
     let update = {}
     update[id] = data
     
-    return fdb.ref().update(update)
+    return set(fdb.ref(), update)
 }
 
 export const del = (id) => {
-    let update = {}
-    update[id] = null
-
-    return fdb.ref().update(update)
+    return update(id, null)
 }
 
 export const createUser = (email, password) => {
-    return new Promise((resolve, reject) => {
-        fauth.createUserWithEmailAndPassword(email, password)
-        .then(user => {
-            user.sendEmailVerification()
-            resolve(user)
-        })
-        .catch(err => reject(err))
+    return Observable.create(observer => {
+        Observable.from(fauth.createUserWithEmailAndPassword(email, password))
+        .subscribe(
+            user => user.sendEmailVerification(),
+            err => observer.error(err),
+            complete => {
+                observer.next(complete)
+                observer.complete()
+            }
+        )
     })
 }
 
 export const connectUser = (email, password) => {
-    return fauth.signInWithEmailAndPassword(email, password)
+    return Observable.create(observer => {
+        Observable.from(fauth.signInWithEmailAndPassword(email, password))
+        .subscribe(
+            resp => console.log(resp),
+            err => console.log(err),
+            complete => console.log(complete)
+        )
+    })
 }
 
 export const getRole = (id) => {
-    return fdb.ref('roles').child(id).once('value')
+    let ref = fdb.ref('roles').child(id)
+    return get(ref)
 }
 
 export const getCurrentUser = () => {
