@@ -58,13 +58,17 @@ export const connexion = (user) => (dispatch) => {
     }
     
     connectUser(user.email, user.password)
-    .then(() => dispatch(notifSuccess("Well connected")))
-    .then(() => dispatch(fetchUser()))
-    .then(() => dispatch(push('/')))
-    .catch(err => {
-        dispatch(updateError(err))
-        dispatch(notifError(err.toString()))
-    })
+    .subscribe(
+        resp => {
+            dispatch(notifSuccess("Well connected"))
+            dispatch(fetchUser())
+            dispatch(push('/'))
+        },
+        err => {
+            dispatch(updateError(err))
+            dispatch(notifError(err.toString()))
+        }
+    )
 }
 
 export const logout = () => (dispatch) => {
@@ -94,12 +98,6 @@ export const fetchWorksheet = (id) => (dispatch) => {
         err => dispatch(notifError(err.toString())),
         complete => dispatch(updateLoading(false))
     )
-    // .then(response => dispatch(updateWorksheet(response)))
-    // .then(() => dispatch(updateLoading(false)))
-    // .catch(err => {
-    //     dispatch(notifError(err.toString()))
-    //     dispatch(updateLoading(false))
-    // })
 }
 
 export const fetchWord = (id) => (dispatch) => {
