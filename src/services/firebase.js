@@ -1,6 +1,8 @@
 import * as firebase from 'firebase'
 import { Observable } from 'rxjs'
-import { Map, List, fromJS } from 'immutable'
+import { List, fromJS } from 'immutable'
+
+const TIME_OUT = 5000
 
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
@@ -26,82 +28,71 @@ const snapshotToList = (snapshot) => {
 }
 
 export const get = (ref) => {
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => {
-            if (!snapshot.val()) throw new Error("Unavailable !")
-            resolve(fromJS(snapshot.val()))
-        })
-        .catch(err => reject(err))
-    })
+    return Observable.create(observer => {
+        Observable.from(ref.once('value'))
+        .subscribe(
+            snapshot => {
+                if (!snapshot.val()) observer.error(new Error("Unavailable !"))
+                observer.next(fromJS(snapshot.val()))
+            },
+            err => observer.error(err),
+            complete => observer.complete()
+        )
+    }).timeout(TIME_OUT)
+}
+
+export const getToList = (ref) => {
+    return Observable.create(observer => {
+        Observable.from(ref.once('value'))
+        .subscribe(
+            snapshot => observer.next(snapshotToList(snapshot)),
+            err => observer.error(err),
+            complete => observer.complete()
+        )
+    }).timeout(TIME_OUT)
 }
 
 export const getWorksheets = () => {
     let ref = fdb.ref('/worksheets/')
+    return getToList(ref)
+}
 
-    return Observable.create(observer => {
-        Observable.from(ref.once('value')).subscribe(
-            snapshot => {
-                let worksheets = snapshotToList(snapshot)
-                observer.next(worksheets)
-            },
-            err => {
-                observer.error(err)
-            }
-        )
-    })
+export const getWords = (id) => {
+    if (!id) throw new Error("FirebaseService - getWords: ID must be defined")
+
+    let ref = fdb.ref('/words/').orderByChild("worksheet").equalTo(id)
+    return getToList(ref)
 }
 
 export const getWorksheet = (id) => {
+    if (!id) throw new Error("FirebaseService - getWorksheet: ID must be defined")
+
     let ref = fdb.ref('/worksheets/').child(id)
     return get(ref)
 }
 
 export const getWord = (id) => {
+    if (!id) throw new Error("FirebaseService - getWord: ID must be defined")
+
     let ref = fdb.ref('/words/').child(id)
     return get(ref)
 }
 
-export const getWords = (worksheet) => {
-    let ref = fdb.ref('/words/').orderByChild("worksheet").equalTo(worksheet)
-
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => {
-            let list = []
-
-            snapshot.forEach(word => {
-                let w = fromJS(word.val())
-                list.push(w)
-            })
-            
-            resolve(List(list))
-        })
-        .catch(err => reject(err))
-    })
-}
-
 export const getCompleteWorksheet = (id) => {
-    let data = Map()
-
-    console.log("START")
-
-    return new Promise((resolve, reject) => {
-        getWorksheet(id)
-        .then(worksheet => {
-            data = worksheet
-
-            console.log("HERE")
-
-            getWords(id)
-            .then(words => {console.log("HERE 2"); data.set("words", words);})
-            .catch(err => {throw err})
-        })
-        .then(result => {
-            console.log("HERE 3")
-            resolve(data)
-        })
-        .catch(err => reject(err))
+    return Observable.create(observer => {
+        getWorksheet(id).subscribe(
+            worksheet => {
+                getWords(id).subscribe(
+                    words => worksheet = worksheet.set("words", words),
+                    err => observer.error(err),
+                    complete => {
+                        observer.next(worksheet)
+                        observer.complete()
+                    }
+                )
+            },
+            err => observer.error(err)
+        )
     })
 }
 

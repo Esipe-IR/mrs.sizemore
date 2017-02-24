@@ -78,25 +78,28 @@ export const fetchWorksheets = () => (dispatch) => {
     dispatch(updateLoading(true))
     
     getWorksheets()
-    .subscribe(response => console.log(response))
-    // .then(response => dispatch(updateWorksheets(response)))
-    // .then(() => dispatch(updateLoading(false)))
-    // .catch(err => {
-    //     dispatch(notifError(err.toString()))
-    //     dispatch(updateLoading(false))
-    // })
+    .subscribe(
+        response => dispatch(updateWorksheets(response)),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const fetchWorksheet = (id) => (dispatch) => {
     dispatch(updateLoading(true))
 
     getCompleteWorksheet(id)
-    .then(response => dispatch(updateWorksheet(response)))
-    .then(() => dispatch(updateLoading(false)))
-    .catch(err => {
-        dispatch(notifError(err.toString()))
-        dispatch(updateLoading(false))
-    })
+    .subscribe(
+        response => dispatch(updateWorksheet(response)),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
+    // .then(response => dispatch(updateWorksheet(response)))
+    // .then(() => dispatch(updateLoading(false)))
+    // .catch(err => {
+    //     dispatch(notifError(err.toString()))
+    //     dispatch(updateLoading(false))
+    // })
 }
 
 export const fetchWord = (id) => (dispatch) => {
