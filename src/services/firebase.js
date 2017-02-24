@@ -79,21 +79,11 @@ export const getWord = (id) => {
 }
 
 export const getCompleteWorksheet = (id) => {
-    return Observable.create(observer => {
-        getWorksheet(id).subscribe(
-            worksheet => {
-                getWords(id).subscribe(
-                    words => worksheet = worksheet.set("words", words),
-                    err => observer.error(err),
-                    complete => {
-                        observer.next(worksheet)
-                        observer.complete()
-                    }
-                )
-            },
-            err => observer.error(err)
-        )
-    })
+    if (!id) throw new Error("FirebaseService - getCompleteWorksheet: ID must be defined")
+    let worksheet = getWorksheet(id)
+    let words = getWords(id)
+
+    return Observable.forkJoin(worksheet, words, (worksheet, words) => worksheet.set("words", words))
 }
 
 export const getRole = (id) => {
@@ -128,28 +118,12 @@ export const del = (id) => {
 }
 
 export const createUser = (email, password) => {
-    return Observable.create(observer => {
-        Observable.from(fauth.createUserWithEmailAndPassword(email, password))
-        .subscribe(
-            user => user.sendEmailVerification(),
-            err => observer.error(err),
-            complete => {
-                observer.next(complete)
-                observer.complete()
-            }
-        )
-    })
+    return Observable.from(fauth.createUserWithEmailAndPassword(email, password))
+    .map(user => user.sendEmailVerification())
 }
 
 export const connectUser = (email, password) => {
-    return Observable.create(observer => {
-        Observable.from(fauth.signInWithEmailAndPassword(email, password))
-        .subscribe(
-            resp => console.log(resp),
-            err => console.log(err),
-            complete => console.log(complete)
-        )
-    })
+    return Observable.from(fauth.signInWithEmailAndPassword(email, password))
 }
 
 /**

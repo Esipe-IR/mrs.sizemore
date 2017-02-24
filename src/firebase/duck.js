@@ -104,12 +104,11 @@ export const fetchWord = (id) => (dispatch) => {
     dispatch(updateLoading(true))
 
     getWord(id)
-    .then(response => dispatch(updateWord(response)))
-    .then(() => dispatch(updateLoading(false)))
-    .catch(err => {
-        dispatch(notifError(err.toString()))
-        dispatch(updateLoading(false))
-    })
+    .subscribe(
+        response => dispatch(updateWord(response)),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const editWorksheet = (worksheet) => (dispatch) => {
