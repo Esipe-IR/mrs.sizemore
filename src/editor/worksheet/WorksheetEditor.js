@@ -6,7 +6,7 @@ import { updateDelete } from '../duck'
 
 class WorksheetEditor extends React.Component {
     componentDidMount() {
-        this.props.fetchWorksheet(this.props.params.id)
+         this.props.fetchWorksheet(this.props.params.id)
     }
 
     onSubmit(value) {
@@ -25,7 +25,7 @@ class WorksheetEditor extends React.Component {
             this.props.deleteWord(w)
         })
 
-        this.props.editWorksheet(value)
+        this.props.editWorksheet(worksheet)
     }
 
     addDelete(id) {
@@ -52,8 +52,8 @@ WorksheetEditor.propTypes = {
     del: React.PropTypes.array
 }
 
-const mapStateToProps = ({ firebase, editor }) => ({
-    worksheet: firebase.get("worksheet"),
+const mapStateToProps = ({ editor }) => ({
+    worksheet: editor.get("worksheet"),
     del: editor.get("del")
 })
 

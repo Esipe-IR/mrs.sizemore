@@ -30,7 +30,9 @@ export const updateWord = createAction(UPDATE_WORD)
 
 export const fetchUser = () => (dispatch) => {
     getCurrentUser()
-    .then(u => dispatch(updateUser(u)))
+    .subscribe(
+        u => dispatch(updateUser(u))
+    )
 }
 
 export const register = (user) => (dispatch) => {
@@ -114,7 +116,7 @@ export const fetchWord = (id) => (dispatch) => {
 export const editWorksheet = (worksheet) => (dispatch) => {
     dispatch(updateLoading(true))
 
-    setWorksheet(worksheet)
+    setWorksheet(worksheet.id, worksheet)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
         err => dispatch(notifError(err.toString())),
@@ -125,7 +127,7 @@ export const editWorksheet = (worksheet) => (dispatch) => {
 export const editWord = (word) => (dispatch) => {
     dispatch(updateLoading(true))
 
-    setWord(word)
+    setWord(word.id, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
         err => dispatch(notifError(err.toString())),
@@ -134,7 +136,7 @@ export const editWord = (word) => (dispatch) => {
 }
 
 export const createWord = (word) => (dispatch) => {
-    setWord(word)
+    setWord(null, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully create")),
         err => dispatch(notifError(err.toString()))
@@ -142,7 +144,7 @@ export const createWord = (word) => (dispatch) => {
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
-    setCompleteWorksheet(worksheet, words)
+    setCompleteWorksheet(null, worksheet, words)
     .subscribe(
         response => dispatch(notifSuccess("Successfully create")),
         err => dispatch(notifError(err.toString()))

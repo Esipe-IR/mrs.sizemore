@@ -2,13 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import App from './component/App'
 import { updateSidebar } from './duck'
-import { fetchUser, logout } from '../firebase/duck'
+import { logout } from '../firebase/duck'
 
 class AppContainer extends React.Component {
-    componentDidMount() {
-        this.props.getUser()
-    }
-
     render() {
         return <App {...this.props} children={this.props.children} />
     }
@@ -27,7 +23,6 @@ const mapStateToProps = ({ app, firebase }) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    getUser: () => dispatch(fetchUser()),
     logout: () => dispatch(logout()),
     closeNav: () => dispatch(updateSidebar(false)),
     toggleNav: (status) => () => dispatch(updateSidebar(!status))

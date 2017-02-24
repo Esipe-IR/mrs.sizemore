@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { formValueSelector } from 'redux-form'
+import { updateWorksheet, updateWord } from '../firebase/duck'
 import { updateLoading, notifError } from '../app/duck'
 import { getDefinitions, getExamples } from '../services/client'
 
@@ -58,5 +59,7 @@ export const wordSelector = formValueSelector("word_editor")
 
 export default handleActions({
     [UPDATE_DELETE]: (state, action) => state.set("delete", action.payload),
-    [UPDATE_TIPS]: (state, action) => state.set("tips", action.payload)
+    [UPDATE_TIPS]: (state, action) => state.set("tips", action.payload),
+    [updateWorksheet]: (state, action) => state.set("worksheet", action.payload),
+    [updateWord]: (state, action) => state.set("word", action.payload)
 }, INITIAL_STATE)

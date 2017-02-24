@@ -8,7 +8,7 @@ const UPDATE_LOADING = "mrs.sizemore/app/UPDATE::LOADING"
 const UPDATE_SIDEBAR = "mrs.sizemore/app/UPDATE::SIDEBAR"
 
 const INITIAL_STATE = Map({
-    loading: true
+    loading: false
 })
 
 export const updateFingerprint = createAction(UPDATE_FINGERPRINT)

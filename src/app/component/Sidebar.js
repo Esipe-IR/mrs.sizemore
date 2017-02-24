@@ -2,7 +2,7 @@ import React from 'react'
 
 const User = ({user}) => (
     <li className="text-center">
-        <i className="fa fa-user" aria-hidden="true"></i> {user.email}
+        <i className="fa fa-user" aria-hidden="true"></i> {user.get("email")}
     </li>
 )
 
@@ -36,12 +36,6 @@ const Sidebar = (props) => (
             <li>
                 <button onClick={() => {props.router.push("/"); props.closeNav()}}>
                     <i className="fa fa-home" aria-hidden="true"></i> Home
-                </button>
-            </li>
-
-            <li>
-                <button onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
-                    <i className="fa fa-plus" aria-hidden="true"></i> Create worksheet
                 </button>
             </li>
 
