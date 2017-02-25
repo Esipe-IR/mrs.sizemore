@@ -2,7 +2,7 @@ import React from 'react'
 
 const User = ({user}) => (
     <li className="text-center">
-        <i className="fa fa-user" aria-hidden="true"></i> {user.email}
+        <i className="fa fa-user" aria-hidden="true"></i> {user.get("email")}
     </li>
 )
 
@@ -32,32 +32,13 @@ const Sidebar = (props) => (
             </li>
 
             {props.user ? <User user={props.user} /> : <SignIn {...props} />}
-
-            <li>
-                <button onClick={() => {props.router.push("/"); props.closeNav()}}>
-                    <i className="fa fa-home" aria-hidden="true"></i> Home
-                </button>
-            </li>
-
-            <li>
-                <button onClick={() => {props.router.push("/create/worksheet"); props.closeNav()}}>
-                    <i className="fa fa-plus" aria-hidden="true"></i> Create worksheet
-                </button>
-            </li>
-
-            <li>
-                <button onClick={() => {props.router.push("/about"); props.closeNav()}}>
-                    <i className="fa fa-graduation-cap" aria-hidden="true"></i> About
-                </button>
-            </li>
+            {props.user ? <Logout logout={props.logout} /> : null}
 
             <li>
                 <button className="text-danger" onClick={() =>  {localStorage.clear(); props.router.push("/contact"); props.closeNav()}}>
                     <i className="fa fa-trash" aria-hidden="true"></i> Clear cache
                 </button>
             </li>
-
-            {props.user ? <Logout logout={props.logout} /> : null}
 
             <li className="text-center">
                 <a href="https://github.com/Esipe-IR/mrs.sizemore">

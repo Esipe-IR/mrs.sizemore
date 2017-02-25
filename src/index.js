@@ -17,8 +17,8 @@ import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
 
 import { notifError } from './app/duck'
+import { fetchUser } from './firebase/duck'
 
-import { getCurrentUser } from './services/firebase'
 import { localConfig } from './services/localStorage'
 import { registerServiceWorker } from './services/serviceWorker'
 
@@ -39,35 +39,41 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store)
 
+const auth = (nextState, replace) => {
+    store.dispatch(fetchUser())
+}
+
 const isConnected = (nextState, replace) => {
-    getCurrentUser()
-    .then(u => {
-        if (!u) {
-            store.dispatch(notifError("You are not connected"))
-            return store.dispatch(push("/account"))
-        }
+    const  { firebase } = store.getState()
+    const u = firebase.get("user")
 
-        if (!u.emailVerified) {
-            store.dispatch(notifError("Your email has not been verified"))
-            return store.dispatch(push("/"))
-        }
+    if (!u) {
+        store.dispatch(notifError("You are not connected"))
+        return store.dispatch(push("/account"))
+    }
 
-        if (!u.role) {
-            store.dispatch(notifError("You are not accredited by the administrator"))
-            return store.dispatch(push("/"))
-        }
-    })
+    if (!u.get("emailVerified")) {
+        store.dispatch(notifError("Your email has not been verified"))
+        return store.dispatch(push("/"))
+    }
+
+    if (!u.get("role")) {
+        store.dispatch(notifError("You are not accredited by the administrator"))
+        return store.dispatch(push("/"))
+    }
 }
 
 const isNotConnected = (nextState, replace) => {
-    getCurrentUser()
-    .then(u => u ? store.dispatch(push("/")) : null)
+    const  { firebase } = store.getState()
+    const u = firebase.get("user")
+
+    if (u) store.dispatch(push("/"))
 }
 
 render(
     <Provider store={store}>
         <Router history={history}>
-            <Route component={AppContainer}>
+            <Route component={AppContainer} onEnter={auth}>
                 <Route path="/" title="home" initial={true} component={HomeContainer} />
                 <Route path="/game/:id" title="game" component={GameContainer} />
                 <Route path="/create/worksheet" title="create-worksheet" component={WorksheetCreator} onEnter={isConnected} />

@@ -41,7 +41,7 @@ class WordEditor extends React.Component {
     }
 
     render() {
-        return this.props.word ?
+        return this.props.word && this.props.word.get('id') === this.props.params.id ?
             <Word
                 {...this.props}
                 submitTips={this.submitTips.bind(this)}
@@ -59,8 +59,8 @@ WordEditor.propTypes = {
     mutable_sentences: React.PropTypes.array
 }
 
-const mapStateToProps = ({ firebase, editor, form }) => ({
-    word: firebase.get("word"),
+const mapStateToProps = ({ editor, form }) => ({
+    word: editor.get("word"),
     tips: editor.get("tips"),
     mutable_en: wordSelector({form}, 'en'),
     mutable_sentences: wordSelector({form}, 'sentences')

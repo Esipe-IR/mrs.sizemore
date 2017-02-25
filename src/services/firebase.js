@@ -1,5 +1,11 @@
 import * as firebase from 'firebase'
-import { Map, List, fromJS } from 'immutable'
+import { Observable } from 'rxjs'
+import { List, fromJS } from 'immutable'
+
+const TIME_OUT = 5000
+const WORKSHEETS = "/worksheets/"
+const WORDS = "/words/"
+const ROLES = "/roles/"
 
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
@@ -13,173 +19,239 @@ const f = firebase.initializeApp(config)
 const fdb = f.database()
 const fauth = f.auth()
 
-export const get = (ref) => {
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => {
-            if (!snapshot.val()) throw new Error("Unavailable !")
-            resolve(fromJS(snapshot.val()))
-        })
-        .catch(err => reject(err))
+const snapshotToList = (snapshot) => {
+    let list = []
+
+    snapshot.forEach(snap => {
+        let value = fromJS(snap.val())
+        list.push(value)
     })
+    
+    return List(list)
 }
 
-export const getWorksheets = () => {
-    let ref = fdb.ref('/worksheets/')
-
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => {
-            let list = []
-
-            snapshot.forEach(sheet => {
-                let s = Map(sheet.val())
-                list.push(s)
-            })
-
-            resolve(List(list))
-        })
-        .catch( err => reject(err) )
-    })
+const _once = (ref) => {
+    return Observable.from(ref.once('value'))
+    .timeout(TIME_OUT)
 }
 
-export const getWorksheet = (id) => {
-    let ref = fdb.ref('/worksheets/').child(id)
-    return get(ref)
+const _getToImmu = (ref) => {
+    return _once(ref)
+    .map(snapshot => fromJS(snapshot.val()))
 }
 
-export const getWord = (id) => {
-    let ref = fdb.ref('/words/').child(id)
-    return get(ref)
+const _getToList = (ref) => {
+    return _once(ref)
+    .map(snapshot => snapshotToList(snapshot))
 }
 
-export const getWords = (worksheet) => {
-    let ref = fdb.ref('/words/').orderByChild("worksheet").equalTo(worksheet)
-
-    return new Promise((resolve, reject) => {
-        ref.once('value')
-        .then(snapshot => {
-            let list = []
-
-            snapshot.forEach(word => {
-                let w = fromJS(word.val())
-                list.push(w)
-            })
-            
-            resolve(List(list))
-        })
-        .catch(err => reject(err))
-    })
+const _getToRaw = (ref) => {
+    return _once(ref)
+    .map(snapshot => snapshot.val())
 }
 
-export const getCompleteWorksheet = (id) => {
-    let data = Map()
-    let count = 0
-
-    return new Promise((resolve, reject) => {
-        getWorksheet(id)
-        .then(result => { 
-            data = result
-            count++
-
-            if (count > 1) resolve(result)
-        })
-        .catch(err => reject(err))
-
-        getWords(id)
-        .then(result => {
-            count++
-
-            if (count > 1) resolve(data.set("words", result))
-        })
-        .catch(err => reject(err))
-    })
+const _set = (ref, obj) => {
+    return Observable.from(ref.update(obj))
 }
 
-export const create = (parent, obj) => {
-    let ref = fdb.ref()
-    let key = ref.child(parent).push().key
-    obj.id = key
+const _update = (parent, id, data) => {
+    let ref = fdb.ref(parent)
 
-    let update = {}
-    update["/"+ parent + "/" + key] = obj
-
-    return new Promise((resolve, reject) => { 
-        ref.update(update)
-        .then(() => resolve(fromJS(obj)))
-        .catch(err => reject(err))
-    })
-}
-
-export const update = (id, data) => {
     let update = {}
     update[id] = data
     
-    return fdb.ref().update(update)
+    return _set(ref, update)
 }
 
-export const del = (id) => {
-    let update = {}
-    update[id] = null
+const _create = (parent, data) => {
+    let id = fdb.ref(parent).push().key
+    data.id = id
 
-    return fdb.ref().update(update)
+    return _update(parent, id, data).map(() => (data))
 }
 
-export const createUser = (email, password) => {
-    return new Promise((resolve, reject) => {
-        fauth.createUserWithEmailAndPassword(email, password)
-        .then(user => {
-            user.sendEmailVerification()
-            resolve(user)
-        })
-        .catch(err => reject(err))
-    })
+/**
+* @function getWorksheets
+* @author Vincent Rasquier
+* @return {Observable} Observer will get worksheets or error
+*/
+export const getWorksheets = () => {
+    let ref = fdb.ref(WORKSHEETS)
+
+    return _getToList(ref)
 }
 
-export const connectUser = (email, password) => {
-    return fauth.signInWithEmailAndPassword(email, password)
+/**
+* @function getWords
+* @author Vincent Rasquier
+* @param  {string} id Worksheet's id of the word
+* @return {Observable} Observer will get an array of words or empty array or error
+*/
+export const getWords = (id) => {
+    if (!id) throw new Error("FirebaseService - getWords: ID must be defined")
+    let ref = fdb.ref(WORDS).orderByChild("worksheet").equalTo(id)
+
+    return _getToList(ref)
 }
 
+/**
+* @function getWorksheet
+* @author Vincent Rasquier
+* @param  {string} id Worksheet's id
+* @return {Observable} Observer will get worksheet or error
+*/
+export const getWorksheet = (id) => {
+    if (!id) throw new Error("FirebaseService - getWorksheet: ID must be defined")
+    let ref = fdb.ref(WORKSHEETS).child(id)
+
+    return _getToImmu(ref)
+}
+
+/**
+* @function getWord
+* @author Vincent Rasquier
+* @param  {string} id Word's id
+* @return {Observable} Observer will get word or error
+*/
+export const getWord = (id) => {
+    if (!id) throw new Error("FirebaseService - getWord: ID must be defined")
+    let ref = fdb.ref(WORDS).child(id)
+
+    return _getToImmu(ref)
+}
+
+/**
+* @function getCompleteWorksheet
+* @author Vincent Rasquier
+* @param  {string} id Worksheet's id
+* @return {Observable} Observer will get complete worksheet or error
+*/
+export const getCompleteWorksheet = (id) => {
+    if (!id) throw new Error("FirebaseService - getCompleteWorksheet: ID must be defined")
+    let worksheet = getWorksheet(id)
+    let words = getWords(id)
+
+    return Observable.forkJoin(worksheet, words, (worksheet, words) => worksheet ? worksheet.set("words", words) : null)
+}
+
+/**
+* @function getRole
+* @author Vincent Rasquier
+* @param  {string} id User's uid
+* @return {Observable} Observer will get bool or error
+*/
 export const getRole = (id) => {
-    return fdb.ref('roles').child(id).once('value')
+    if (!id) throw new Error("FirebaseService - getRole: ID must be defined")
+    let ref = fdb.ref(ROLES).child(id)
+    
+    return _getToRaw(ref)
 }
 
+/**
+* @function setWorksheet
+* @author Vincent Rasquier
+* @param  {string|null} id    Worksheet's id
+* @param  {Object} worksheet Representation of worksheet
+* @return {Observable} Observer will get 
+*/
+export const setWorksheet = (id, worksheet) => {
+    if (!id && !worksheet) throw new Error("FirebaseService - setWorksheet: worksheet must be defined")
+
+    if (id) return _update(WORKSHEETS, id, worksheet)
+    return _create(WORKSHEETS, worksheet)
+}
+
+/**
+* @function setWord
+* @author Vincent Rasquier
+* @param  {string|null} id   Word's id
+* @param  {Object} word Word's representation
+* @return {Observable} Observer will get 
+*/
+export const setWord = (id, word) => {
+    if (!id && !word) throw new Error("FirebaseService - setWord: word must be defined")
+
+    if (id) return _update(WORDS, id, word)
+    return _create(WORDS, word)
+}
+
+/**
+* @function setCompleteWorksheet
+* @author Vincent Rasquier
+* @param  {string} id        Worksheet's id
+* @param  {Object} worksheet Worksheet's representation
+* @param  {Array} words     Words' representation
+* @return {Observable} Observer will get
+*/
+export const setCompleteWorksheet = (id, worksheet, words) => {
+    return Observable.create(observer => {
+        setWorksheet(id, worksheet).subscribe(
+            response => {
+                if (!words) return observer.next()
+
+                words.forEach((w, i) => {
+                    w.worksheet = response.id
+                    setWord(w.id, w)
+                })
+
+                return observer.next()
+            },
+            err => observer.error(err),
+            complete => observer.complete()
+        )
+    })
+}
+
+/**
+* @function createUser
+* @author Vincent Rasquier
+* @param  {string} email    Email of the user
+* @param  {string} password Password of the user
+* @return {Observable} Observer will get null or error
+*/
+export const createUser = (email, password) => {
+    return Observable.from(fauth.createUserWithEmailAndPassword(email, password))
+    .map(user => user.sendEmailVerification())
+}
+
+/**
+* @function connectUser
+* @author Vincent Rasquier
+* @param  {string} email    Email of the user
+* @param  {string} password Password of the user
+* @return {Observable} Observer will get the current user or error
+*/
+export const connectUser = (email, password) => {
+    return Observable.from(fauth.signInWithEmailAndPassword(email, password))
+}
+
+/**
+* @function getCurrentUser
+* @author Vincent Rasquier
+* @return {Observable} Observer will get the current user or error
+*/
 export const getCurrentUser = () => {
-    return new Promise((resolve, reject) => {
-        fauth.onAuthStateChanged(function(user) {
-            let _ = null
+    return Observable.create(observer => {
+        fauth.onAuthStateChanged(user => {
+            if (!user) return observer.next()
 
-            if (!user) {
-                return resolve(_)
-            }
-
-            _ = {}
-
-            getRole(user.uid)
-            .then(response => {
-                let role = response.val()
-                _.email = user.email
-                _.emailVerified = user.emailVerified
-
-                if (!role) {
-                    return resolve(_)
+            getRole(user.uid).subscribe(
+                role => user.role = role,
+                err => observer.error(err),
+                complete => {
+                    observer.next(user)
+                    observer.complete()
                 }
-
-                _.role = role
-
-                resolve(_)
-            })
-            .catch(err => {
-                console.log(err)
-                resolve(null)
-            })
+            )
         })
     })
 }
 
+/**
+* @function logoutUser
+* @author Vincent Rasquier
+* @return {Observable} Observer will get null or error
+*/
 export const logoutUser = () => {
-    return new Promise((resolve, reject) => {
-        fauth.signOut()
-        .then(resolve(), (error) => reject(error))
-    })
+    return Observable.from(fauth.signOut())
 }

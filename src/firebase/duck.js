@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { push } from 'react-router-redux'
-import { Map } from 'immutable'
+import { Map, fromJS } from 'immutable'
 import { notifSuccess, notifError, updateLoading } from '../app/duck'
 import { updateError } from '../account/duck'
 import {
@@ -11,9 +11,9 @@ import {
     getWorksheets,
     getCompleteWorksheet,
     getWord,
-    update,
-    create,
-    del
+    setWorksheet,
+    setCompleteWorksheet,
+    setWord
 } from '../services/firebase'
 
 const INITIAL_STATE = Map({})
@@ -30,123 +30,142 @@ export const updateWord = createAction(UPDATE_WORD)
 
 export const fetchUser = () => (dispatch) => {
     getCurrentUser()
-    .then(u => dispatch(updateUser(u)))
+    .map(u => (u ? {email: u.email, emailVerified: u.emailVerified, role: u.role} : null))
+    .subscribe(
+        u => dispatch(updateUser(fromJS(u)))
+    )
 }
 
 export const register = (user) => (dispatch) => {
     if (!user.email && !user.password) {
-        dispatch(updateError(new Error()))
+        dispatch(updateError(true))
         dispatch(notifError("No information submit"))
         return
     }
 
     createUser(user.email, user.password)
-    .then(() => dispatch(notifSuccess("Well register")))
-    .then(() => dispatch(fetchUser()))
-    .then(() => dispatch(push('/')))
-    .catch(err => {
-        dispatch(updateError(err))
-        dispatch(notifError(err.toString()))
-    })
+    .subscribe(
+        () => {
+            dispatch(notifSuccess("Well register"))
+            dispatch(fetchUser())
+            dispatch(push('/'))
+        },
+        err => {
+            dispatch(updateError(true))
+            dispatch(notifError(err.toString()))
+        }
+    )
 }
 
 export const connexion = (user) => (dispatch) => {
     if (!user.email && !user.password) {
-        dispatch(updateError(new Error()))
+        dispatch(updateError(true))
         dispatch(notifError("No information submit"))
         return
     }
     
     connectUser(user.email, user.password)
-    .then(() => dispatch(notifSuccess("Well connected")))
-    .then(() => dispatch(fetchUser()))
-    .then(() => dispatch(push('/')))
-    .catch(err => {
-        dispatch(updateError(err))
-        dispatch(notifError(err.toString()))
-    })
+    .subscribe(
+        resp => {
+            dispatch(notifSuccess("Well connected"))
+            dispatch(fetchUser())
+            dispatch(push('/'))
+        },
+        err => {
+            dispatch(updateError(true))
+            dispatch(notifError(err.toString()))
+        }
+    )
 }
 
 export const logout = () => (dispatch) => {
     logoutUser()
-    .then(() => dispatch(updateUser(null)))
-    .then(() => dispatch(push('/logout')))
-    .catch(err => dispatch(notifError(err.toString())))
+    .subscribe(
+        () => {
+            dispatch(updateUser(null))
+            dispatch(push('/logout'))
+        },
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
 export const fetchWorksheets = () => (dispatch) => {
     dispatch(updateLoading(true))
     
     getWorksheets()
-    .then(response => dispatch(updateWorksheets(response)))
-    .then(() => dispatch(updateLoading(false)))
-    .catch(err => {
-        dispatch(notifError(err.toString()))
-        dispatch(updateLoading(false))
-    })
+    .subscribe(
+        response => dispatch(updateWorksheets(response)),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const fetchWorksheet = (id) => (dispatch) => {
     dispatch(updateLoading(true))
 
     getCompleteWorksheet(id)
-    .then(response => dispatch(updateWorksheet(response)))
-    .then(() => dispatch(updateLoading(false)))
-    .catch(err => {
-        dispatch(notifError(err.toString()))
-        dispatch(updateLoading(false))
-    })
+    .subscribe(
+        response => dispatch(updateWorksheet(response)),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const fetchWord = (id) => (dispatch) => {
     dispatch(updateLoading(true))
 
     getWord(id)
-    .then(response => dispatch(updateWord(response)))
-    .then(() => dispatch(updateLoading(false)))
-    .catch(err => {
-        dispatch(notifError(err.toString()))
-        dispatch(updateLoading(false))
-    })
+    .subscribe(
+        response => dispatch(updateWord(response)),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const editWorksheet = (worksheet) => (dispatch) => {
-    update("/worksheets/" + worksheet.id, worksheet)
-    .then(() => dispatch(notifSuccess("Successfully update")))
-    .catch(err => dispatch(notifError(err.toString())))
+    dispatch(updateLoading(true))
+
+    setWorksheet(worksheet.id, worksheet)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully update")),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const editWord = (word) => (dispatch) => {
-    update("/words/" + word.id, word)
-    .then(() => dispatch(notifSuccess("Successfully update")))
-    .catch(err => dispatch(notifError(err.toString())))
+    dispatch(updateLoading(true))
+
+    setWord(word.id, word)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully update")),
+        err => dispatch(notifError(err.toString())),
+        complete => dispatch(updateLoading(false))
+    )
 }
 
 export const createWord = (word) => (dispatch) => {
-    create("words", word)
-    .then(() => dispatch(notifSuccess("Successfully create")))
-    .catch(err => dispatch(notifError(err.toString())))
+    setWord(null, word)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully create")),
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
-    create("worksheets", worksheet)
-    .then(response => {
-        if (words) {
-            words.forEach((w, i) => {
-                w.worksheet = response.get("id")
-                dispatch(createWord(w))
-            })
-        }
-
-        dispatch(notifSuccess("Successfully create"))
-    })
-    .catch(err => dispatch(notifError(err.toString())))
+    setCompleteWorksheet(null, worksheet, words)
+    .subscribe(
+        response => dispatch(notifSuccess("Successfully create")),
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
-export const deleteWord = (word) => (dispatch) => {
-    del("/words/" + word)
-    .then()
-    .catch(err => dispatch(notifError(err.toString())))
+export const deleteWord = (id) => (dispatch) => {
+    setWord(id, null)
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully delete")),
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
 export default handleActions({

@@ -26,12 +26,12 @@ class AccountContainer extends React.Component {
 
 AccountContainer.propTypes = {
     action: React.PropTypes.bool,
-    error: React.PropTypes.bool
+    errorBool: React.PropTypes.bool
 }
 
 const mapStateToProps = ({ account }) => ({
     action: account.get("action"),
-    error: account.get("error")
+    errorBool: account.get("error")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -4,7 +4,7 @@ import Breadcrumb from '../../app/component/Breadcrumb'
 
 const Account = (props) => (
     <section className="page-content">
-        <Breadcrumb lastItem={"Account"} />
+        <Breadcrumb lastItem={"Account"} push={props.router.push} />
 
         <form className="form-horizontal" onSubmit={props.handleSubmit}>
             <h2 className="col-sm-offset-2 col-sm-10">{ props.action ? "Connexion" : "Register"}</h2>
@@ -15,7 +15,7 @@ const Account = (props) => (
                 Thank you for your understanding !
             </p>
 
-            <div className={"form-group " + (props.error ? "has-error" : "") }>
+            <div className={"form-group " + (props.errorBool ? "has-error" : "") }>
                 <label htmlFor="email" className="col-sm-2 control-label">Email</label>
                 
                 <div className="col-sm-10">
@@ -23,7 +23,7 @@ const Account = (props) => (
                 </div>
             </div>
 
-            <div className={"form-group " + (props.error ? "has-error" : "")}>
+            <div className={"form-group " + (props.errorBool ? "has-error" : "")}>
                 <label htmlFor="password" className="col-sm-2 control-label">Password</label>
                 
                 <div className="col-sm-10">
