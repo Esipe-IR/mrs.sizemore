@@ -6,6 +6,7 @@ import { updateError } from '../account/duck'
 import {
     createUser,
     connectUser,
+    connectUserWithToken,
     logoutUser,
     getCurrentUser,
     getWorksheets,
@@ -15,6 +16,7 @@ import {
     setCompleteWorksheet,
     setWord
 } from '../services/firebase'
+import { auth } from '../services/api/cas-auth'
 
 const INITIAL_STATE = Map({})
 
@@ -30,7 +32,18 @@ export const updateWord = createAction(UPDATE_WORD)
 
 export const fetchUser = () => (dispatch) => {
     getCurrentUser()
-    .map(u => (u ? {email: u.email, emailVerified: u.emailVerified, role: u.role} : null))
+    .map(u => {
+        console.log(u)
+        if (u) {
+            return {
+                email: u.email, 
+                emailVerified: u.emailVerified, 
+                role: u.role
+            }
+        }
+
+        return null
+    })
     .subscribe(
         u => dispatch(updateUser(fromJS(u)))
     )
@@ -75,6 +88,30 @@ export const connexion = (user) => (dispatch) => {
             dispatch(updateError(true))
             dispatch(notifError(err.toString()))
         }
+    )
+}
+
+export const connexionUPEM = (user) => (dispatch) => {
+    if (!user.username && !user.password) {
+        dispatch(updateError(true))
+        dispatch(notifError("No information submit"))
+        return
+    }
+
+    auth(user.username, user.password)
+    .subscribe(
+        response => {
+            connectUserWithToken(response.token)
+            .subscribe(
+                () => {
+                    dispatch(notifSuccess("Well connected"))
+                    dispatch(fetchUser())
+                    dispatch(push('/'))
+                },
+                err => dispatch(notifError(err.toString()))
+            )
+        },
+        err => dispatch(notifError(err.toString()))
     )
 }
 
