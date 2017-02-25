@@ -3,7 +3,7 @@ import { Map } from 'immutable'
 import { formValueSelector } from 'redux-form'
 import { updateWorksheet, updateWord } from '../firebase/duck'
 import { updateLoading, notifError } from '../app/duck'
-import { getDefinitions, getExamples } from '../services/client'
+import { getDefinitions, getExamples } from '../services/api/wordnik'
 
 const INITIAL_STATE = Map({
     del: []
