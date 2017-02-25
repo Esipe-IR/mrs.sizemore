@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { push } from 'react-router-redux'
-import { Map } from 'immutable'
+import { Map, fromJS } from 'immutable'
 import { notifSuccess, notifError, updateLoading } from '../app/duck'
 import { updateError } from '../account/duck'
 import {
@@ -30,31 +30,36 @@ export const updateWord = createAction(UPDATE_WORD)
 
 export const fetchUser = () => (dispatch) => {
     getCurrentUser()
+    .map(u => (u ? {email: u.email, emailVerified: u.emailVerified, role: u.role} : null))
     .subscribe(
-        u => dispatch(updateUser(u))
+        u => dispatch(updateUser(fromJS(u)))
     )
 }
 
 export const register = (user) => (dispatch) => {
     if (!user.email && !user.password) {
-        dispatch(updateError(new Error()))
+        dispatch(updateError(true))
         dispatch(notifError("No information submit"))
         return
     }
 
     createUser(user.email, user.password)
-    .then(() => dispatch(notifSuccess("Well register")))
-    .then(() => dispatch(fetchUser()))
-    .then(() => dispatch(push('/')))
-    .catch(err => {
-        dispatch(updateError(err))
-        dispatch(notifError(err.toString()))
-    })
+    .subscribe(
+        () => {
+            dispatch(notifSuccess("Well register"))
+            dispatch(fetchUser())
+            dispatch(push('/'))
+        },
+        err => {
+            dispatch(updateError(true))
+            dispatch(notifError(err.toString()))
+        }
+    )
 }
 
 export const connexion = (user) => (dispatch) => {
     if (!user.email && !user.password) {
-        dispatch(updateError(new Error()))
+        dispatch(updateError(true))
         dispatch(notifError("No information submit"))
         return
     }
@@ -67,7 +72,7 @@ export const connexion = (user) => (dispatch) => {
             dispatch(push('/'))
         },
         err => {
-            dispatch(updateError(err))
+            dispatch(updateError(true))
             dispatch(notifError(err.toString()))
         }
     )
@@ -75,9 +80,13 @@ export const connexion = (user) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
     logoutUser()
-    .then(() => dispatch(updateUser(null)))
-    .then(() => dispatch(push('/logout')))
-    .catch(err => dispatch(notifError(err.toString())))
+    .subscribe(
+        () => {
+            dispatch(updateUser(null))
+            dispatch(push('/logout'))
+        },
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
 export const fetchWorksheets = () => (dispatch) => {
@@ -153,7 +162,10 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
 
 export const deleteWord = (id) => (dispatch) => {
     setWord(id, null)
-    .catch(err => dispatch(notifError(err.toString())))
+    .subscribe(
+        () => dispatch(notifSuccess("Successfully delete")),
+        err => dispatch(notifError(err.toString()))
+    )
 }
 
 export default handleActions({

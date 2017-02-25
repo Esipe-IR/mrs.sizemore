@@ -43,7 +43,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 const fetchUser = (nextState, replace) => {
     getCurrentUser()
-    .map(u => ({email: u.email, emailVerified: u.emailVerified, role: u.role}))
+    .map(u => (u ? {email: u.email, emailVerified: u.emailVerified, role: u.role} : null))
     .subscribe(
         u => store.dispatch(updateUser(fromJS(u)))
     )

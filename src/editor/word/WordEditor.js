@@ -41,7 +41,7 @@ class WordEditor extends React.Component {
     }
 
     render() {
-        return this.props.word ?
+        return this.props.word && this.props.word.get('id') === this.props.params.id ?
             <Word
                 {...this.props}
                 submitTips={this.submitTips.bind(this)}

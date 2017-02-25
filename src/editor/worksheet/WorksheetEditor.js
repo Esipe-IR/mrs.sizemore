@@ -36,7 +36,7 @@ class WorksheetEditor extends React.Component {
     }
 
     render() {
-        return this.props.worksheet ? 
+        return this.props.worksheet && this.props.worksheet.get("id") === this.props.params.id ? 
             <Worksheet
                 router={this.props.router}
                 onSubmit={this.onSubmit.bind(this)}

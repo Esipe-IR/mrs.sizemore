@@ -131,7 +131,7 @@ export const getCompleteWorksheet = (id) => {
     let worksheet = getWorksheet(id)
     let words = getWords(id)
 
-    return Observable.forkJoin(worksheet, words, (worksheet, words) => worksheet.set("words", words))
+    return Observable.forkJoin(worksheet, words, (worksheet, words) => worksheet ? worksheet.set("words", words) : null)
 }
 
 /**
@@ -155,7 +155,7 @@ export const getRole = (id) => {
 * @return {Observable} Observer will get 
 */
 export const setWorksheet = (id, worksheet) => {
-    if (!worksheet) throw new Error("FirebaseService - setWorksheet: worksheet must be defined")
+    if (!id && !worksheet) throw new Error("FirebaseService - setWorksheet: worksheet must be defined")
 
     if (id) return _update(WORKSHEETS, id, worksheet)
     return _create(WORKSHEETS, worksheet)
@@ -169,7 +169,7 @@ export const setWorksheet = (id, worksheet) => {
 * @return {Observable} Observer will get 
 */
 export const setWord = (id, word) => {
-    if (!word) throw new Error("FirebaseService - setWord: word must be defined")
+    if (!id && !word) throw new Error("FirebaseService - setWord: word must be defined")
 
     if (id) return _update(WORDS, id, word)
     return _create(WORDS, word)
@@ -247,9 +247,11 @@ export const getCurrentUser = () => {
     })
 }
 
+/**
+* @function logoutUser
+* @author Vincent Rasquier
+* @return {Observable} Observer will get null or error
+*/
 export const logoutUser = () => {
-    return new Promise((resolve, reject) => {
-        fauth.signOut()
-        .then(resolve(), (error) => reject(error))
-    })
+    return Observable.from(fauth.signOut())
 }

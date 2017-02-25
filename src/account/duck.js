@@ -13,5 +13,5 @@ export const updateError = createAction(UPDATE_ERROR)
 
 export default handleActions({
     [UPDATE_ACTION]: (state, action) => state.set("action", action.payload),
-    [UPDATE_ERROR]: (state, action) => state.set("error", action.error)
+    [UPDATE_ERROR]: (state, action) => state.set("error", action.payload)
 }, INITIAL_STATE)
