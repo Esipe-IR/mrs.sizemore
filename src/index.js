@@ -6,7 +6,6 @@ import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage'
 import { Router, Route, Redirect, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
-import { fromJS } from 'immutable'
 
 import MainReducer from './reducers'
 import AppContainer from './app/AppContainer'
@@ -18,9 +17,8 @@ import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
 
 import { notifError } from './app/duck'
-import { updateUser } from './firebase/duck'
+import { fetchUser } from './firebase/duck'
 
-import { getCurrentUser } from './services/firebase'
 import { localConfig } from './services/localStorage'
 import { registerServiceWorker } from './services/serviceWorker'
 
@@ -41,12 +39,8 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-const fetchUser = (nextState, replace) => {
-    getCurrentUser()
-    .map(u => (u ? {email: u.email, emailVerified: u.emailVerified, role: u.role} : null))
-    .subscribe(
-        u => store.dispatch(updateUser(fromJS(u)))
-    )
+const auth = (nextState, replace) => {
+    store.dispatch(fetchUser())
 }
 
 const isConnected = (nextState, replace) => {
@@ -79,7 +73,7 @@ const isNotConnected = (nextState, replace) => {
 render(
     <Provider store={store}>
         <Router history={history}>
-            <Route component={AppContainer} onEnter={fetchUser}>
+            <Route component={AppContainer} onEnter={auth}>
                 <Route path="/" title="home" initial={true} component={HomeContainer} />
                 <Route path="/game/:id" title="game" component={GameContainer} />
                 <Route path="/create/worksheet" title="create-worksheet" component={WorksheetCreator} onEnter={isConnected} />
