@@ -16,6 +16,7 @@ import WorksheetEditor from './editor/worksheet/WorksheetEditor'
 import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
 import UPEMContainer from './upem/UPEMContainer'
+import NotFound from './exception/NotFound'
 
 import { notifError } from './app/duck'
 import { fetchUser } from './firebase/duck'
@@ -83,6 +84,7 @@ render(
                 <Route path="/account" title="account" component={AccountContainer} onEnter={isNotConnected} />
             </Route>
             <Route path="/upem" title="upem" component={UPEMContainer} />
+            <Route path="*" component={NotFound} />
         </Router>
     </Provider>,
     document.getElementById("root")
