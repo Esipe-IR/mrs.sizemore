@@ -20,6 +20,13 @@ export const fetchFingerprint = () => (dispatch) => {
     .then(result => dispatch(updateFingerprint(result)))
 }
 
+export const notifLoading = (msg) => (dispatch) => {
+    dispatch(notify({
+        message: msg,
+        status: "loading"
+    }))
+}
+
 export const notifSuccess = (msg) => (dispatch) => {
     dispatch(notify({
         message: msg,

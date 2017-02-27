@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import UPEM from './component/UPEM'
-import { connexionUPEM } from '../firebase/duck'
+import { connexion } from './duck'
 
 class UPEMContainer extends React.Component {
     onSubmit(values) {
@@ -18,7 +18,7 @@ UPEMContainer.propTypes = {}
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    connexion: (user) => dispatch(connexionUPEM(user))
+    connexion: (user) => dispatch(connexion(user))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UPEMContainer)

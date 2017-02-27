@@ -15,6 +15,10 @@ const Account = (props) => (
                 Thank you for your understanding !
             </p>
 
+            <div className="form-group text-center">
+                <button type="button" onClick={() => props.router.push("/upem")} className="btn btn-warning">Connect with UPEM account</button>
+            </div>
+
             <div className={"form-group " + (props.errorBool ? "has-error" : "") }>
                 <label htmlFor="email" className="col-sm-2 control-label">Email</label>
                 
