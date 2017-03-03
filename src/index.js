@@ -15,7 +15,6 @@ import WorksheetCreator from './creator/worksheet/WorksheetCreator'
 import WorksheetEditor from './editor/worksheet/WorksheetEditor'
 import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
-import UPEMContainer from './upem/UPEMContainer'
 import NotFound from './exception/NotFound'
 
 import { notifError } from './app/duck'
@@ -83,7 +82,6 @@ render(
                 <Route path="/edit/word/:id" title="edit-word" component={WordEditor} onEnter={isConnected} />
                 <Route path="/account" title="account" component={AccountContainer} onEnter={isNotConnected} />
             </Route>
-            <Route path="/upem" title="upem" component={UPEMContainer} />
             <Route path="*" component={NotFound} />
         </Router>
     </Provider>,
