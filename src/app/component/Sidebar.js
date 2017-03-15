@@ -22,6 +22,12 @@ const Logout = ({ logout }) => (
     </li>
 )
 
+const cleaner = (e) => {
+    e.preventDefault()
+    localStorage.clear()
+    location.reload()
+}
+
 const Sidebar = (props) => (
     <div id="sidebar-wrapper" className={props.sidebar ? "toggled" : ""}>
         <ul className="sidebar-nav">
@@ -35,7 +41,7 @@ const Sidebar = (props) => (
             {props.user ? <Logout logout={props.logout} /> : null}
 
             <li>
-                <button className="text-danger" onClick={() =>  {localStorage.clear(); props.router.push("/contact"); props.closeNav()}}>
+                <button className="text-danger" onClick={cleaner}>
                     <i className="fa fa-trash" aria-hidden="true"></i> Clear cache
                 </button>
             </li>

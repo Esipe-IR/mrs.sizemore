@@ -3,7 +3,8 @@ import { Map } from 'immutable'
 import { addNotification as notify } from 'reapop';
 import { updateLoading, notifError } from '../app/duck'
 import { connexionToken } from '../firebase/duck'
-import { checkAuth, CAS_URL_ALLOW, CAS_URL_FORCE } from '../services/api/cas-auth'
+import { checkAuth, CAS_URL, CAS_AUTH } from '../services/api/cas-auth'
+import { PopupCenter } from '../services/popup'
 
 const UPDATE_ACTION = "mrs.sizemore/account/UPDATE::ACTION"
 const UPDATE_ERROR = "mrs.sizemore/account/UPDATE::ERROR"
@@ -25,13 +26,7 @@ export const errorNotConnected = (dispatch) => {
         buttons:[{
             name: "Connect",
             primary: true,
-            onClick: () => {
-                window.open(
-                    CAS_URL_FORCE,
-                    "_blank", 
-                    "toolbar=yes,scrollbars=yes,resizable=yes,width=700,height=700"
-                );
-            }
+            onClick: () => PopupCenter(CAS_URL + CAS_AUTH, "Connect", 700, 400)
         }]
     }))
 }
@@ -46,13 +41,7 @@ export const errorNotAllowed = (dispatch) => {
         buttons:[{
             name: "Allowed",
             primary: true,
-            onClick: () => {
-                window.open(
-                    CAS_URL_ALLOW, 
-                    "_blank",
-                    "toolbar=yes,scrollbars=yes,resizable=yes,width=700,height=700"
-                );
-            }
+            onClick: () => PopupCenter(CAS_URL, "Allowed Service", 700, 400)
         }]
     }))
 }
@@ -61,10 +50,7 @@ export const connectUPEM = () => (dispatch) => {
     dispatch(updateLoading(true))
 
     checkAuth()
-    .catch(err => dispatch(notifError(err.toString())))
     .subscribe(data => {
-        dispatch(updateLoading(false))
-
         if (!data.status && data.code === 1) {
             return errorNotConnected(dispatch)
         }
@@ -73,8 +59,15 @@ export const connectUPEM = () => (dispatch) => {
             return errorNotAllowed(dispatch)
         }
 
-        dispatch(connexionToken(data.token))
-    })
+        if (data.status) {
+            var d = JSON.parse(data.data)
+            var token = d.token
+
+            dispatch(connexionToken(token))
+        }
+    },
+    err => dispatch(notifError(err.toString())),
+    complete => dispatch(updateLoading(false)))
 }
 
 export default handleActions({
