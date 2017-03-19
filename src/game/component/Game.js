@@ -4,6 +4,15 @@ import Breadcrumb from '../../app/component/Breadcrumb'
 import TranslatorContainer from '../translator/TranslatorContainer'
 import FillgapContainer from '../fillgap/FillgapContainer'
 
+const ModeShow = (worksheet, mode) => {
+    if (!worksheet.get("words") || !worksheet.get("words").size) {
+        return null
+    }
+
+    if (mode === 0) return <TranslatorContainer words={worksheet.get("words")} />
+    if (mode === 1) return <FillgapContainer words={worksheet.get("words")} />
+}
+
 const Game = (props) => (
     <section className="page-content">
         <Breadcrumb lastItem={"Game"} push={props.router.push} />
@@ -42,11 +51,7 @@ const Game = (props) => (
 
         <div className="row">
             <div className="col-sm-12">
-                {props.mode === 0 ? 
-                    <TranslatorContainer words={props.worksheet.get("words")} /> 
-                    :
-                    <FillgapContainer words={props.worksheet.get("words")} />
-                }
+                {ModeShow(props.worksheet, props.mode)}
             </div>
         </div>
     </section>

@@ -1,6 +1,6 @@
 {
   "name": "mrs.sizemore",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "private": true,
   "devDependencies": {
     "enzyme": "^2.7.0",
@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "fingerprintjs2": "^1.4.1",
     "firebase": "^3.6.5",
     "immutable": "^3.8.1",
     "muicss": "^0.9.9-rc2",

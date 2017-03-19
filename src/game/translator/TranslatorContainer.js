@@ -8,6 +8,7 @@ import { getRandom } from '../../services/obj'
 
 class TranslatorContainer extends React.Component {
     componentDidMount() {
+        if (!this.props.words) this.fetchWords()
         this.randomWord()
     }
 

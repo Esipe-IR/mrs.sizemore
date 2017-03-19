@@ -26,7 +26,7 @@ const Topbar = (props) => (
             <div className="navbar-header">
                 <a className="navbar-brand" href="/">
                     <b>
-                        Mrs. Sizemore <span className="label label-info">1.2</span>
+                        Mrs. Sizemore <span className="label label-info">1.4</span>
                     </b>
                 </a>
             </div>

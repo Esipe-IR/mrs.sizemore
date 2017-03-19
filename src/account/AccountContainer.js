@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Account from './component/Account'
-import { updateAction } from './duck'
+import { updateAction, connectUPEM } from './duck'
 import { updateLoading } from '../app/duck'
 import { register, connexion } from '../firebase/duck'
 
@@ -20,7 +20,9 @@ class AccountContainer extends React.Component {
     }
 
     render() {
-        return <Account {...this.props} onSubmit={this.onSubmit.bind(this)} updateAction={this.updateAction.bind(this)} />
+        return <Account {...this.props} 
+        onSubmit={this.onSubmit.bind(this)} 
+        updateAction={this.updateAction.bind(this)} />
     }
 }
 
@@ -38,7 +40,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateLoading: (loading) => dispatch(updateLoading(loading)),
     register: (user) => dispatch(register(user)),
     connexion: (user) => dispatch(connexion(user)),
-    updateAction: (action) => dispatch(updateAction(action))
+    updateAction: (action) => dispatch(updateAction(action)),
+    connectUPEM: () => dispatch(connectUPEM())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountContainer)

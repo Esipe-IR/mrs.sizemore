@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage'
-import { Router, Route, Redirect, browserHistory } from 'react-router'
+import { Router, Route, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
 
 import MainReducer from './reducers'
@@ -15,6 +15,7 @@ import WorksheetCreator from './creator/worksheet/WorksheetCreator'
 import WorksheetEditor from './editor/worksheet/WorksheetEditor'
 import WordEditor from './editor/word/WordEditor'
 import AccountContainer from './account/AccountContainer'
+import NotFound from './exception/NotFound'
 
 import { notifError } from './app/duck'
 import { fetchUser } from './firebase/duck'
@@ -80,8 +81,8 @@ render(
                 <Route path="/edit/worksheet/:id" title="edit-worksheet" component={WorksheetEditor} onEnter={isConnected} />
                 <Route path="/edit/word/:id" title="edit-word" component={WordEditor} onEnter={isConnected} />
                 <Route path="/account" title="account" component={AccountContainer} onEnter={isNotConnected} />
-                <Redirect from="*" to="/" />
             </Route>
+            <Route path="*" component={NotFound} />
         </Router>
     </Provider>,
     document.getElementById("root")

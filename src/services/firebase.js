@@ -226,6 +226,16 @@ export const connectUser = (email, password) => {
 }
 
 /**
+* @function connectUserWithToken
+* @author Vincent Rasquier
+* @param  {string} token User's token
+* @return {Observable} Observer will get null or error
+*/
+export const connectUserWithToken = (token) => {
+    return Observable.from(fauth.signInWithCustomToken(token))
+}
+
+/**
 * @function getCurrentUser
 * @author Vincent Rasquier
 * @return {Observable} Observer will get the current user or error

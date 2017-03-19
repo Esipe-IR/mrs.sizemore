@@ -1,12 +1,16 @@
 import React from 'react'
 import Thumbnail from './Thumbnail'
 
-const Home = ({ worksheets, push }) => (
+const Home = ({ user, worksheets, push }) => (
     <section className="page-content">
         <div className="row">
             <div className="col-md-12 text-center">
+                <img src="res/apple-icon.png" style={{marginRight: "-40px"}} alt=""/>
+
                 <h1>Mrs. Sizemore</h1>
                 <p>Gets better marks in english thanks to Mrs. Sizemore!</p>
+
+                <p>Hello { user ? user : "anonymous" }</p>
             </div>
         </div>
         <div className="row">
