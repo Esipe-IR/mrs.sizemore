@@ -68,6 +68,8 @@ export const register = (user) => (dispatch) => {
         return
     }
 
+    window.FB.AppEvents.logEvent("register")
+
     createUser(user.email, user.password)
     .subscribe(
         () => onUserSuccess(dispatch, "Well register"),
@@ -80,6 +82,8 @@ export const connexion = (user) => (dispatch) => {
         dispatch(notifError("No information submit"))
         return
     }
+
+    window.FB.AppEvents.logEvent("connexion")
     
     connectUser(user.email, user.password)
     .subscribe(
@@ -94,6 +98,8 @@ export const connexionToken = (token) => (dispatch) => {
         return
     }
 
+    window.FB.AppEvents.logEvent("connexionToken")
+
     connectUserWithToken(token)
     .subscribe(
         resp => onUserSuccess(dispatch, "Well connected"),
@@ -102,6 +108,8 @@ export const connexionToken = (token) => (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
+    window.FB.AppEvents.logEvent("logout")
+
     logoutUser()
     .subscribe(
         () => dispatch(updateUser(null)),
@@ -145,6 +153,8 @@ export const fetchWord = (id) => (dispatch) => {
 export const editWorksheet = (worksheet) => (dispatch) => {
     dispatch(updateLoading(true))
 
+    window.FB.AppEvents.logEvent("editWorksheet")
+
     setWorksheet(worksheet.id, worksheet)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
@@ -156,6 +166,8 @@ export const editWorksheet = (worksheet) => (dispatch) => {
 export const editWord = (word) => (dispatch) => {
     dispatch(updateLoading(true))
 
+    window.FB.AppEvents.logEvent("editWord")
+
     setWord(word.id, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
@@ -165,6 +177,8 @@ export const editWord = (word) => (dispatch) => {
 }
 
 export const createWord = (word) => (dispatch) => {
+    window.FB.AppEvents.logEvent("createWord")
+
     setWord(null, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully create")),
@@ -173,6 +187,8 @@ export const createWord = (word) => (dispatch) => {
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
+    window.FB.AppEvents.logEvent("createWorksheet")
+
     setCompleteWorksheet(null, worksheet, words)
     .subscribe(
         response => dispatch(notifSuccess("Successfully create")),
@@ -181,6 +197,8 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
 }
 
 export const deleteWord = (id) => (dispatch) => {
+    window.FB.AppEvents.logEvent("deleteWord")
+
     setWord(id, null)
     .subscribe(
         () => dispatch(notifSuccess("Successfully delete")),

@@ -33,6 +33,7 @@ class TranslatorContainer extends React.Component {
 
     checkResult(e) {
         e.preventDefault()
+        window.FB.AppEvents.logEvent("translatorSubmit")
 
         let status = "success",
             title  = "Great job!",

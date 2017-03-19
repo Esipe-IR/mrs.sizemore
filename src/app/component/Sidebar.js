@@ -6,9 +6,19 @@ const User = ({user}) => (
     </li>
 )
 
+const sign = (props) => {
+    return (e) => {
+        e.preventDefault()
+        
+        window.FB.AppEvents.logEvent("clickSignIn");
+        props.router.push("/account")
+        props.closeNav()
+    }
+}
+
 const SignIn = (props) => (
     <li>
-        <button onClick={() => {props.router.push("/account"); props.closeNav()}}>
+        <button onClick={sign(props)}>
             <i className="fa fa-sign-in" aria-hidden="true"></i> Sign in
         </button>
     </li>
@@ -33,6 +43,8 @@ const cleaner = (e) => {
     })
     
     localStorage.clear()
+
+    window.FB.AppEvents.logEvent("clearCache");
     location.reload()
 }
 

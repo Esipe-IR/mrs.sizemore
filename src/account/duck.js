@@ -16,6 +16,8 @@ export const updateAction = createAction(UPDATE_ACTION)
 export const updateError = createAction(UPDATE_ERROR)
 
 export const connectUPEM = () => (dispatch) => {
+    window.FB.AppEvents.logEvent("submitConnexionUPEM");
+
     let config = {
         publicUid: "440adfa5-5d8f-4f75-915f-47afb7527dc7"
     };

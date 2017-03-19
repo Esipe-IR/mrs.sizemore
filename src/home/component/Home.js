@@ -8,9 +8,13 @@ const Home = ({ user, worksheets, push }) => (
                 <img src="res/apple-icon.png" style={{marginRight: "-40px"}} alt=""/>
 
                 <h1>Mrs. Sizemore</h1>
-                <p>Gets better marks in english thanks to Mrs. Sizemore!</p>
-
-                <p>Hello { user ? user : "anonymous" }</p>
+                <p className="text-info"><b>Hello { user ? user.get("email") : "anonymous" },</b></p>
+                <p>You can get better marks in english thanks to Mrs. Sizemore!</p>
+                {user ? 
+                    <p className="text-danger">{user.get("role") ? "You can edit !" : "Be careful your account seems to be unaccredited"}</p>
+                    :
+                    null
+                }
             </div>
         </div>
         <div className="row">

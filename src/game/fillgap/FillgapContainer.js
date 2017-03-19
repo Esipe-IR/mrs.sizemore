@@ -54,6 +54,9 @@ class FillgapContainer extends React.Component {
 
     onSubmit(e) {
         e.preventDefault()
+
+        window.FB.AppEvents.logEvent("fillgapSubmit")
+
         let score     = 0,
             userWords = this.props.userWords,
             status    = "success"
@@ -103,6 +106,8 @@ class FillgapContainer extends React.Component {
     }
 
     onClickHelp(number) {
+        window.FB.AppEvents.logEvent("fillgapAskHelp")
+
         let options = {
             title: "Definition",
             message: this.props.userWords.get(number).get("definition"),
@@ -128,6 +133,7 @@ class FillgapContainer extends React.Component {
     }
 
     onClickRefresh() {
+        window.FB.AppEvents.logEvent("fillgapRefresh")
         this.randomWords()
         this.props.updateScore(0)
     }
