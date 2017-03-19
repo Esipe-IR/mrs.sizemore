@@ -33,7 +33,6 @@ class TranslatorContainer extends React.Component {
 
     checkResult(e) {
         e.preventDefault()
-        window.FB.AppEvents.logEvent("translatorSubmit")
 
         let status = "success",
             title  = "Great job!",
@@ -73,6 +72,8 @@ class TranslatorContainer extends React.Component {
             fr: this.props.word.get("fr"),
             status: status
         }))
+
+        window.FB.AppEvents.logEvent("translatorSubmit", score)
 
         this.props.updateHistory(history)
         this.props.updateInput("")

@@ -68,7 +68,7 @@ export const register = (user) => (dispatch) => {
         return
     }
 
-    window.FB.AppEvents.logEvent("register")
+    window.FB.AppEvents.logEvent("register", null, user)
 
     createUser(user.email, user.password)
     .subscribe(
@@ -83,7 +83,7 @@ export const connexion = (user) => (dispatch) => {
         return
     }
 
-    window.FB.AppEvents.logEvent("connexion")
+    window.FB.AppEvents.logEvent("connexion", null, user)
     
     connectUser(user.email, user.password)
     .subscribe(
@@ -153,7 +153,7 @@ export const fetchWord = (id) => (dispatch) => {
 export const editWorksheet = (worksheet) => (dispatch) => {
     dispatch(updateLoading(true))
 
-    window.FB.AppEvents.logEvent("editWorksheet")
+    window.FB.AppEvents.logEvent("editWorksheet", worksheet.id, worksheet)
 
     setWorksheet(worksheet.id, worksheet)
     .subscribe(
@@ -166,7 +166,7 @@ export const editWorksheet = (worksheet) => (dispatch) => {
 export const editWord = (word) => (dispatch) => {
     dispatch(updateLoading(true))
 
-    window.FB.AppEvents.logEvent("editWord")
+    window.FB.AppEvents.logEvent("editWord", word.id, word)
 
     setWord(word.id, word)
     .subscribe(
@@ -177,7 +177,7 @@ export const editWord = (word) => (dispatch) => {
 }
 
 export const createWord = (word) => (dispatch) => {
-    window.FB.AppEvents.logEvent("createWord")
+    window.FB.AppEvents.logEvent("createWord", null, word)
 
     setWord(null, word)
     .subscribe(
@@ -187,7 +187,7 @@ export const createWord = (word) => (dispatch) => {
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
-    window.FB.AppEvents.logEvent("createWorksheet")
+    window.FB.AppEvents.logEvent("createWorksheet", null, word)
 
     setCompleteWorksheet(null, worksheet, words)
     .subscribe(
@@ -197,7 +197,7 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
 }
 
 export const deleteWord = (id) => (dispatch) => {
-    window.FB.AppEvents.logEvent("deleteWord")
+    window.FB.AppEvents.logEvent("deleteWord", id)
 
     setWord(id, null)
     .subscribe(

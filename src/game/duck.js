@@ -8,7 +8,7 @@ const INITIAL_STATE = Map({
 })
 
 export const updateMode = (mode) => {
-    window.FB.AppEvents.logEvent("gameChangeMode")
+    window.FB.AppEvents.logEvent("gameChangeMode", mode)
 
     let a = createAction(UPDATE_MODE)
     return a(mode)
