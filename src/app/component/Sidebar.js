@@ -25,14 +25,14 @@ const Logout = ({ logout }) => (
 const cleaner = (e) => {
     e.preventDefault()
     
+    localStorage.clear()
+
     navigator.serviceWorker.getRegistrations()
     .then(registrations => {
         for(let registration of registrations) {
             registration.unregister()
         }
     })
-    
-    localStorage.clear()
 
     window.FB.AppEvents.logEvent("clearCache");
     location.reload()
