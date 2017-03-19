@@ -5,6 +5,7 @@ import { List, Map } from 'immutable'
 import Translator from './component/Translator'
 import { updateWord, updateHistory, updateInput, updateScore } from './duck'
 import { getRandom } from '../../services/obj'
+import { logEvent } from '../../services/analytics'
 
 class TranslatorContainer extends React.Component {
     componentDidMount() {
@@ -46,11 +47,15 @@ class TranslatorContainer extends React.Component {
             title  = "Wrong!"
             score -= 2
 
+            logEvent("translatorSubmitFail", score, {word: this.props.word.get("en"), usrWord: this.props.input})
+
             if (this.props.input === "") {
                 msg = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not empty"
             } else {
                 msg = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not \"" + this.props.input + "\""
             }
+        } else {
+            logEvent("translatorSubmitSuccess", score, {word: this.props.word.get("en"), usrWord: this.props.input})
         }
 
         this.props.updateNotify({
@@ -72,8 +77,6 @@ class TranslatorContainer extends React.Component {
             fr: this.props.word.get("fr"),
             status: status
         }))
-
-        window.FB.AppEvents.logEvent("translatorSubmit", score)
 
         this.props.updateHistory(history)
         this.props.updateInput("")

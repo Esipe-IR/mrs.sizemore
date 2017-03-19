@@ -1,5 +1,5 @@
 export const registerServiceWorker = () => {
-    if ('serviceWorker' in navigator) {
+    if ('serviceWorkerT' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/sw.js')
             .then(function(registration) {

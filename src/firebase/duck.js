@@ -15,6 +15,7 @@ import {
     setCompleteWorksheet,
     setWord
 } from '../services/firebase'
+import { logEvent } from '../services/analytics'
 
 const INITIAL_STATE = Map({})
 
@@ -42,6 +43,7 @@ export const fetchUser = () => (dispatch) => {
     getCurrentUser()
     .map(u => {
         if (u) {
+            logEvent("fetchUser", null, {email: u.email, role: u.role})
             return {
                 email: u.email, 
                 emailVerified: u.emailVerified, 
@@ -68,7 +70,7 @@ export const register = (user) => (dispatch) => {
         return
     }
 
-    window.FB.AppEvents.logEvent("register", null, user)
+    logEvent("register", null, user)
 
     createUser(user.email, user.password)
     .subscribe(
@@ -83,7 +85,7 @@ export const connexion = (user) => (dispatch) => {
         return
     }
 
-    window.FB.AppEvents.logEvent("connexion", null, user)
+    logEvent("connexion", null, user)
     
     connectUser(user.email, user.password)
     .subscribe(
@@ -98,7 +100,7 @@ export const connexionToken = (token) => (dispatch) => {
         return
     }
 
-    window.FB.AppEvents.logEvent("connexionToken")
+    logEvent("connexionToken", null, {token: token})
 
     connectUserWithToken(token)
     .subscribe(
@@ -108,7 +110,7 @@ export const connexionToken = (token) => (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
-    window.FB.AppEvents.logEvent("logout")
+    logEvent("logout")
 
     logoutUser()
     .subscribe(
@@ -153,7 +155,7 @@ export const fetchWord = (id) => (dispatch) => {
 export const editWorksheet = (worksheet) => (dispatch) => {
     dispatch(updateLoading(true))
 
-    window.FB.AppEvents.logEvent("editWorksheet", worksheet.id, worksheet)
+    logEvent("editWorksheet", null, worksheet)
 
     setWorksheet(worksheet.id, worksheet)
     .subscribe(
@@ -166,7 +168,7 @@ export const editWorksheet = (worksheet) => (dispatch) => {
 export const editWord = (word) => (dispatch) => {
     dispatch(updateLoading(true))
 
-    window.FB.AppEvents.logEvent("editWord", word.id, word)
+    logEvent("editWord", null, word)
 
     setWord(word.id, word)
     .subscribe(
@@ -177,7 +179,7 @@ export const editWord = (word) => (dispatch) => {
 }
 
 export const createWord = (word) => (dispatch) => {
-    window.FB.AppEvents.logEvent("createWord", null, word)
+    logEvent("createWord", null, word)
 
     setWord(null, word)
     .subscribe(
@@ -187,7 +189,7 @@ export const createWord = (word) => (dispatch) => {
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
-    window.FB.AppEvents.logEvent("createWorksheet", null, word)
+    logEvent("createWorksheet", null, {worksheet, words})
 
     setCompleteWorksheet(null, worksheet, words)
     .subscribe(
@@ -197,7 +199,7 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
 }
 
 export const deleteWord = (id) => (dispatch) => {
-    window.FB.AppEvents.logEvent("deleteWord", id)
+    logEvent("deleteWord", null, id)
 
     setWord(id, null)
     .subscribe(

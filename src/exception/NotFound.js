@@ -1,8 +1,9 @@
 import React from 'react'
+import { logEvent } from '../services/analytics'
 
 const NotFound = () => (
     <div>
-        {window.FB.AppEvents.logEvent("errorNotFound")}
+        {logEvent("errorNotFound")}
     </div>
 )
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { logEvent } from '../../services/analytics'
 
 const User = ({user}) => (
     <li className="text-center">
@@ -34,7 +35,7 @@ const cleaner = (e) => {
         }
     })
 
-    window.FB.AppEvents.logEvent("clearCache");
+    logEvent("clearCache")
     location.reload()
 }
 

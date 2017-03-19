@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
 import { addNotification as notify } from 'reapop'
+import { logEvent } from '../services/analytics'
 
 const UPDATE_LOADING = "mrs.sizemore/app/UPDATE::LOADING"
 const UPDATE_SIDEBAR = "mrs.sizemore/app/UPDATE::SIDEBAR"
@@ -27,6 +28,8 @@ export const notifSuccess = (msg) => (dispatch) => {
 }
 
 export const notifError = (msg) => (dispatch) => {
+    logEvent("errorAPP", null, {msg: msg})
+    
     dispatch(notify({
         message: msg,
         status: "error"

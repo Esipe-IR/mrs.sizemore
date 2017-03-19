@@ -1,5 +1,11 @@
 import React from 'react'
 import Thumbnail from './Thumbnail'
+import { logEvent } from '../../services/analytics'
+
+const clickAdd = (push) => {
+    logEvent("clickAdd")
+    push("/create/worksheet")
+}
 
 const Home = ({ user, worksheets, push }) => (
     <section className="page-content">
@@ -20,7 +26,7 @@ const Home = ({ user, worksheets, push }) => (
         <div className="row">
             <div className="col-lg-12">
                 <h2 className="page-header">
-                    Worksheets <button onClick={() => push("/create/worksheet")} className="btn btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add</button>
+                    Worksheets <button onClick={() => clickAdd(push)} className="btn btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add</button>
                 </h2>
             </div>
         </div>

@@ -1,4 +1,15 @@
 import React from 'react'
+import { logEvent } from '../../services/analytics'
+
+const clickPlay = (item, push) => {
+    logEvent("clickPlay", null, {id: item.get("id"), name: item.get("name")})
+    push("/game/" + item.get("id"))
+}
+
+const clickEdit = (item, push) => {
+    logEvent("clickEdit", null, {id: item.get("id"), name: item.get("name")})
+    push("/edit/worksheet/" + item.get("id"))
+}
 
 const Thumbnail = ({item, push}) => (
     <div className="col-md-3 col-sm-6 hero-feature">
@@ -12,13 +23,13 @@ const Thumbnail = ({item, push}) => (
                 <hr />
 
                 <div className="margin-btm-5">
-                    <button onClick={() => push("/game/" + item.get("id"))} className="btn btn-app">
+                    <button onClick={() => clickPlay(item, push)} className="btn btn-app">
                         <i className="fa fa-gamepad" aria-hidden="true"></i> Play
                     </button>
                 </div>
                 
                 <div>
-                    <button onClick={() => push("/edit/worksheet/" + item.get("id"))} className="btn btn-app-secondary">
+                    <button onClick={() => clickEdit(item, push)} className="btn btn-app-secondary">
                         <i className="fa fa-wrench" aria-hidden="true"></i> Edit
                     </button>
                 </div>
