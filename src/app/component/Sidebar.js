@@ -6,19 +6,9 @@ const User = ({user}) => (
     </li>
 )
 
-const sign = (props) => {
-    return (e) => {
-        e.preventDefault()
-        
-        window.FB.AppEvents.logEvent("clickSignIn");
-        props.router.push("/account")
-        props.closeNav()
-    }
-}
-
 const SignIn = (props) => (
     <li>
-        <button onClick={sign(props)}>
+        <button onClick={() => {props.router.push("/account");props.closeNav()}}>
             <i className="fa fa-sign-in" aria-hidden="true"></i> Sign in
         </button>
     </li>
