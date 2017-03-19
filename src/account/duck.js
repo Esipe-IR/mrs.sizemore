@@ -1,10 +1,9 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
-import { addNotification as notify } from 'reapop';
-import { updateLoading, notifError } from '../app/duck'
+import { notifError } from '../app/duck'
 import { connexionToken } from '../firebase/duck'
-import { checkAuth, CAS_URL, CAS_AUTH } from '../services/api/cas-auth'
-import { PopupCenter } from '../services/popup'
+import { getFirebaseToken } from '../services/api/casToFirebase'
+import CASEnablerSDK from '../services/CASEnabler-SDK/sdk.es6'
 
 const UPDATE_ACTION = "mrs.sizemore/account/UPDATE::ACTION"
 const UPDATE_ERROR = "mrs.sizemore/account/UPDATE::ERROR"
@@ -16,58 +15,21 @@ const INITIAL_STATE = Map({
 export const updateAction = createAction(UPDATE_ACTION)
 export const updateError = createAction(UPDATE_ERROR)
 
-export const errorNotConnected = (dispatch) => {
-    dispatch(notify({
-        title: "Not connected",
-        message: "You must be connected to UPEM. Please connect.",
-        dismissible: false,
-        dismissAfter: 0,
-        status: "error",
-        buttons:[{
-            name: "Connect",
-            primary: true,
-            onClick: () => PopupCenter(CAS_URL + CAS_AUTH, "Connect", 700, 400)
-        }]
-    }))
-}
-
-export const errorNotAllowed = (dispatch) => {
-    dispatch(notify({
-        title: "Not allowed",
-        message: "You must allowed this app to connect to UPEM. Please allowed",
-        dismissible: false,
-        dismissAfter: 0,
-        status: "error",
-        buttons:[{
-            name: "Allowed",
-            primary: true,
-            onClick: () => PopupCenter(CAS_URL, "Allowed Service", 700, 400)
-        }]
-    }))
-}
-
 export const connectUPEM = () => (dispatch) => {
-    dispatch(updateLoading(true))
+    let config = {
+        publicUid: "440adfa5-5d8f-4f75-915f-47afb7527dc7"
+    };
 
-    checkAuth()
-    .subscribe(data => {
-        if (!data.status && data.code === 1) {
-            return errorNotConnected(dispatch)
+    let sdk = new CASEnablerSDK(config)
+    sdk.connect(function(casToken, error) {
+        if (error !== null) {
+            return dispatch(notifError(error))
         }
 
-        if (!data.status && data.code === 3) {
-            return errorNotAllowed(dispatch)
-        }
-
-        if (data.status) {
-            var d = JSON.parse(data.data)
-            var token = d.token
-
-            dispatch(connexionToken(token))
-        }
-    },
-    err => dispatch(notifError(err.toString())),
-    complete => dispatch(updateLoading(false)))
+        getFirebaseToken(casToken).subscribe(
+            res => dispatch(connexionToken(res.data))
+        )
+    })
 }
 
 export default handleActions({
