@@ -1,4 +1,5 @@
 import React from 'react'
+import { logEvent } from '../../services/analytics'
 
 const User = ({user}) => (
     <li className="text-center">
@@ -8,7 +9,7 @@ const User = ({user}) => (
 
 const SignIn = (props) => (
     <li>
-        <button onClick={() => {props.router.push("/account"); props.closeNav()}}>
+        <button onClick={() => {props.router.push("/account");props.closeNav()}}>
             <i className="fa fa-sign-in" aria-hidden="true"></i> Sign in
         </button>
     </li>
@@ -25,14 +26,16 @@ const Logout = ({ logout }) => (
 const cleaner = (e) => {
     e.preventDefault()
     
+    localStorage.clear()
+
     navigator.serviceWorker.getRegistrations()
     .then(registrations => {
         for(let registration of registrations) {
             registration.unregister()
         }
     })
-    
-    localStorage.clear()
+
+    logEvent("clearCache")
     location.reload()
 }
 

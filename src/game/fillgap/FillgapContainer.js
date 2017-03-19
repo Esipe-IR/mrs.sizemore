@@ -4,7 +4,8 @@ import { Map, List } from 'immutable'
 import { addNotification as notify } from 'reapop'
 import Fillgap from './component/Fillgap'
 import { updateUserWords, updateDifficulty, updateScore, getUserCount } from './duck'
-import { getRandom } from '../../services/obj' 
+import { getRandom } from '../../services/obj'
+import { logEvent } from '../../services/analytics'
 
 class FillgapContainer extends React.Component {
     constructor(props) {
@@ -54,6 +55,7 @@ class FillgapContainer extends React.Component {
 
     onSubmit(e) {
         e.preventDefault()
+
         let score     = 0,
             userWords = this.props.userWords,
             status    = "success"
@@ -97,6 +99,7 @@ class FillgapContainer extends React.Component {
             dismissAfter: 0
         }
 
+        logEvent("fillgapSubmit", score, {status: status})
         this.props.updateUserWords(userWords)
         this.props.updateScore(score)
         this.props.updateNotify(options)
@@ -113,6 +116,7 @@ class FillgapContainer extends React.Component {
         }
 
         this.props.updateNotify(options)
+        logEvent("fillgapAskHelp", number, {en: this.props.userWords.get(number).get("en")})
     }
 
     onChange(e) {
@@ -130,6 +134,7 @@ class FillgapContainer extends React.Component {
     onClickRefresh() {
         this.randomWords()
         this.props.updateScore(0)
+        logEvent("fillgapRefresh")
     }
 
     render() {

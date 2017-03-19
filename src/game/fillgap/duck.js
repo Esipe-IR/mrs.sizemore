@@ -1,6 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map, List } from 'immutable'
 import { createSelector } from 'reselect'
+import { logEvent } from '../../services/analytics'
 
 const UPDATE_USERWORDS = "mrs.sizemore/fillgap/UPDATE::USERWORDS"
 const UPDATE_SCORE = "mrs.sizemore/fillgap/UPDATE::SCORE"
@@ -13,7 +14,12 @@ const INITIAL_STATE = Map({
 })
 
 export const updateUserWords = createAction(UPDATE_USERWORDS)
-export const updateDifficulty = createAction(UPDATE_DIFFICULTY)
+export const updateDifficulty = (d) => {
+    logEvent("fillgapChangeDifficulty", d)
+
+    let a = createAction(UPDATE_DIFFICULTY)
+    return a(d)
+}
 export const updateScore = createAction(UPDATE_SCORE)
 
 const getUserWords = (fillgapReducer) => fillgapReducer.get("userWords")

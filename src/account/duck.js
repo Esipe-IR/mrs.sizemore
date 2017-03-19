@@ -4,6 +4,7 @@ import { updateLoading, notifError } from '../app/duck'
 import { connexionToken } from '../firebase/duck'
 import { getFirebaseToken } from '../services/api/casToFirebase'
 import CASEnablerSDK from '../services/CASEnabler-SDK/sdk.es6'
+import { logEvent } from '../services/analytics'
 
 const UPDATE_ACTION = "mrs.sizemore/account/UPDATE::ACTION"
 const UPDATE_ERROR = "mrs.sizemore/account/UPDATE::ERROR"
@@ -16,6 +17,8 @@ export const updateAction = createAction(UPDATE_ACTION)
 export const updateError = createAction(UPDATE_ERROR)
 
 export const connectUPEM = () => (dispatch) => {
+    logEvent("connexionUPEM")
+
     let config = {
         publicUid: "440adfa5-5d8f-4f75-915f-47afb7527dc7"
     };

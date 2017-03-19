@@ -22,6 +22,7 @@ import { fetchUser } from './firebase/duck'
 
 import { localConfig } from './services/localStorage'
 import { registerServiceWorker } from './services/serviceWorker'
+import { logEvent } from './services/analytics'
 
 registerServiceWorker()
 
@@ -45,38 +46,54 @@ const auth = (nextState, replace) => {
 }
 
 const isConnected = (nextState, replace) => {
-    const  { firebase } = store.getState()
+    const { firebase, routing } = store.getState()
     const u = firebase.get("user")
 
     if (!u) {
+        logEvent("errorNotConnected", null, {path: routing.locationBeforeTransitions.pathname})
         store.dispatch(notifError("You are not connected"))
         return store.dispatch(push("/account"))
     }
 
     if (!u.get("emailVerified")) {
+        logEvent("errorEmailNotVerified", null, {user: u.get("email"), path: routing.locationBeforeTransitions.pathname})
         store.dispatch(notifError("Your email has not been verified"))
         return store.dispatch(push("/"))
     }
 
     if (!u.get("role")) {
+        logEvent("errorNotAccredited", null, {user: u.get("email"), path: routing.locationBeforeTransitions.pathname})
         store.dispatch(notifError("You are not accredited by the administrator"))
         return store.dispatch(push("/"))
     }
+
+    logEvent("page", null, {path: routing.locationBeforeTransitions.pathname, user: u.get("email")})
 }
 
 const isNotConnected = (nextState, replace) => {
-    const  { firebase } = store.getState()
+    const { firebase } = store.getState()
     const u = firebase.get("user")
 
     if (u) store.dispatch(push("/"))
+}
+
+const logging = (nextState, replace) => {
+    const { routing, firebase } = store.getState()
+    let u = firebase.get("user")
+
+    if (u) {
+        u = u.get("email")
+    }
+
+    logEvent("page", null, {path: routing.locationBeforeTransitions.pathname, user: u})
 }
 
 render(
     <Provider store={store}>
         <Router history={history}>
             <Route component={AppContainer} onEnter={auth}>
-                <Route path="/" title="home" initial={true} component={HomeContainer} />
-                <Route path="/game/:id" title="game" component={GameContainer} />
+                <Route path="/" title="home" initial={true} component={HomeContainer} onEnter={logging} />
+                <Route path="/game/:id" title="game" component={GameContainer} onEnter={logging} />
                 <Route path="/create/worksheet" title="create-worksheet" component={WorksheetCreator} onEnter={isConnected} />
                 <Route path="/edit/worksheet/:id" title="edit-worksheet" component={WorksheetEditor} onEnter={isConnected} />
                 <Route path="/edit/word/:id" title="edit-word" component={WordEditor} onEnter={isConnected} />

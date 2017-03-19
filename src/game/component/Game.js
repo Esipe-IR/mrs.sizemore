@@ -3,6 +3,7 @@ import ModeSelection from './ModeSelection'
 import Breadcrumb from '../../app/component/Breadcrumb'
 import TranslatorContainer from '../translator/TranslatorContainer'
 import FillgapContainer from '../fillgap/FillgapContainer'
+import { logEvent } from '../../services/analytics'
 
 const ModeShow = (worksheet, mode) => {
     if (!worksheet.get("words") || !worksheet.get("words").size) {
@@ -11,6 +12,11 @@ const ModeShow = (worksheet, mode) => {
 
     if (mode === 0) return <TranslatorContainer words={worksheet.get("words")} />
     if (mode === 1) return <FillgapContainer words={worksheet.get("words")} />
+}
+
+const clickEdit = (push, worksheet) => {
+    logEvent("gameClickEdit", null, {id: worksheet.get("id"), name: worksheet.get("name")})
+    push("/edit/worksheet/"+worksheet.get("id"))
 }
 
 const Game = (props) => (
@@ -26,7 +32,7 @@ const Game = (props) => (
 
                             <p>{props.worksheet.get("description")}</p>
 
-                            <button onClick={() => props.router.push("/edit/worksheet/"+props.worksheet.get("id"))} className="btn btn-app-secondary sized">
+                            <button onClick={() => clickEdit(props.router.push, props.worksheet)} className="btn btn-app-secondary sized">
                                 <i className="fa fa-wrench" aria-hidden="true"></i> Edit
                             </button>
                         </div>

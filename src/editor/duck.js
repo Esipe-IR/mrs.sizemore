@@ -4,6 +4,7 @@ import { formValueSelector } from 'redux-form'
 import { updateWorksheet, updateWord } from '../firebase/duck'
 import { updateLoading, notifError } from '../app/duck'
 import { getDefinitions, getExamples } from '../services/api/wordnik'
+import { logEvent } from '../services/analytics'
 
 const INITIAL_STATE = Map({
     del: []
@@ -17,6 +18,8 @@ export const updateTips = createAction(UPDATE_TIPS)
 
 export const fetchDefinitions = (word) => (dispatch) => {
     dispatch(updateLoading(true))
+
+    logEvent("apiWordnikFetchDef", null, word)
 
     getDefinitions(word)
     .then(response =>  {
@@ -37,6 +40,8 @@ export const fetchDefinitions = (word) => (dispatch) => {
 
 export const fetchSentences = (word) => (dispatch) => {
     dispatch(updateLoading(true))
+
+    logEvent("apiWordnikFetchSen", null, word)
 
     getExamples(word)
     .then(response => {

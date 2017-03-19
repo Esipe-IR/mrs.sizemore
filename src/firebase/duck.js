@@ -15,6 +15,7 @@ import {
     setCompleteWorksheet,
     setWord
 } from '../services/firebase'
+import { logEvent } from '../services/analytics'
 
 const INITIAL_STATE = Map({})
 
@@ -42,6 +43,7 @@ export const fetchUser = () => (dispatch) => {
     getCurrentUser()
     .map(u => {
         if (u) {
+            logEvent("fetchUser", null, {email: u.email, role: u.role})
             return {
                 email: u.email, 
                 emailVerified: u.emailVerified, 
@@ -68,6 +70,8 @@ export const register = (user) => (dispatch) => {
         return
     }
 
+    logEvent("register", null, user)
+
     createUser(user.email, user.password)
     .subscribe(
         () => onUserSuccess(dispatch, "Well register"),
@@ -80,6 +84,8 @@ export const connexion = (user) => (dispatch) => {
         dispatch(notifError("No information submit"))
         return
     }
+
+    logEvent("connexion", null, user)
     
     connectUser(user.email, user.password)
     .subscribe(
@@ -94,6 +100,8 @@ export const connexionToken = (token) => (dispatch) => {
         return
     }
 
+    logEvent("connexionToken", null, {token: token})
+
     connectUserWithToken(token)
     .subscribe(
         resp => onUserSuccess(dispatch, "Well connected"),
@@ -102,6 +110,8 @@ export const connexionToken = (token) => (dispatch) => {
 }
 
 export const logout = () => (dispatch) => {
+    logEvent("logout")
+
     logoutUser()
     .subscribe(
         () => dispatch(updateUser(null)),
@@ -145,6 +155,8 @@ export const fetchWord = (id) => (dispatch) => {
 export const editWorksheet = (worksheet) => (dispatch) => {
     dispatch(updateLoading(true))
 
+    logEvent("editWorksheet", null, worksheet)
+
     setWorksheet(worksheet.id, worksheet)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
@@ -156,6 +168,8 @@ export const editWorksheet = (worksheet) => (dispatch) => {
 export const editWord = (word) => (dispatch) => {
     dispatch(updateLoading(true))
 
+    logEvent("editWord", null, word)
+
     setWord(word.id, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
@@ -165,6 +179,8 @@ export const editWord = (word) => (dispatch) => {
 }
 
 export const createWord = (word) => (dispatch) => {
+    logEvent("createWord", null, word)
+
     setWord(null, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully create")),
@@ -173,6 +189,8 @@ export const createWord = (word) => (dispatch) => {
 }
 
 export const createWorksheet = (worksheet, words) => (dispatch) => {
+    logEvent("createWorksheet", null, {worksheet, words})
+
     setCompleteWorksheet(null, worksheet, words)
     .subscribe(
         response => dispatch(notifSuccess("Successfully create")),
@@ -181,6 +199,8 @@ export const createWorksheet = (worksheet, words) => (dispatch) => {
 }
 
 export const deleteWord = (id) => (dispatch) => {
+    logEvent("deleteWord", null, id)
+
     setWord(id, null)
     .subscribe(
         () => dispatch(notifSuccess("Successfully delete")),
