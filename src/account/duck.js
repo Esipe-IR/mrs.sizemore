@@ -1,6 +1,6 @@
 import { createAction, handleActions } from 'redux-actions'
 import { Map } from 'immutable'
-import { notifError } from '../app/duck'
+import { updateLoading, notifError } from '../app/duck'
 import { connexionToken } from '../firebase/duck'
 import { getFirebaseToken } from '../services/api/casToFirebase'
 import CASEnablerSDK from '../services/CASEnabler-SDK/sdk.es6'
@@ -26,8 +26,12 @@ export const connectUPEM = () => (dispatch) => {
             return dispatch(notifError(error))
         }
 
+        dispatch(updateLoading(true))
+
         getFirebaseToken(casToken).subscribe(
-            res => dispatch(connexionToken(res.data))
+            res => dispatch(connexionToken(res.data)),
+            err => dispatch(notifError(err.toString())),
+            complete => dispatch(updateLoading(false))
         )
     })
 }

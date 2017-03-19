@@ -244,6 +244,14 @@ export default (function() {
                         var trans = createTransaction(m.id, origin, m.callbacks ? m.callbacks : [ ]);
                         inTbl[m.id] = { };
                         try {
+                            var loopfn = function(path) {
+                                var cbName = path;
+
+                                return function(params) {
+                                    return trans.invoke(cbName, params);
+                                }
+                            }
+
                             if (m.callbacks && s_isArray(m.callbacks) && m.callbacks.length > 0) {
                                 for (var i = 0; i < m.callbacks.length; i++) {
                                     var path = m.callbacks[i];
@@ -254,12 +262,7 @@ export default (function() {
                                         if (typeof obj[cp] !== 'object') obj[cp] = { };
                                         obj = obj[cp];
                                     }
-                                    obj[pathItems[pathItems.length - 1]] = (function() {
-                                        var cbName = path;
-                                        return function(params) {
-                                            return trans.invoke(cbName, params);
-                                        };
-                                    })();
+                                    obj[pathItems[pathItems.length - 1]] = loopfn(path)
                                 }
                             }
                             var resp = regTbl[method](trans, m.params);
@@ -278,7 +281,6 @@ export default (function() {
                                     error = e.error;
                                     if (!e.message) message = "";
                                     else if (typeof e.message === 'string') message = e.message;
-                                    else e = e.message;
                                 }
                             }
 

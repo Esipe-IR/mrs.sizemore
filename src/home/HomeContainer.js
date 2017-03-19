@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Home from './component/Home'
 import { updateLoading } from '../app/duck'
@@ -11,16 +11,18 @@ class HomeContainer extends React.Component {
     }
 
     render() {
-        return <Home worksheets={this.props.worksheets} push={this.props.router.push} />
+        return <Home user={this.props.user} worksheets={this.props.worksheets} push={this.props.router.push} />
     }
 }
 
 HomeContainer.propTypes = {
-    worksheets: PropTypes.object
+    worksheets: React.PropTypes.object,
+    user: React.PropTypes.object
 }
 
 const mapStateToProps = ({ firebase }) => ({
-    worksheets: firebase.get("worksheets")
+    worksheets: firebase.get("worksheets"),
+    user: firebase.get("user")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
