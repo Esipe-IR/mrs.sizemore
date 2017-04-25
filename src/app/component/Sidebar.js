@@ -28,12 +28,14 @@ const cleaner = (e) => {
     
     localStorage.clear()
 
-    navigator.serviceWorker.getRegistrations()
-    .then(registrations => {
-        for(let registration of registrations) {
-            registration.unregister()
-        }
-    })
+    if (navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.getRegistrations()
+        .then(registrations => {
+            for(let registration of registrations) {
+                registration.unregister()
+            }
+        })
+    }
 
     logEvent("clearCache")
     location.reload()

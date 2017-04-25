@@ -29,7 +29,7 @@ class TranslatorContainer extends React.Component {
     }
 
     formatInput(e) {
-        this.props.updateInput(e.target.value.toLowerCase().trim())
+        this.props.updateInput(e.target.value.toLowerCase())
     }
 
     checkResult(e) {
@@ -42,7 +42,7 @@ class TranslatorContainer extends React.Component {
             en     = this.props.word.get("en"),
             history = this.props.history
 
-        if (this.props.input !== en) {
+        if (this.props.input.trim() !== en.trim()) {
             status = "error"
             title  = "Wrong!"
             score -= 2

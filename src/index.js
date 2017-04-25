@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
-import persistState from 'redux-localstorage'
+//import persistState from 'redux-localstorage'
 import { Router, Route, browserHistory } from 'react-router'
 import { routerMiddleware, syncHistoryWithStore, push } from 'react-router-redux'
 
@@ -20,7 +20,7 @@ import NotFound from './exception/NotFound'
 import { notifError } from './app/duck'
 import { fetchUser } from './firebase/duck'
 
-import { localConfig } from './services/localStorage'
+//import { localConfig } from './services/localStorage'
 import { registerServiceWorker } from './services/serviceWorker'
 import { logEvent } from './services/analytics'
 
@@ -34,8 +34,8 @@ const store = createStore(
         applyMiddleware(
             routerMiddleware(browserHistory),
             thunk
-        ),
-        persistState(null, localConfig)
+        )
+        //persistState(null, localConfig)
     )
 )
 
@@ -58,12 +58,6 @@ const isConnected = (nextState, replace) => {
     if (!u.get("emailVerified")) {
         logEvent("errorEmailNotVerified", null, {user: u.get("email"), path: routing.locationBeforeTransitions.pathname})
         store.dispatch(notifError("Your email has not been verified"))
-        return store.dispatch(push("/"))
-    }
-
-    if (!u.get("role")) {
-        logEvent("errorNotAccredited", null, {user: u.get("email"), path: routing.locationBeforeTransitions.pathname})
-        store.dispatch(notifError("You are not accredited by the administrator"))
         return store.dispatch(push("/"))
     }
 

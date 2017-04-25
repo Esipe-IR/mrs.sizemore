@@ -1,9 +1,8 @@
 var CACHE_NAME = 'mrs_sizemore_cache';
 var urlsToCache = [
     '/',
-    '/static/css/main.css',
-    '/static/js/main.js',
-    '/static/js/bundle.js',
+    '/static/css/main.85d41f9e.css',
+    '/static/js/main.1641bcbd.js',
     '/img/ripple.svg',
     '/css/style.css',
     '/res/favicon.ico',
