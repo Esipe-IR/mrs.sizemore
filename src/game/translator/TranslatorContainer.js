@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addNotification as notify } from 'reapop'
 import { List, Map } from 'immutable'
@@ -36,8 +37,8 @@ class TranslatorContainer extends React.Component {
         e.preventDefault()
 
         let status = "success",
-            title  = "Great job!",
-            msg    = "Are you a champion ?",
+            title  = "Right!",
+            msg    = "Great job!",
             score  = this.props.score + 1,
             en     = this.props.word.get("en"),
             history = this.props.history
@@ -50,9 +51,9 @@ class TranslatorContainer extends React.Component {
             logEvent("translatorSubmitFail", score, {word: this.props.word.get("en"), usrWord: this.props.input})
 
             if (this.props.input === "") {
-                msg = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not empty"
+                msg = "\"" + this.props.word.get("fr") + "\" = \"" + en + "\""
             } else {
-                msg = "The correct answer for \"" + this.props.word.get("fr") + "\" is \"" + en + "\" not \"" + this.props.input + "\""
+                msg = "\"" + this.props.word.get("fr") + "\" = \"" + en + "\""
             }
         } else {
             logEvent("translatorSubmitSuccess", score, {word: this.props.word.get("en"), usrWord: this.props.input})
@@ -62,8 +63,8 @@ class TranslatorContainer extends React.Component {
             title: title,
             message: msg,
             status: status,
-            dismissible: true,
-            dismissAfter: 2000
+            dismissAfter: 4000,
+            dismissible: true
         })
 
         if (!history) {
@@ -95,11 +96,11 @@ class TranslatorContainer extends React.Component {
 }
 
 TranslatorContainer.propTypes = {
-    words: React.PropTypes.object,
-    word: React.PropTypes.object,
-    history: React.PropTypes.object,
-    input: React.PropTypes.string,
-    score: React.PropTypes.number
+    words: PropTypes.object,
+    word: PropTypes.object,
+    history: PropTypes.object,
+    input: PropTypes.string,
+    score: PropTypes.number
 }
 
 const mapStateToProps = ({ firebase, translator }) => ({

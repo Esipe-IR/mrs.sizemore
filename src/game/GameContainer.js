@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Game from './component/Game'
 import { fetchWorksheet } from '../firebase/duck'
@@ -17,8 +18,8 @@ class GameContainer extends React.Component {
 }
 
 GameContainer.propTypes = {
-    worksheet: React.PropTypes.object,
-    mode: React.PropTypes.number.isRequired
+    worksheet: PropTypes.object,
+    mode: PropTypes.number.isRequired
 }
 
 const mapStateToProps = ({ firebase, game }) => ({

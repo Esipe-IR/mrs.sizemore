@@ -1,5 +1,4 @@
 import React from 'react'
-import { logEvent } from '../../services/analytics'
 
 const User = ({user}) => (
     <li className="text-center">
@@ -23,24 +22,6 @@ const Logout = ({ logout }) => (
     </li>
 )
 
-const cleaner = (e) => {
-    e.preventDefault()
-    
-    localStorage.clear()
-
-    if (navigator && navigator.serviceWorker) {
-        navigator.serviceWorker.getRegistrations()
-        .then(registrations => {
-            for(let registration of registrations) {
-                registration.unregister()
-            }
-        })
-    }
-
-    logEvent("clearCache")
-    location.reload()
-}
-
 const Sidebar = (props) => (
     <div id="sidebar-wrapper" className={props.sidebar ? "toggled" : ""}>
         <ul className="sidebar-nav">
@@ -52,12 +33,6 @@ const Sidebar = (props) => (
 
             {props.user ? <User user={props.user} /> : <SignIn {...props} />}
             {props.user ? <Logout logout={props.logout} /> : null}
-
-            <li>
-                <button className="text-danger" onClick={cleaner}>
-                    <i className="fa fa-trash" aria-hidden="true"></i> Clear cache
-                </button>
-            </li>
 
             <li className="text-center">
                 <a href="https://github.com/Esipe-IR/mrs.sizemore">

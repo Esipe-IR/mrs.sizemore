@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 import { addNotification as notify } from 'reapop'
@@ -137,11 +138,11 @@ class FillgapContainer extends React.Component {
 }
 
 FillgapContainer.propTypes = {
-    words: React.PropTypes.object,
-    userWords: React.PropTypes.object,
-    count: React.PropTypes.number,
-    difficulty: React.PropTypes.number,
-    score: React.PropTypes.number,
+    words: PropTypes.object,
+    userWords: PropTypes.object,
+    count: PropTypes.number,
+    difficulty: PropTypes.number,
+    score: PropTypes.number,
 }
 
 const mapStateToProps = ({ firebase, fillgap }) => ({

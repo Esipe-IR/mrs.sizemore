@@ -173,7 +173,10 @@ export const editWord = (word) => (dispatch) => {
     setWord(word.id, word)
     .subscribe(
         () => dispatch(notifSuccess("Successfully update")),
-        err => dispatch(notifError(err.toString())),
+        err => {
+            dispatch(notifError(err.toString()))
+            dispatch(updateLoading(false))
+        },
         complete => dispatch(updateLoading(false))
     )
 }

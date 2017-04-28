@@ -1,8 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Worksheet from './component/Worksheet'
-import { fetchWorksheet, createWord, editWord, editWorksheet, deleteWord } from '../../firebase/duck'
-import { updateDelete } from '../duck'
+import { updatePage } from '../duck'
+import { fetchWorksheet, editWorksheet } from '../../firebase/duck'
 
 class WorksheetEditor extends React.Component {
     componentDidMount() {
@@ -10,37 +11,18 @@ class WorksheetEditor extends React.Component {
     }
 
     onSubmit(value) {
-        let words = value.words
         let worksheet = Object.assign({}, value, {})
         delete worksheet.words
-
-        if (words) {
-            words.forEach((w, i) => {
-                if (w.id) this.props.editWord(w)
-                else this.props.createWord(w)
-            })
-        }
-
-        this.props.del.forEach(w => {
-            this.props.deleteWord(w)
-        })
-
         this.props.editWorksheet(worksheet)
     }
 
-    addDelete(id) {
-        if (!id) return
-        
-        let del = this.props.del.push(id)
-        this.props.updateDelete(del)
-    }
-
     render() {
-        return this.props.worksheet && this.props.worksheet.get("id") === this.props.params.id ? 
+        return this.props.worksheet ? 
             <Worksheet
+                updatePage={this.props.updatePage}
+                page={this.props.page}
                 router={this.props.router}
                 onSubmit={this.onSubmit.bind(this)}
-                addDelete={this.addDelete.bind(this)}
                 initialValues={this.props.worksheet.toJS()} /> 
             : 
             null
@@ -48,22 +30,19 @@ class WorksheetEditor extends React.Component {
 }
 
 WorksheetEditor.propTypes = {
-    worksheet: React.PropTypes.object,
-    del: React.PropTypes.array
+    worksheet: PropTypes.object,
+    page: PropTypes.number
 }
 
 const mapStateToProps = ({ editor }) => ({
     worksheet: editor.get("worksheet"),
-    del: editor.get("del")
+    page: editor.get("page")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     fetchWorksheet: (id) => dispatch(fetchWorksheet(id)),
-    editWord: (word) => dispatch(editWord(word)),
-    createWord: (word) => dispatch(createWord(word)),
-    deleteWord: (word) => dispatch(deleteWord(word)),
     editWorksheet: (worksheet) => dispatch(editWorksheet(worksheet)),
-    updateDelete: (id) => dispatch(updateDelete(id))
+    updatePage: (page) => dispatch(updatePage(page))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorksheetEditor)
