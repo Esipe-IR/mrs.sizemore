@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Account from './component/Account'
-import { updateAction, connectUPEM } from './duck'
+import { updateAction } from './duck'
 import { updateLoading } from '../app/duck'
 import { register, connexion } from '../firebase/duck'
 
@@ -40,8 +40,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     updateLoading: (loading) => dispatch(updateLoading(loading)),
     register: (user) => dispatch(register(user)),
     connexion: (user) => dispatch(connexion(user)),
-    updateAction: (action) => dispatch(updateAction(action)),
-    connectUPEM: () => dispatch(connectUPEM())
+    updateAction: (action) => dispatch(updateAction(action))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountContainer)

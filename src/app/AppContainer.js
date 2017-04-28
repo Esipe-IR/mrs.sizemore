@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import App from './component/App'
 import { updateSidebar } from './duck'
@@ -11,9 +12,9 @@ class AppContainer extends React.Component {
 }
 
 AppContainer.propTypes = {
-    loading: React.PropTypes.bool,
-    sidebar: React.PropTypes.bool,
-    user: React.PropTypes.object
+    loading: PropTypes.bool,
+    sidebar: PropTypes.bool,
+    user: PropTypes.object
 }
 
 const mapStateToProps = ({ app, firebase }) => ({

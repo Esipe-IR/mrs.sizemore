@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Map, List } from 'immutable'
 import { addNotification as notify } from 'reapop'
@@ -8,47 +9,37 @@ import { getRandom } from '../../services/obj'
 import { logEvent } from '../../services/analytics'
 
 class FillgapContainer extends React.Component {
-    constructor(props) {
-        super(props)
+    componentDidMount() {
         this.randomWords()
     }
 
     randomWords() {
         let list = List()
-        let size = this.props.words.size
-        let exclude = []
+        let size = Math.min(this.props.words.size, 20);
 
         while (size) {
-            let random1 = getRandom(this.props.words.size, exclude)
+            let random1 = getRandom(this.props.words.size)
+            let word = this.props.words.get(random1)
 
-            if (!this.props.words.get(random1).get("sentences") || 
-                !this.props.words.get(random1).get("sentences").size) {
-                exclude.push(random1)
+            if (!word.get("sentences") || !word.get("sentences").size) {
                 size--
                 continue
             }
 
-            let random2 = getRandom(this.props.words.get(random1).get("sentences").size)
+            let random2 = getRandom(word.get("sentences").size)
             
             let w = Map({
-                id: this.props.words.get(random1).get("id"),
-                en: this.props.words.get(random1).get("en"), 
-                sentence: this.props.words.get(random1).get("sentences").get(random2),
-                definition: this.props.words.get(random1).get("definition"),
+                id: word.get("id"),
+                en: word.get("en"), 
+                sentence: word.get("sentences").get(random2),
+                definition: word.get("definition"),
                 value: "",
                 status: null
             })
             
             list = list.push(w)
-            exclude.push(random1)
             size--
         }
-
-        let similar = 0
-        this.props.userWords.forEach((i, index) => {
-            if (i.get("id") === list.get(index).get("id")) similar++
-        })
-        if (similar >= (list.size)) return this.randomWords()
 
         this.props.updateUserWords(list)
     }
@@ -147,11 +138,11 @@ class FillgapContainer extends React.Component {
 }
 
 FillgapContainer.propTypes = {
-    words: React.PropTypes.object,
-    userWords: React.PropTypes.object,
-    count: React.PropTypes.number,
-    difficulty: React.PropTypes.number,
-    score: React.PropTypes.number,
+    words: PropTypes.object,
+    userWords: PropTypes.object,
+    count: PropTypes.number,
+    difficulty: PropTypes.number,
+    score: PropTypes.number,
 }
 
 const mapStateToProps = ({ firebase, fillgap }) => ({

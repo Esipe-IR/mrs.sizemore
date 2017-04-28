@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { change, arrayPush, reset } from 'redux-form'
 import Word from './component/Word'
@@ -53,10 +54,10 @@ class WordEditor extends React.Component {
 }
 
 WordEditor.propTypes = {
-    word: React.PropTypes.object,
-    tips: React.PropTypes.object,
-    mutable_en: React.PropTypes.string,
-    mutable_sentences: React.PropTypes.array
+    word: PropTypes.object,
+    tips: PropTypes.object,
+    mutable_en: PropTypes.string,
+    mutable_sentences: PropTypes.array
 }
 
 const mapStateToProps = ({ editor, form }) => ({

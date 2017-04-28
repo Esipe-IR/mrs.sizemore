@@ -1,5 +1,5 @@
 import React from 'react'
-import { Field, FieldArray, reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import Words from './Words'
 import Breadcrumb from '../../../app/component/Breadcrumb'
 
@@ -40,7 +40,12 @@ const Worksheet = (props) => (
                         <label className="col-sm-2 control-label">Words</label>
 
                         <div className="col-sm-10">
-                            <FieldArray name="words" component={Words} worksheetid={props.initialValues.id} addDelete={props.addDelete} push={props.router.push} />
+                            <Words 
+                                words={props.initialValues.words}
+                                push={props.router.push}
+                                page={props.page}
+                                updatePage={props.updatePage}
+                            />
                         </div>
                     </div>
 

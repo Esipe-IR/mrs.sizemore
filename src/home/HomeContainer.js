@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Home from './component/Home'
 import { updateLoading } from '../app/duck'
@@ -16,8 +17,8 @@ class HomeContainer extends React.Component {
 }
 
 HomeContainer.propTypes = {
-    worksheets: React.PropTypes.object,
-    user: React.PropTypes.object
+    worksheets: PropTypes.object,
+    user: PropTypes.object
 }
 
 const mapStateToProps = ({ firebase }) => ({

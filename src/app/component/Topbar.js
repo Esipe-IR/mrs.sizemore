@@ -17,7 +17,7 @@ const Topbar = (props) => (
                     <button 
                     type="button" 
                     className="navbar-toggle" 
-                    onClick={() => props.routes[1].title === "account" ? props.router.push("/") : props.router.goBack()}>
+                    onClick={() =>  props.router.push("/")}>
                         <i className="fa fa-chevron-left" aria-hidden="true"></i> Back
                     </button>
                 </div>
@@ -26,7 +26,7 @@ const Topbar = (props) => (
             <div className="navbar-header">
                 <a className="navbar-brand" href="/">
                     <b>
-                        Mrs. Sizemore <span className="label label-info">1.5</span>
+                        Mrs. Sizemore <span className="label label-danger">1.7</span>
                     </b>
                 </a>
             </div>
