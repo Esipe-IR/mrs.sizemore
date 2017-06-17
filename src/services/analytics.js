@@ -1,5 +1,5 @@
 export const logEvent = (type, value, params) => {
-    if (window.FB || window.dev) {
+    if (!window.FB || window.dev) {
         console.log("block");
         return;
     }

@@ -32,7 +32,7 @@ const logging = (nextState, replace) => {
     logEvent("page", null, {path: routing.locationBeforeTransitions.pathname})
 }
 
-window.dev = true;
+//window.dev = true;
 
 render(
     <Provider store={store}>
