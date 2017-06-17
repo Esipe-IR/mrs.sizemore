@@ -12,18 +12,16 @@ class HomeContainer extends React.Component {
     }
 
     render() {
-        return <Home user={this.props.user} worksheets={this.props.worksheets} push={this.props.router.push} />
+        return <Home worksheets={this.props.worksheets} push={this.props.router.push} />
     }
 }
 
 HomeContainer.propTypes = {
-    worksheets: PropTypes.object,
-    user: PropTypes.object
+    worksheets: PropTypes.object
 }
 
 const mapStateToProps = ({ firebase }) => ({
-    worksheets: firebase.get("worksheets"),
-    user: firebase.get("user")
+    worksheets: firebase.get("worksheets")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

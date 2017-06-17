@@ -27,8 +27,6 @@ const Form = (props) => (
             autoCorrect="off" />
         </div>
 
-        <hr />
-
         <div className="form-group">
             <div className="col-sm-12 text-center">
                 <input className="btn btn-app" type="submit" value="Submit" />

@@ -5,7 +5,6 @@ import { List, fromJS } from 'immutable'
 const TIME_OUT = 5000
 const WORKSHEETS = "/worksheets/"
 const WORDS = "/words/"
-const ROLES = "/roles/"
 
 const config = {  
     apiKey: "AIzaSyAAtbeRWywpjwOnDWuO7MhkE6kJgSQ1aHM",
@@ -17,7 +16,6 @@ const config = {
 
 const f = firebase.initializeApp(config)
 const fdb = f.database()
-const fauth = f.auth()
 
 const snapshotToList = (snapshot) => {
     let list = []
@@ -48,26 +46,6 @@ const _getToList = (ref) => {
 const _getToRaw = (ref) => {
     return _once(ref)
     .map(snapshot => snapshot.val())
-}
-
-const _set = (ref, obj) => {
-    return Observable.from(ref.update(obj))
-}
-
-const _update = (parent, id, data) => {
-    let ref = fdb.ref(parent)
-
-    let update = {}
-    update[id] = data
-    
-    return _set(ref, update)
-}
-
-const _create = (parent, data) => {
-    let id = fdb.ref(parent).push().key
-    data.id = id
-
-    return _update(parent, id, data).map(() => (data))
 }
 
 /**
@@ -132,136 +110,4 @@ export const getCompleteWorksheet = (id) => {
     let words = getWords(id)
 
     return Observable.forkJoin(worksheet, words, (worksheet, words) => worksheet ? worksheet.set("words", words) : null)
-}
-
-/**
-* @function getRole
-* @author Vincent Rasquier
-* @param  {string} id User's uid
-* @return {Observable} Observer will get bool or error
-*/
-export const getRole = (id) => {
-    if (!id) throw new Error("FirebaseService - getRole: ID must be defined")
-    let ref = fdb.ref(ROLES).child(id)
-    
-    return _getToRaw(ref)
-}
-
-/**
-* @function setWorksheet
-* @author Vincent Rasquier
-* @param  {string|null} id    Worksheet's id
-* @param  {Object} worksheet Representation of worksheet
-* @return {Observable} Observer will get 
-*/
-export const setWorksheet = (id, worksheet) => {
-    if (!id && !worksheet) throw new Error("FirebaseService - setWorksheet: worksheet must be defined")
-
-    if (id) return _update(WORKSHEETS, id, worksheet)
-    return _create(WORKSHEETS, worksheet)
-}
-
-/**
-* @function setWord
-* @author Vincent Rasquier
-* @param  {string|null} id   Word's id
-* @param  {Object} word Word's representation
-* @return {Observable} Observer will get 
-*/
-export const setWord = (id, word) => {
-    if (!id && !word) throw new Error("FirebaseService - setWord: word must be defined")
-
-    if (id) return _update(WORDS, id, word)
-    return _create(WORDS, word)
-}
-
-/**
-* @function setCompleteWorksheet
-* @author Vincent Rasquier
-* @param  {string} id        Worksheet's id
-* @param  {Object} worksheet Worksheet's representation
-* @param  {Array} words     Words' representation
-* @return {Observable} Observer will get
-*/
-export const setCompleteWorksheet = (id, worksheet, words) => {
-    return Observable.create(observer => {
-        setWorksheet(id, worksheet).subscribe(
-            response => {
-                if (!words) return observer.next()
-
-                words.forEach((w, i) => {
-                    w.worksheet = response.id
-                    setWord(w.id, w)
-                })
-
-                return observer.next()
-            },
-            err => observer.error(err),
-            complete => observer.complete()
-        )
-    })
-}
-
-/**
-* @function createUser
-* @author Vincent Rasquier
-* @param  {string} email    Email of the user
-* @param  {string} password Password of the user
-* @return {Observable} Observer will get null or error
-*/
-export const createUser = (email, password) => {
-    return Observable.from(fauth.createUserWithEmailAndPassword(email, password))
-    .map(user => user.sendEmailVerification())
-}
-
-/**
-* @function connectUser
-* @author Vincent Rasquier
-* @param  {string} email    Email of the user
-* @param  {string} password Password of the user
-* @return {Observable} Observer will get the current user or error
-*/
-export const connectUser = (email, password) => {
-    return Observable.from(fauth.signInWithEmailAndPassword(email, password))
-}
-
-/**
-* @function connectUserWithToken
-* @author Vincent Rasquier
-* @param  {string} token User's token
-* @return {Observable} Observer will get null or error
-*/
-export const connectUserWithToken = (token) => {
-    return Observable.from(fauth.signInWithCustomToken(token))
-}
-
-/**
-* @function getCurrentUser
-* @author Vincent Rasquier
-* @return {Observable} Observer will get the current user or error
-*/
-export const getCurrentUser = () => {
-    return Observable.create(observer => {
-        fauth.onAuthStateChanged(user => {
-            if (!user) return observer.next()
-
-            getRole(user.uid).subscribe(
-                role => user.role = role,
-                err => observer.error(err),
-                complete => {
-                    observer.next(user)
-                    observer.complete()
-                }
-            )
-        })
-    })
-}
-
-/**
-* @function logoutUser
-* @author Vincent Rasquier
-* @return {Observable} Observer will get null or error
-*/
-export const logoutUser = () => {
-    return Observable.from(fauth.signOut())
 }

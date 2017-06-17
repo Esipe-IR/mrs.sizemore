@@ -1,123 +1,17 @@
 import { createAction, handleActions } from 'redux-actions'
-import { push } from 'react-router-redux'
-import { Map, fromJS } from 'immutable'
-import { notifSuccess, notifError, updateLoading } from '../app/duck'
-import {
-    createUser,
-    connectUser,
-    connectUserWithToken,
-    logoutUser,
-    getCurrentUser,
-    getWorksheets,
-    getCompleteWorksheet,
-    getWord,
-    setWorksheet,
-    setCompleteWorksheet,
-    setWord
-} from '../services/firebase'
-import { logEvent } from '../services/analytics'
+import { Map } from 'immutable'
+import { notifError, updateLoading } from '../app/duck'
+import { getWorksheets, getCompleteWorksheet, getWord } from '../services/firebase'
 
 const INITIAL_STATE = Map({})
 
-const UPDATE_USER = "mrs.sizemore/firebase/UPDATE::USER"
 const UPDATE_WORKSHEETS = "mrs.sizemore/firebase/UPDATE::WORKSHEETS"
 const UPDATE_WORKSHEET = "mrs.sizemore/firebase/UPDATE::WORKSHEET"
 const UPDATE_WORD = "mrs.sizemore/firebase/UPDATE::WORD"
 
-const ERROR_USER = "mrs.sizemore/firebase/ERROR::USER"
-const ERROR_WORKSHEETS = "mrs.sizemore/firebase/ERROR::WORKSHEETS"
-const ERROR_WORKSHEET = "mrs.sizemore/firebase/ERROR::WORKSHEET"
-const ERROR_WORD = "mrs.sizemore/firebase/ERROR::WORD"
-
-export const updateUser = createAction(UPDATE_USER)
 export const updateWorksheets = createAction(UPDATE_WORKSHEETS)
 export const updateWorksheet = createAction(UPDATE_WORKSHEET)
 export const updateWord = createAction(UPDATE_WORD)
-
-export const errorUser = createAction(ERROR_USER)
-export const errorWorksheets = createAction(ERROR_WORKSHEETS)
-export const errorWorksheet = createAction(ERROR_WORKSHEET)
-export const errorWord = createAction(ERROR_WORD)
-
-export const fetchUser = () => (dispatch) => {
-    getCurrentUser()
-    .map(u => {
-        if (u) {
-            logEvent("fetchUser", null, {email: u.email, role: u.role})
-            return {
-                email: u.email, 
-                emailVerified: u.emailVerified, 
-                role: u.role
-            }
-        }
-
-        return null
-    })
-    .subscribe(
-        u => dispatch(updateUser(fromJS(u)))
-    )
-}
-
-const onUserSuccess = (dispatch, msg) => {
-    dispatch(notifSuccess(msg))
-    dispatch(fetchUser())
-    dispatch(push('/'))
-}
-
-export const register = (user) => (dispatch) => {
-    if (!user.email && !user.password) {
-        dispatch(notifError("No information submit"))
-        return
-    }
-
-    logEvent("register", null, user)
-
-    createUser(user.email, user.password)
-    .subscribe(
-        () => onUserSuccess(dispatch, "Well register"),
-        err => dispatch(notifError(err.toString()))
-    )
-}
-
-export const connexion = (user) => (dispatch) => {
-    if (!user.email && !user.password) {
-        dispatch(notifError("No information submit"))
-        return
-    }
-
-    logEvent("connexion", null, user)
-    
-    connectUser(user.email, user.password)
-    .subscribe(
-        resp => onUserSuccess(dispatch, "Well connected"),
-        err => dispatch(notifError(err.toString()))
-    )
-}
-
-export const connexionToken = (token) => (dispatch) => {
-    if (!token) {
-        dispatch(notifError("No token submit"))
-        return
-    }
-
-    logEvent("connexionToken", null, {token: token})
-
-    connectUserWithToken(token)
-    .subscribe(
-        resp => onUserSuccess(dispatch, "Well connected"),
-        err => dispatch(notifError(err.toString()))
-    )
-}
-
-export const logout = () => (dispatch) => {
-    logEvent("logout")
-
-    logoutUser()
-    .subscribe(
-        () => dispatch(updateUser(null)),
-        err => dispatch(notifError(err.toString()))
-    )
-}
 
 export const fetchWorksheets = () => (dispatch) => {
     dispatch(updateLoading(true))
@@ -152,72 +46,8 @@ export const fetchWord = (id) => (dispatch) => {
     )
 }
 
-export const editWorksheet = (worksheet) => (dispatch) => {
-    dispatch(updateLoading(true))
-
-    logEvent("editWorksheet", null, worksheet)
-
-    setWorksheet(worksheet.id, worksheet)
-    .subscribe(
-        () => dispatch(notifSuccess("Successfully update")),
-        err => dispatch(notifError(err.toString())),
-        complete => dispatch(updateLoading(false))
-    )
-}
-
-export const editWord = (word) => (dispatch) => {
-    dispatch(updateLoading(true))
-
-    logEvent("editWord", null, word)
-
-    setWord(word.id, word)
-    .subscribe(
-        () => dispatch(notifSuccess("Successfully update")),
-        err => {
-            dispatch(notifError(err.toString()))
-            dispatch(updateLoading(false))
-        },
-        complete => dispatch(updateLoading(false))
-    )
-}
-
-export const createWord = (word) => (dispatch) => {
-    logEvent("createWord", null, word)
-
-    setWord(null, word)
-    .subscribe(
-        () => dispatch(notifSuccess("Successfully create")),
-        err => dispatch(notifError(err.toString()))
-    )
-}
-
-export const createWorksheet = (worksheet, words) => (dispatch) => {
-    logEvent("createWorksheet", null, {worksheet, words})
-
-    setCompleteWorksheet(null, worksheet, words)
-    .subscribe(
-        response => dispatch(notifSuccess("Successfully create")),
-        err => dispatch(notifError(err.toString()))
-    )
-}
-
-export const deleteWord = (id) => (dispatch) => {
-    logEvent("deleteWord", null, id)
-
-    setWord(id, null)
-    .subscribe(
-        () => dispatch(notifSuccess("Successfully delete")),
-        err => dispatch(notifError(err.toString()))
-    )
-}
-
 export default handleActions({
-    [UPDATE_USER]: (state, action) => state.set("user", action.payload),
     [UPDATE_WORKSHEETS]: (state, action) => state.set("worksheets", action.payload),
     [UPDATE_WORKSHEET]: (state, action) => state.set("worksheet", action.payload),
-    [UPDATE_WORD]: (state, action) => state.set("word", action.payload),
-    [ERROR_USER]: (state, action) => state.set("error_user", action.payload),
-    [ERROR_WORKSHEETS]: (state, action) => state.set("error_worksheets", action.payload),
-    [ERROR_WORKSHEET]: (state, action) => state.set("error_worksheet", action.payload),
-    [ERROR_WORD]: (state, action) => state.set("error_word", action.payload)
+    [UPDATE_WORD]: (state, action) => state.set("word", action.payload)
 }, INITIAL_STATE)

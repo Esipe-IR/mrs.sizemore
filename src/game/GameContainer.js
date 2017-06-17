@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Game from './component/Game'
 import { fetchWorksheet } from '../firebase/duck'
-import { updateMode } from './duck'
 
 class GameContainer extends React.Component {
     componentDidMount() {
@@ -13,23 +12,21 @@ class GameContainer extends React.Component {
     }
 
     render() {
-        return this.props.worksheet ? <Game {...this.props} /> : null
+        return this.props.worksheet && this.props.worksheet.get("id") === this.props.params.id ? 
+        <Game {...this.props} /> : null
     }
 }
 
 GameContainer.propTypes = {
-    worksheet: PropTypes.object,
-    mode: PropTypes.number.isRequired
+    worksheet: PropTypes.object
 }
 
 const mapStateToProps = ({ firebase, game }) => ({
-    worksheet: firebase.get("worksheet"),
-    mode: game.get("mode")
+    worksheet: firebase.get("worksheet")
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    fetchWorksheet: (id) => dispatch(fetchWorksheet(id)),
-    updateMode: (mode) => dispatch(updateMode(mode))
+    fetchWorksheet: (id) => dispatch(fetchWorksheet(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameContainer)

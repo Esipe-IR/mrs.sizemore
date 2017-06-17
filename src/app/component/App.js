@@ -3,7 +3,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import NotificationsSystem from 'reapop'
 import theme from 'reapop-theme-wybo'
 import Topbar from './Topbar'
-import Sidebar from './Sidebar'
 import Footer from './Footer'
 
 const LoadingOverlay = () => (
@@ -17,7 +16,6 @@ const LoadingOverlay = () => (
 const App = (props) => (
     <div className="app">
         <Topbar {...props}/>
-        <Sidebar {...props} />
 
         <div className="container">
             {props.children}

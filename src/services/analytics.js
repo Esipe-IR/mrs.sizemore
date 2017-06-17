@@ -1,7 +1,12 @@
 export const logEvent = (type, value, params) => {
-    if (window.FB) {
-        try {
-            window.FB.AppEvents.logEvent(type, value, params)
-        } catch (e) {}
+    if (window.FB || window.dev) {
+        console.log("block");
+        return;
+    }
+
+    try {
+        window.FB.AppEvents.logEvent(type, value, params)
+    } catch (e) {
+        console.log(e);
     }
 }
