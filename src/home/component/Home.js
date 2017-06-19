@@ -1,6 +1,22 @@
 import React from 'react'
 import Thumbnail from './Thumbnail'
 
+const renderWorksheets = (worksheets, push) => {
+    let size = worksheets.size;
+    let nb = size / 4;
+    let rows = [];
+
+    for (let i = 0; i < nb; i++) {
+        rows.push(worksheets.slice(i * 4, (i + 1) * 4));
+    }
+
+    return rows.map((row, i) => (
+        <div key={i} className="row text-center">
+            {row.map(w => <Thumbnail key={w.get("id")} item={w} push={push} />)}
+        </div>
+    ));
+}
+
 const Home = ({ worksheets, push }) => (
     <section className="page-content">
         <div className="row">
@@ -19,11 +35,7 @@ const Home = ({ worksheets, push }) => (
                 </h2>
             </div>
         </div>
-        <div className="row text-center">
-            {worksheets ? worksheets.map((w) => (
-                <Thumbnail key={w.get('id')} item={w} push={push}/>
-            )) : null}
-        </div>
+            {worksheets ? renderWorksheets(worksheets, push) : null}
     </section>
 )
 
